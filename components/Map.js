@@ -9,8 +9,7 @@ export default class Login extends React.Component {
         return (
             <View>
                 <View style={styles.container}>
-                    <StatusBar backgroundColor='blue' barStyle='light-content'/>
-                    <SearchBar s lightTheme={true} round={true} inputStyle={styles.searchInput} containerStyle={styles.search} placeholder="Search"></SearchBar>
+                    <SearchBar lightTheme={true} round={true} inputStyle={styles.searchInput} containerStyle={styles.search} placeholder="Search"></SearchBar>
                     <Text>This is our map page</Text>
                 </View>
             </View>

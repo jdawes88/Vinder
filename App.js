@@ -14,8 +14,13 @@ export default class App extends React.Component {
     );
   }
 }
+let height;
 
-const height = (Platform.OS === 'ios') ? 0 : StatusBar.currentHeight;
+if (Platform.OS === 'ios') {
+  height = 0
+} else {
+  height = StatusBar.currentHeight
+}
 
 const styles = StyleSheet.create({
   container: {
