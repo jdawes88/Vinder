@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, StatusBar } from 'react-native';
+import { Platform, StyleSheet, Text, View, SafeAreaView, StatusBar } from 'react-native';
 import Login from './components/Login';
 import Map from './components/Map';
 
@@ -15,7 +15,7 @@ export default class App extends React.Component {
   }
 }
 
-const height = StatusBar.currentHeight;
+const height = (Platform.OS === 'ios') ? 0 : StatusBar.currentHeight;
 
 const styles = StyleSheet.create({
   container: {
