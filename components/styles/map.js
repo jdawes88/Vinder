@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   search: {
-    backgroundColor: '#9994',
+    backgroundColor: '#9990',
     borderTopWidth: 0,
     borderBottomWidth: 0,
     alignItems: 'center',
@@ -19,16 +19,30 @@ export const styles = StyleSheet.create({
   },
   searchInput: {
     alignSelf: 'stretch',
-    backgroundColor: '#fffa',
-  },
-  StatusBar: {
-    backgroundColor: 'blue'
+    backgroundColor: '#fff',
   },
   map: {
     position: 'absolute',
-    top: 75,
-    width: '90%',
+    top: 0,
+    width: '100%',
+    height: '100%'
+  },
+  meals: {
+    position: 'absolute',
+    bottom: -33,
+    left: 0,
+    right: 0,
+    backgroundColor: '#6d9a',
     height: 330,
-    borderRadius: 10
+    shadowOffset: {width: 0, height: -1},
+    shadowOpacity: 0.9,
+    shadowRadius: 1,
+    shadowColor: '#fff',
+    
+  },
+  meal: {
+    backgroundColor: '#fff',
+    height: 100,
+    width: '90%',
   }
 });
