@@ -7,15 +7,20 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     minWidth: '100%'
   },
+  searchTouchable: {
+    width: '100%',
+    zIndex: 1
+  },
   search: {
     backgroundColor: '#9990',
     borderTopWidth: 0,
     borderBottomWidth: 0,
-    minWidth: '100%',
     zIndex: 1,
+    width: '100%'
   },
-  searchInput: {
-    backgroundColor: '#fff',
+  searchStatus: {
+    backgroundColor: '#fffb',
+    width: '95%',
   },
   map: {
     position: 'absolute',
@@ -28,12 +33,11 @@ export const styles = StyleSheet.create({
     bottom: -34,
     left: 0,
     right: 0,
-    height: 340,
+    height: 350,
     shadowOffset: {width: 0, height: 0},
     shadowRadius: 20,
     shadowColor: '#6d9a',
     backgroundColor: '#6d9b',
-    overflow: 'scroll',
   },
   meal: {
     backgroundColor: '#fff',

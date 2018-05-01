@@ -6,18 +6,42 @@ import MapView from 'react-native-maps';
 import dishes from '../data/dishes.json';
 
 export default class MapPage extends Component {
+    state = {
+        
+    }
+
     render () {
+        console.log(styles.container)
         return (
             <View>
                 <View style={styles.container}>
-                    <SearchBar lightTheme={true} 
-                    round={true} inputStyle={styles.searchInput} 
-                    containerStyle={styles.search} placeholder="Search" />
+                    <SearchBar lightTheme={true}
+                        round={true} inputStyle={styles.searchStatus} 
+                        containerStyle={styles.search} placeholder="Search"
+                        />
                     <Map style={styles.map} />
                     <Meals />
                 </View>
             </View>
         )
+    }
+
+    handlePress = () => {
+        if (this.state.searchStatus.width === '0%') {
+            this.setState({
+                searchStatus: {
+                    backgroundColor: '#fff',
+                    width: '94%',
+                }
+            })
+        } else {
+            this.setState({
+                searchStatus: {
+                    backgroundColor: '#fff',
+                    width: '0%',
+                }
+            })
+        }
     }
 }
 
@@ -74,20 +98,24 @@ class Meals extends Component {
             image={{uri:'https://www.bbcgoodfood.com/sites/default/files/styles/recipe/public/recipe/recipe-image/2017/11/noodles.jpg?itok=Oalsb6ro'}}>
                 <View style={styles.mealText}>
                     <Text style={styles.mealText}>{item.restaurant}</Text>
-                    {this.showRating(item)}
+                    <View style={styles.mealText}>{this.showRating(item)}</View>
                 </View>
             </Card>              
         )
     }
 
-    showRating = ( item ) => {
-        if (item.price === '2') {
-            return (
+    showRating = ({ price }) => {
+        let images = [];
+        for(let i = 0; i <= (+price); i++ ) {
+            images.push(
                 <Image 
-                source={require('../data/money-stack.png')}
-                style={styles.mealRating}
-                />
+                    key={i}
+                    source={require('../data/money-stack.png')}
+                    style={styles.mealRating}
+                    />
             )
+                
         }
+        return images;
     }
 }
