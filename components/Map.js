@@ -7,11 +7,25 @@ import dishes from '../data/dishes.json';
 
 export default class MapPage extends Component {
     state = {
-        
+        latitude: 53.4808,
+        longitude: -2.2426
+    }
+
+    componentDidMount() {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                this.setState({
+                    latitude: position.coords.latitude - 0.012,
+                    longitude: position.coords.longitude,
+                    error: null
+                })
+            },
+            (error) => this.setState({error: error.message}),
+            { enableHighAccuracy: true, timeout: 3000, maximumAge: 2000}
+        )
     }
 
     render () {
-        console.log(styles.container)
         return (
             <View>
                 <View style={styles.container}>
@@ -19,29 +33,14 @@ export default class MapPage extends Component {
                         round={true} inputStyle={styles.searchStatus} 
                         containerStyle={styles.search} placeholder="Search"
                         />
-                    <Map style={styles.map} />
+                    <Map style={styles.map}
+                        latitude={this.state.latitude}
+                        longitude={this.state.longitude}
+                     />
                     <Meals />
                 </View>
             </View>
         )
-    }
-
-    handlePress = () => {
-        if (this.state.searchStatus.width === '0%') {
-            this.setState({
-                searchStatus: {
-                    backgroundColor: '#fff',
-                    width: '94%',
-                }
-            })
-        } else {
-            this.setState({
-                searchStatus: {
-                    backgroundColor: '#fff',
-                    width: '0%',
-                }
-            })
-        }
     }
 }
 
@@ -51,11 +50,19 @@ class Map extends Component {
             <MapView 
             style={styles.map}
             initialRegion={{
-                latitude: 53.479959,
-                longitude: -2.244644,
+                latitude: this.props.latitude,
+                longitude: this.props.longitude,
                 latitudeDelta: 0.02,
                 longitudeDelta: 0.056
-            }}>
+            }}
+            region={{
+                latitude: this.props.latitude,
+                longitude: this.props.longitude,
+                latitudeDelta: 0.02,
+                longitudeDelta: 0.056
+            }}
+            showsUserLocation
+            >
                 <Marker />
             </MapView>
         )
