@@ -5,20 +5,16 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#6d9',
     alignItems: 'center',
+    minWidth: '100%'
   },
   search: {
     backgroundColor: '#9990',
     borderTopWidth: 0,
     borderBottomWidth: 0,
-    alignItems: 'center',
     minWidth: '100%',
-    minHeight: 50,
-    alignSelf: 'stretch',
-    top: 0,
     zIndex: 1,
   },
   searchInput: {
-    alignSelf: 'stretch',
     backgroundColor: '#fff',
   },
   map: {
@@ -29,20 +25,32 @@ export const styles = StyleSheet.create({
   },
   meals: {
     position: 'absolute',
-    bottom: -33,
+    bottom: -34,
     left: 0,
     right: 0,
-    backgroundColor: '#6d9a',
-    height: 330,
-    shadowOffset: {width: 0, height: -1},
-    shadowOpacity: 0.9,
-    shadowRadius: 1,
-    shadowColor: '#fff',
-    
+    height: 340,
+    shadowOffset: {width: 0, height: 0},
+    shadowRadius: 20,
+    shadowColor: '#6d9a',
+    backgroundColor: '#6d9b',
+    overflow: 'scroll',
   },
   meal: {
     backgroundColor: '#fff',
     height: 100,
     width: '90%',
+  },
+  mealCard: {
+    marginBottom: 10,
+    borderRadius: 5,
+  },
+  mealText: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  mealRating: {
+    height: 20,
+    width: 20,
+    padding: 5
   }
 });
