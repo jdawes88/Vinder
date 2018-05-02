@@ -39,7 +39,6 @@ export default class MapPage extends Component {
                         style={styles.map}
                         position={this.state.currentPos}
                         dishes={this.state.dishes}
-                        getLocalDishes={this.getLocalDishes}
                      />}
                     {!this.state.loading && <Meals 
                         dishes={this.state.dishes}
@@ -157,10 +156,6 @@ class Search extends Component {
 
 /* ***Map Component *** */
 class Map extends Component {
-    componentDidMount() {
-        this.props.getLocalDishes(this.props.position)
-    }
-
     render () {
         return (
             <MapView 
