@@ -8,17 +8,22 @@ export const styles = StyleSheet.create({
     minWidth: '100%'
   },
   search: {
+    flexDirection: 'row',
     backgroundColor: '#fffc',
-    borderTopWidth: 0,
-    borderBottomWidth: 0,
     zIndex: 1,
     width: '95%',
     height: 40,
-    fontSize: 25,
     borderRadius: 30,
     marginTop: 8,
     padding: 5,
-    paddingLeft: 10,
+  },
+  searchBar: {
+    backgroundColor: '#fff0',
+    zIndex: 1,
+    width: '90%',
+    height: '100%',
+    fontSize: 22,
+    marginLeft: 5,
     color: '#444'
   },
   map: {

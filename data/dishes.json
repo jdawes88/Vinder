@@ -1,37 +1,37 @@
 [
   {
-    "title": "Spicy Sabzi",
-    "restaurant": "1847",
-    "price": "2",
-    "lat": 53.4815,
-    "long": -2.2434
-  },
-  {
     "title": "WHOPPER FLOCKA FLAME",
     "restaurant": "V-Rev Diner",
     "price": "1",
-    "lat": 53.4844,
-    "long": -2.2365
+    "latitude": 53.4844,
+    "longitude": -2.2365
+  },
+  {
+    "title": "Spicy Sabzi",
+    "restaurant": "1847",
+    "price": "2",
+    "latitude": 53.4815,
+    "longitude": -2.2434
   },
   {
     "title": "Lentil curry",
     "restaurant": "Little Aladdin",
     "price": "0",
-    "lat": 53.4841,
-    "long": -2.2381
+    "latitude": 53.4841,
+    "longitude": -2.2381
   },
   {
     "title": "Mysore Masala Dosa",
     "restaurant": "Sanskruti",
     "price": "1",
-    "lat": 53.4354,
-    "long": -2.2137
+    "latitude": 53.4354,
+    "longitude": -2.2137
   },
   {
     "title": "Falafel Wrap",
     "restaurant": "Go Falafel",
     "price": "0",
-    "lat": 53.481255,
-    "long": -2.247546
+    "latitude": 53.481255,
+    "longitude": -2.247546
   }
 ]
