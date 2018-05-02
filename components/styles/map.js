@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#6d9',
     alignItems: 'center',
-    minWidth: '100%'
+    minWidth: '100%',
   },
   search: {
     flexDirection: 'row',
@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     width: '95%',
     height: 40,
     borderRadius: 30,
-    marginTop: 8,
+    marginTop: 40,
     padding: 5,
   },
   searchBar: {

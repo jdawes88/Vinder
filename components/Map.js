@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, StatusBar, FlatList, TouchableHighlight, Image, TextInput } from 'react-native';
-import { SearchBar, Card, ListItem, List, Rating } from 'react-native-elements';
+import { Text, View, FlatList, TouchableHighlight, Image, TextInput } from 'react-native';
+import { Card, List } from 'react-native-elements';
 import { styles } from './styles/map';
 import MapView from 'react-native-maps';
 import dishes from '../data/dishes.json';

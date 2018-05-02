@@ -2,15 +2,14 @@ import React from 'react';
 import { Platform, StyleSheet, Text, View, SafeAreaView, StatusBar } from 'react-native';
 import Login from './components/Login';
 import MapPage from './components/Map';
+import Home from './components/Home';
 
 export default class App extends React.Component {
   render() {
     return (
-      <SafeAreaView style={styles.safeArea}>
         <View style={styles.container}>
           <MapPage />
         </View>
-      </SafeAreaView>
     );
   }
 }
