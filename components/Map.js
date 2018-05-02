@@ -4,15 +4,21 @@ import { Card, List } from 'react-native-elements';
 import { styles } from './styles/map';
 import MapView from 'react-native-maps';
 import dishes from '../data/dishes.json';
+import Loading from './loading.js';
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 
 export default class MapPage extends Component {
     state = {
-        latitude: 53.4808,
-        longitude: -2.2426,
+        currentPos: {
+            latitude: 53.4808,
+            longitude: -2.2426,
+        },
+        loading: true,
+        dishes: []
     }
 
     componentDidMount() {
+
         this.getUserLocation()
     }
 
@@ -21,6 +27,7 @@ export default class MapPage extends Component {
     }
 
     render () {
+        const currentPos = {}
         return (
             <View>
                 <View style={styles.container}>
@@ -28,12 +35,16 @@ export default class MapPage extends Component {
                         updateLocation={this.updateLocation}
                         getUserLocation={this.getUserLocation}
                     />
-                    <Map 
+                    {!this.state.loading && <Map 
                         style={styles.map}
-                        latitude={this.state.latitude}
-                        longitude={this.state.longitude}
-                     />
-                    <Meals />
+                        position={this.state.currentPos}
+                        dishes={this.state.dishes}
+                        getLocalDishes={this.getLocalDishes}
+                     />}
+                    {!this.state.loading && <Meals 
+                        dishes={this.state.dishes}
+                    />}
+                    {this.state.loading && <Loading />}
                 </View>
             </View>
         )
@@ -43,10 +54,11 @@ export default class MapPage extends Component {
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 this.setState({
-                    latitude: position.coords.latitude - 0.012,
-                    longitude: position.coords.longitude,
-                    error: null
-                })
+                    currentPos: {
+                        latitude: position.coords.latitude - 0.012,
+                        longitude: position.coords.longitude,
+                    }
+                }, () => this.getLocalDishes(this.state.currentPos))
             },
             (error) => this.setState({error: error.message}),
             { enableHighAccuracy: true, timeout: 3000, maximumAge: 2000 }
@@ -55,8 +67,50 @@ export default class MapPage extends Component {
 
     updateLocation = (lat, lng) => {
         this.setState({
-            latitude: lat - 0.012,
-            longitude: lng
+            currentPos: {
+                latitude: lat - 0.012,
+                longitude: lng
+            }
+        }, () => this.getLocalDishes(this.state.currentPos))
+    }
+
+    checkDistance = (a, b) => {
+        const dist = this.haversineDistance(a, b)
+        return (dist < 2) ? true : false;
+    }
+
+    haversineDistance = (latlngA, latlngB) => {
+        const toRad = x => (x * Math.PI) / 180;
+        const R = 6371; // km
+        
+        const dLat = toRad(latlngB.latitude - latlngA.latitude);
+        const dLatSin = Math.sin(dLat / 2);
+        const dLon = toRad(latlngB.longitude - latlngA.longitude);
+        const dLonSin = Math.sin(dLon / 2);
+      
+        const a = (dLatSin * dLatSin) + (Math.cos(toRad(latlngA.latitude)) * Math.cos(toRad(latlngB.latitude)) * dLonSin * dLonSin);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        let distance = R * c;
+        return distance;
+      }
+
+      getLocalDishes = (locationA) => {
+        const dishesInRadius = dishes.filter(dish => {
+            const locationB = {
+                latitude: dish.latitude,
+                longitude: dish.longitude
+            }
+            if (this.checkDistance(locationA, locationB)) {
+                return dish
+            }
+        })
+        this.updateDishes(dishesInRadius)
+    }
+
+    updateDishes = (dishesInRadius) => {
+        this.setState({
+            dishes: dishesInRadius,
+            loading: false
         })
     }
 }
@@ -96,21 +150,15 @@ class Search extends Component {
                 const lng = res.results[0].geometry.location.lng;
                 this.props.updateLocation(lat, lng)
             })
+            .catch(console.log)
     }
 }
 
 
 /* ***Map Component *** */
 class Map extends Component {
-    state = {
-        dishes: []
-    }
-
-    componentWillReceiveProps(nextProps) {
-        const lat = (nextProps.latitude)
-        const lng = (nextProps.longitude)
-        const currentLocation = {latitude: lat, longitude: lng}
-        this.getLocalDishes(currentLocation)
+    componentDidMount() {
+        this.props.getLocalDishes(this.props.position)
     }
 
     render () {
@@ -118,60 +166,27 @@ class Map extends Component {
             <MapView 
             style={styles.map}
             initialRegion={{
-                latitude: this.props.latitude,
-                longitude: this.props.longitude,
+                latitude: this.props.position.latitude,
+                longitude: this.props.position.longitude,
                 latitudeDelta: 0.02,
                 longitudeDelta: 0.056
             }}
             region={{
-                latitude: this.props.latitude,
-                longitude: this.props.longitude,
+                latitude: this.props.position.latitude,
+                longitude: this.props.position.longitude,
                 latitudeDelta: 0.02,
                 longitudeDelta: 0.056
             }}
             showsUserLocation
             >
                 <Marker 
-                    dishes={this.state.dishes}
+                    dishes={this.props.dishes}
                 />
             </MapView>
         )
     }
 
-    getLocalDishes = (locationA) => {
-        const dishesInRadius = dishes.filter(dish => {
-            const locationB = {
-                latitude: dish.latitude,
-                longitude: dish.longitude
-            }
-            if (this.checkDistance(locationA, locationB)) {
-                return dish
-            }
-        })
-        this.setState({
-            dishes: dishesInRadius
-        })
-    }
-
-    checkDistance = (a, b) => {
-        const dist = this.haversineDistance(a, b)
-        return (dist < 2) ? true : false;
-    }
-
-    haversineDistance = (latlngA, latlngB) => {
-        const toRad = x => (x * Math.PI) / 180;
-        const R = 6371; // km
-        
-        const dLat = toRad(latlngB.latitude - latlngA.latitude);
-        const dLatSin = Math.sin(dLat / 2);
-        const dLon = toRad(latlngB.longitude - latlngA.longitude);
-        const dLonSin = Math.sin(dLon / 2);
-      
-        const a = (dLatSin * dLatSin) + (Math.cos(toRad(latlngA.latitude)) * Math.cos(toRad(latlngB.latitude)) * dLonSin * dLonSin);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        let distance = R * c;
-        return distance;
-      }
+    
 }
 
 class Marker extends Component {
@@ -200,7 +215,7 @@ class Meals extends Component {
         return (
             <FlatList 
                 style={styles.meals}
-                data={dishes}
+                data={this.props.dishes}
                 renderItem={({ item }, i) => (
                     this.renderCard(item)
                 )}

@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
   },
   meals: {
     position: 'absolute',
-    bottom: -34,
+    bottom: 0,
     left: 0,
     right: 0,
     height: 350,
