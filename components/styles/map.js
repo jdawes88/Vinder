@@ -61,8 +61,12 @@ export const styles = StyleSheet.create({
     width: 20,
     padding: 5
   },
-  // drawer: {
-  //   drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3},
-  //   main: {paddingLeft: 3},
-  // }
+  menuButton: {
+    position: 'absolute',
+    zIndex: 3,
+    top: 10,
+    left: -100,
+    width: 100,
+    backgroundColor: '#7FCC00'
+  }
 });

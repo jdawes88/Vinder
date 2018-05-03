@@ -1,12 +1,18 @@
 import React, {Component} from 'react';
 import { Text, View, FlatList, TouchableHighlight, Image, TextInput } from 'react-native';
-import { Card, List } from 'react-native-elements';
-import SideMenu from 'react-native-side-menu';
+import { Card, List, Button } from 'react-native-elements';
 import { styles } from './styles/map';
+import Menu from './MapPageDrawer';
 import MapView from 'react-native-maps';
-import dishes from '../data/dishes.json';
 import Loading from './loading.js';
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
+import { DrawerNavigator } from 'react-navigation';
+
+const MyApp = DrawerNavigator({
+    Menu: {
+      screen: Menu,
+    },
+  });
 
 export default class MapPage extends Component {
     state = {
@@ -17,6 +23,17 @@ export default class MapPage extends Component {
         loading: true,
         dishes: []
     }
+
+    static navigationOptions = {
+        drawerLabel: 'Home',
+        drawerIcon: ({ tintColor }) => (
+          <Image
+            source={require('../data/coin.png')}
+            style={[styles.icon, {tintColor: tintColor}]}
+          />
+        ),
+      };
+    
 
     componentDidMount() {
         this.getUserLocation()
@@ -29,22 +46,25 @@ export default class MapPage extends Component {
     render () {
         const currentPos = {}
         return (
-            <View>
-                <View style={styles.container}>
-                    <Search 
-                        updateLocation={this.updateLocation}
-                        getUserLocation={this.getUserLocation}
-                    />
-                    {!this.state.loading && <Map 
-                        style={styles.map}
-                        position={this.state.currentPos}
-                        dishes={this.state.dishes}
-                    />}
-                    {!this.state.loading && <Meals 
-                        dishes={this.state.dishes}
-                    />}
-                    {this.state.loading && <Loading />}
-                </View>
+            <View style={styles.container}>
+                <Search 
+                    updateLocation={this.updateLocation}
+                    getUserLocation={this.getUserLocation}
+                />
+                <Button 
+                title='Helloo'
+                buttonStyle={styles.menuButton}
+                onPress={() => this.props.navigation.navigate('Menu')} 
+                />
+                {!this.state.loading && <Map 
+                    style={styles.map}
+                    position={this.state.currentPos}
+                    dishes={this.state.dishes}
+                />}
+                {!this.state.loading && <Meals 
+                    dishes={this.state.dishes}
+                />}
+                {this.state.loading && <Loading />}
             </View>
         )
     }
@@ -57,7 +77,7 @@ export default class MapPage extends Component {
                         latitude: position.coords.latitude - 0.012,
                         longitude: position.coords.longitude,
                     }
-                }, () => this.getLocalDishes(this.state.currentPos))
+                }, () => this.getDishes(this.state.currentPos))
             },
             (error) => this.setState({error: error.message}),
             { enableHighAccuracy: true, timeout: 3000, maximumAge: 2000 }
@@ -70,12 +90,40 @@ export default class MapPage extends Component {
                 latitude: lat - 0.012,
                 longitude: lng
             }
-        }, () => this.getLocalDishes(this.state.currentPos))
+        }, () => this.getDishes(this.state.currentPos))
+    }
+
+    getDishes = (place) => {
+        return fetch('https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/restaurants')
+            .then(res => res.json())
+            // .then(res => console.log(res))
+            .then(res => this.getLocalDishes(res, place))
+            .catch(err => console.log('error:' + err))
+    }
+
+    getLocalDishes = (dishes, locationA) => {
+        const dishesInRadius = dishes.filter(dish => {
+            const locationB = {
+                latitude: dish.restaurant_latitude,
+                longitude: dish.restaurant_longitude
+            }
+            if (this.checkDistance(locationA, locationB)) {
+                return dish
+            }
+        })
+        this.updateDishes(dishesInRadius)
+    }
+
+    updateDishes = (dishesInRadius) => {
+        this.setState({
+            dishes: dishesInRadius,
+            loading: false
+        })
     }
 
     checkDistance = (a, b) => {
         const dist = this.haversineDistance(a, b)
-        return (dist < 2) ? true : false;
+        return (dist < 0.5) ? true : false;
     }
 
     haversineDistance = (latlngA, latlngB) => {
@@ -92,26 +140,7 @@ export default class MapPage extends Component {
         let distance = R * c;
         return distance;
     }
-
-    getLocalDishes = (locationA) => {
-        const dishesInRadius = dishes.filter(dish => {
-            const locationB = {
-                latitude: dish.latitude,
-                longitude: dish.longitude
-            }
-            if (this.checkDistance(locationA, locationB)) {
-                return dish
-            }
-        })
-        this.updateDishes(dishesInRadius)
-    }
-
-    updateDishes = (dishesInRadius) => {
-        this.setState({
-            dishes: dishesInRadius,
-            loading: false
-        })
-    }
+  
 }
 
 
@@ -192,10 +221,10 @@ class Marker extends Component {
             this.props.dishes.map((dish, i) => {
                 return (
                     <MapView.Marker
-                        key={i}
+                        key={dish.restaurant_id}
                         coordinate={{
-                            latitude: dish.latitude,
-                            longitude: dish.longitude
+                            latitude: +dish.restaurant_latitude,
+                            longitude: +dish.restaurant_longitude
                         }}
                         title={dish.title}
                     />
@@ -216,7 +245,7 @@ class Meals extends Component {
                 renderItem={({ item }, i) => (
                     this.renderCard(item)
                 )}
-                keyExtractor={(item) => item.title}
+                keyExtractor={(item, i) => item.restaurant_id}
              />
         )
     }
@@ -225,19 +254,21 @@ class Meals extends Component {
         return (
             <Card 
             containerStyle={styles.mealCard}
-            title={item.title}
+            title={item.restaurant_name}
             image={{uri:'https://www.bbcgoodfood.com/sites/default/files/styles/recipe/public/recipe/recipe-image/2017/11/noodles.jpg?itok=Oalsb6ro'}}>
                 <View style={styles.mealText}>
-                    <Text style={styles.mealText}>{item.restaurant}</Text>
+                    <Text style={styles.mealText}>{item.restaurant_name}</Text>
                     <View style={styles.mealText}>{this.showRating(item)}</View>
                 </View>
             </Card>              
         )
     }
 
-    showRating = ({ price }) => {
+    showRating = ({ restaurant_price }) => {
         let images = [];
-        for(let i = 0; i <= (+price); i++ ) {
+        if (restaurant_price === 'undefined') restaurant_price = '££';
+        let price = restaurant_price.split('').length;
+        for(let i = 0; i < price; i++ ) {
             images.push(
                 <Image style={{width: 20, height: 20}} key={i} source={require('../data/coin.png')}/>
             )
