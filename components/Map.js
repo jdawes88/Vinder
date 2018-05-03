@@ -18,7 +18,6 @@ export default class MapPage extends Component {
     }
 
     componentDidMount() {
-
         this.getUserLocation()
     }
 
@@ -125,6 +124,8 @@ class Search extends Component {
                     placeholder="Search"
                     returnKeyType='search'
                     onSubmitEditing={this.handleSubmit}
+                    underlineColorAndroid='transparent'
+                    autoCorrect={false}
                 />
                 <TouchableHighlight onPress={this.handlePress}>
                     <FontAwesome name="map-marker" style={{zIndex: 2}} size={30} color="#6d9" />
@@ -237,13 +238,8 @@ class Meals extends Component {
         let images = [];
         for(let i = 0; i <= (+price); i++ ) {
             images.push(
-                <Image 
-                    key={i}
-                    source={require('../data/money-stack.png')}
-                    style={styles.mealRating}
-                    />
+                <Image style={{width: 20, height: 20}} key={i} source={require('../data/coin.png')}/>
             )
-                
         }
         return images;
     }

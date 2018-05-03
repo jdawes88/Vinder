@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: 350,
+    height: 330,
     shadowOffset: {width: 0, height: 0},
     shadowRadius: 20,
     shadowColor: '#6d9a',
