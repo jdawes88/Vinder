@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Image, View, Text } from 'react-native';
+import { Image, View, Text, StyleSheet, Button } from 'react-native';
+import { DrawerNavigator } from 'react-navigation';
 
 export default class Menu extends Component {
   static navigationOptions = {
@@ -14,8 +15,11 @@ export default class Menu extends Component {
 
   render () {
       return (
-          <View>
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
               <Text>Menu</Text>
+              <Button 
+              onPress={() => this.props.navigation.goBack()}
+              title='go back'/>
           </View>
       )
   }

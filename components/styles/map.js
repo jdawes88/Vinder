@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 0},
     shadowRadius: 20,
     shadowColor: '#6d9a',
-    backgroundColor: '#6d9b',
+    backgroundColor: '#6d9a',
   },
   meal: {
     backgroundColor: '#fff',
@@ -62,11 +62,16 @@ export const styles = StyleSheet.create({
     padding: 5
   },
   menuButton: {
+    width: 40,
+  },
+  functionIcons: {
     position: 'absolute',
-    zIndex: 3,
-    top: 10,
-    left: -100,
-    width: 100,
-    backgroundColor: '#7FCC00'
+    top: 100,
+    left: 0,
+    zIndex: 2,
+    backgroundColor: '#6d9',
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+    paddingRight: 3
   }
 });

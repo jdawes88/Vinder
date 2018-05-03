@@ -2,19 +2,16 @@ import React, {Component} from 'react';
 import { Text, View, FlatList, TouchableHighlight, Image, TextInput } from 'react-native';
 import { Card, List, Button } from 'react-native-elements';
 import { styles } from './styles/map';
-import Menu from './MapPageDrawer';
 import MapView from 'react-native-maps';
 import Loading from './loading.js';
-import { Ionicons, FontAwesome } from "@expo/vector-icons";
+import { MaterialIcons, MaterialCommunityIcons, FontAwesome, Foundation } from "@expo/vector-icons";
 import { DrawerNavigator } from 'react-navigation';
-
-const MyApp = DrawerNavigator({
-    Menu: {
-      screen: Menu,
-    },
-  });
+import goelib from 'geolib';
 
 export default class MapPage extends Component {
+    constructor(props) {
+        super(props)
+    }
     state = {
         currentPos: {
             latitude: 53.4808,
@@ -29,7 +26,7 @@ export default class MapPage extends Component {
         drawerIcon: ({ tintColor }) => (
           <Image
             source={require('../data/coin.png')}
-            style={[styles.icon, {tintColor: tintColor}]}
+            style={[styles.icon]}
           />
         ),
       };
@@ -51,11 +48,7 @@ export default class MapPage extends Component {
                     updateLocation={this.updateLocation}
                     getUserLocation={this.getUserLocation}
                 />
-                <Button 
-                title='Helloo'
-                buttonStyle={styles.menuButton}
-                onPress={() => this.props.navigation.navigate('Menu')} 
-                />
+                {!this.state.loading && <FunctionIcons />}
                 {!this.state.loading && <Map 
                     style={styles.map}
                     position={this.state.currentPos}
@@ -122,27 +115,34 @@ export default class MapPage extends Component {
     }
 
     checkDistance = (a, b) => {
-        const dist = this.haversineDistance(a, b)
-        return (dist < 0.5) ? true : false;
+        if (b.latitude === 'null') {
+            return false
+        } else {
+            newA = {
+                latitude: a.latitude + 0.012,
+                longitude: a.longitude
+            };
+            return geolib.isPointInCircle(
+                newA, b, 500
+            )
+        }
     }
-
-    haversineDistance = (latlngA, latlngB) => {
-        const toRad = x => (x * Math.PI) / 180;
-        const R = 6371; // km
-        
-        const dLat = toRad(latlngB.latitude - latlngA.latitude);
-        const dLatSin = Math.sin(dLat / 2);
-        const dLon = toRad(latlngB.longitude - latlngA.longitude);
-        const dLonSin = Math.sin(dLon / 2);
-      
-        const a = (dLatSin * dLatSin) + (Math.cos(toRad(latlngA.latitude)) * Math.cos(toRad(latlngB.latitude)) * dLonSin * dLonSin);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        let distance = R * c;
-        return distance;
-    }
-  
 }
 
+class FunctionIcons extends Component {
+    render () {
+        return (
+            <View style={styles.functionIcons}>
+                <TouchableHighlight style={styles.menuButton}>
+                    <MaterialCommunityIcons name="food" size={40} color="#fff" />
+                </TouchableHighlight>
+                <TouchableHighlight style={styles.menuButton}>
+                    <MaterialIcons name="location-city" size={40} color="#fff" />
+                </TouchableHighlight>
+            </View>
+        )
+    }
+}
 
 /* ***SearchBar Component*** */
 class Search extends Component {
@@ -245,7 +245,7 @@ class Meals extends Component {
                 renderItem={({ item }, i) => (
                     this.renderCard(item)
                 )}
-                keyExtractor={(item, i) => item.restaurant_id}
+                keyExtractor={(item, i) => item.restaurant_id.toString()}
              />
         )
     }
@@ -270,9 +270,11 @@ class Meals extends Component {
         let price = restaurant_price.split('').length;
         for(let i = 0; i < price; i++ ) {
             images.push(
-                <Image style={{width: 20, height: 20}} key={i} source={require('../data/coin.png')}/>
+                <Foundation size={30} color='#6d9' key={i} name='pound'/>
             )
         }
         return images;
     }
 }
+
+
