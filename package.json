@@ -1,5 +1,5 @@
 {
-  "name": "food-for-thought",
+  "name": "vinder",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
@@ -19,9 +19,14 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@expo/vector-icons": "^6.3.1",
     "expo": "^27.0.1",
+    "firebase": "^4.13.1",
+    "native-base": "^2.4.3",
     "react": "16.3.1",
     "react-native": "~0.55.2",
+    "react-native-fbsdk": "^0.7.0",
+    "react-native-fontawesome": "^5.7.0",
     "watchman": "^1.0.0"
   }
 }

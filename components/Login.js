@@ -9,10 +9,8 @@ export default class Login extends React.Component {
                 <View style={styles.logoContainer}>
                     <Image 
                         style={styles.logo}
-                        source={require('./images/loginImg/peace.png')}/>
-                    <Text style={styles.title}>
-                        Find your favourite vegan dishes near you!
-                    </Text>
+                        resizeMode= 'contain'
+                        source={require('./images/loginImg/vinder.png')}/>
                 </View>
                 <View style={styles.formContainer}>
                     <LoginForm />
@@ -24,26 +22,18 @@ export default class Login extends React.Component {
 
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#7FCC00',
+    container: {    
+        flex: 1,
+        backgroundColor: '#7FCC00',
     },
     logoContainer: {
         alignItems: 'center',
         flexGrow: 1,
-        justifyContent: 'center'
+        // justifyContent: 'center'
     },
     logo: {
-        width: 100,
-        height: 100,
-        backgroundColor: '#7FCC00'
-    },
-    title: {
-        fontSize: 20,
-        color: '#FFF',
-        marginTop: 10,
-        width: 200,
-        textAlign: 'center',
-        opacity: 0.8
+        flex: 1,
+        height: '50%',
+        width: '50%'
     }
   });
