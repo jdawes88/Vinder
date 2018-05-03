@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Text, View, FlatList, TouchableHighlight, Image, TextInput } from 'react-native';
 import { Card, List } from 'react-native-elements';
+import SideMenu from 'react-native-side-menu';
 import { styles } from './styles/map';
 import MapView from 'react-native-maps';
 import dishes from '../data/dishes.json';
@@ -38,7 +39,7 @@ export default class MapPage extends Component {
                         style={styles.map}
                         position={this.state.currentPos}
                         dishes={this.state.dishes}
-                     />}
+                    />}
                     {!this.state.loading && <Meals 
                         dishes={this.state.dishes}
                     />}
@@ -90,9 +91,9 @@ export default class MapPage extends Component {
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         let distance = R * c;
         return distance;
-      }
+    }
 
-      getLocalDishes = (locationA) => {
+    getLocalDishes = (locationA) => {
         const dishesInRadius = dishes.filter(dish => {
             const locationB = {
                 latitude: dish.latitude,
@@ -127,7 +128,7 @@ class Search extends Component {
                     underlineColorAndroid='transparent'
                     autoCorrect={false}
                 />
-                <TouchableHighlight onPress={this.handlePress}>
+                <TouchableHighlight underlayColor='#0000' onPress={this.handlePress}>
                     <FontAwesome name="map-marker" style={{zIndex: 2}} size={30} color="#6d9" />
                 </TouchableHighlight>
             </View>

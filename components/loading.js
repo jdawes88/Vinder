@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Text, View, ActivityIndicator, StyleSheet } from 'react-native';
-import LottieView from 'lottie-react-native';
 
 export default class Loading extends Component {
 
@@ -11,7 +10,7 @@ export default class Loading extends Component {
         justifyContent: 'center',
         alignItems: 'center'
       }}>
-      <ActivityIndicator style={styles.loader} size={100} color='white'/>
+      <ActivityIndicator style={styles.loader} size={1} color='white'/>
       </View>
     )
   }

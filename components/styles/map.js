@@ -60,5 +60,9 @@ export const styles = StyleSheet.create({
     height: 20,
     width: 20,
     padding: 5
-  }
+  },
+  // drawer: {
+  //   drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3},
+  //   main: {paddingLeft: 3},
+  // }
 });
