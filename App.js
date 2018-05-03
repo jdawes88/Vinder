@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Login from './components/Login'
 import * as firebase from 'firebase'
+import {StackNavigator} from 'react-navigation'
 
 // initialise firebase
 

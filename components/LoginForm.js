@@ -1,17 +1,21 @@
 import React from 'react';
-import {StyleSheet, View, TextInput, TouchableOpacity, Text, StatusBar} from 'react-native'
-import {Container, Content, Header, Form, Input, Item, Button, Label} from 'native-base'
+import {StyleSheet, View, TextInput, TouchableOpacity, Text, StatusBar, Modal, KeyboardAvoidingView} from 'react-native'
+import PopupDialog from 'react-native-popup-dialog'
 import * as firebase from 'firebase'
 import Expo from 'expo'
-import {FontAwesome} from '@expo/vector-icons';
+import {FontAwesome} from '@expo/vector-icons'
+import Register from './Register';
 
 export default class LoginForm extends React.Component {
     constructor(props){
         super(props)
 
         this.state =({
+            firstName: '',
+            lastName: '',
             email: '',
-            password: ''
+            password: '',
+            registerModalVisible: false
         })
     }
 
@@ -23,12 +27,29 @@ export default class LoginForm extends React.Component {
         })
     }
 
+    setModalVisible = (visible) => {
+        this.setState({
+            registerModalVisible: visible
+        })
+    }
+
     signUpUser = (email, password) => {
         if (this.state.password.length < 6){
             alert('Please enter at least 6 characters')
             return;
         }
         firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then(() => {
+                this.clearState()
+                alert('You are now registered. Please login.')
+            })
+    }
+
+    clearState = () => {
+        this.setState({
+            email: '',
+            password: ''
+        })
     }
 
     loginUser = (email, password) => {
@@ -39,7 +60,7 @@ export default class LoginForm extends React.Component {
     }
 
     async loginWithFacebook () {
-        const {type, token} = await Expo.Facebook.logInWithReadPermissionsAsync('2059563750952029', {permissions :['public_profile']})
+        const {type, token} = await Expo.Facebook.logInWithReadPermissionsAsync('2059563750952029', {permissions :['public_profile', 'email']})
 
         if (type === 'success') {
             const credential = firebase.auth.FacebookAuthProvider.credential(token)
@@ -51,6 +72,7 @@ export default class LoginForm extends React.Component {
     }
 
     render () {
+        console.log(this.state)
         return (
             <View style={styles.container}>
                  <TouchableOpacity style={styles.buttonContainer} onPress={() => this.loginWithFacebook()}>
@@ -79,9 +101,42 @@ export default class LoginForm extends React.Component {
                 <TouchableOpacity style={styles.buttonContainer} onPress={() => this.loginUser(this.state.email, this.state.password)}>
                     <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity>  
-                <TouchableOpacity style={styles.joinButtonContainer}>
+                <TouchableOpacity style={styles.joinButtonContainer} onPress={() => this.setModalVisible(!this.state.registerModalVisible)}>
                     <Text style={styles.buttonText}>Not yet Registered? Join here!</Text>
-                </TouchableOpacity>              
+                </TouchableOpacity> 
+                <Modal
+                    animationType='slide'
+                    transparent={false}
+                    visible={this.state.registerModalVisible}
+                    onRequestClose={() => {
+                    }}   
+                >
+                    <KeyboardAvoidingView style= {styles.registerContainer}>
+                        <View>
+                            <Text style={{fontSize: 25, marginBottom: 20, marginTop:20, color: '#FFFFFF'}}>Sign up here</Text>
+                        </View>
+                        <TextInput style={styles.input}
+                            placeholder='First name'    
+                        />
+                        <TextInput style={styles.input}
+                            placeholder='Second name'
+                        />
+                        <TextInput style={styles.input}
+                            placeholder='Email address'
+                            onChangeText= {(email) => this.setState({email})}
+                        />
+                        <TextInput style={styles.input}
+                            placeholder='Password'
+                            onChangeText={(password) => this.setState({password})}
+                        />
+                        <TouchableOpacity style={styles.buttonContainer} onPress= {() => {
+                            this.signUpUser(this.state.email, this.state.password)
+                            this.setModalVisible(!this.state.registerModalVisible)}}>
+                            <Text style={styles.buttonText}>Submit</Text>
+                        </TouchableOpacity>
+                    </KeyboardAvoidingView>
+                </Modal>
+                            
             </View>
         )
     }
@@ -130,6 +185,12 @@ const styles = StyleSheet.create({
         marginTop: 10,
         padding: 10,
         flexDirection: 'column'
+    },
+    registerContainer : {
+        backgroundColor: '#7FCC00',
+        flex: 1,
+        padding: 20,
+        alignItems: 'center'
     }
   });
   
