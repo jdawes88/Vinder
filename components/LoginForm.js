@@ -1,10 +1,9 @@
 import React from 'react';
-import {StyleSheet, View, TextInput, TouchableOpacity, Text, StatusBar, Modal, KeyboardAvoidingView} from 'react-native'
+import {StyleSheet, View, TextInput, TouchableOpacity, Text, StatusBar, Modal, KeyboardAvoidingView, Image} from 'react-native'
 import PopupDialog from 'react-native-popup-dialog'
 import * as firebase from 'firebase'
 import Expo from 'expo'
-import {FontAwesome} from '@expo/vector-icons'
-import Register from './Register';
+import {FontAwesome, Ionicons} from '@expo/vector-icons'
 
 export default class LoginForm extends React.Component {
     constructor(props){
@@ -111,29 +110,48 @@ export default class LoginForm extends React.Component {
                     onRequestClose={() => {
                     }}   
                 >
-                    <KeyboardAvoidingView style= {styles.registerContainer}>
-                        <View>
-                            <Text style={{fontSize: 25, marginBottom: 20, marginTop:20, color: '#FFFFFF'}}>Sign up here</Text>
-                        </View>
+                    <KeyboardAvoidingView behavior='padding' style= {styles.registerContainer}>
+                        <Text style={{fontSize: 25, marginBottom: 20, marginTop:20, color: '#FFFFFF', textAlign: 'center', width: '75%'}}>Sign up to Vinder for vegan dishes!</Text>
                         <TextInput style={styles.input}
+                            onChangeText={firstName => this.setState({firstName})}
+                            returnKeyType='next'
+                            onSubmitEditing={() => this.lastNameInput.focus()}
                             placeholder='First name'    
                         />
                         <TextInput style={styles.input}
+                            onChangeText={lastName => this.setState({lastName})}
                             placeholder='Second name'
+                            returnKeyType='next'
+                            onSubmitEditing={() => this.emailInput.focus()}
+                            ref={(input) => this.lastNameInput =input}
                         />
                         <TextInput style={styles.input}
+                            onSubmitEditing={() => this.passwordInput.focus()}
+                            returnKeyType= 'next'
+                            keyboardType='email-address'
+                            autoCapitalize='none'
+                            ref={(input) => this.emailInput = input}
+                            autoCorrect= {false}
                             placeholder='Email address'
                             onChangeText= {(email) => this.setState({email})}
                         />
                         <TextInput style={styles.input}
+                            returnKeyType='go'
+                            secureTextEntry
+                            ref={(input) => this.passwordInput =input}
                             placeholder='Password'
                             onChangeText={(password) => this.setState({password})}
                         />
+                        <View style={{flexDirection: 'column', width: '100%'}}>
                         <TouchableOpacity style={styles.buttonContainer} onPress= {() => {
                             this.signUpUser(this.state.email, this.state.password)
                             this.setModalVisible(!this.state.registerModalVisible)}}>
                             <Text style={styles.buttonText}>Submit</Text>
                         </TouchableOpacity>
+                        <TouchableOpacity style={styles.buttonContainer}>
+                            <Text style={styles.buttonText}onPress={() => this.setModalVisible(!this.state.registerModalVisible)}>Back</Text>
+                        </TouchableOpacity>
+                        </View>
                     </KeyboardAvoidingView>
                 </Modal>
                             
@@ -162,7 +180,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         backgroundColor: '#5F9900',
         padding: 10,
-        flexDirection: 'column'
+        flexDirection: 'column',
     },
     buttonText: {
         fontSize: 15,
@@ -172,6 +190,7 @@ const styles = StyleSheet.create({
         fontWeight: '700'
     },
     register : {
+        flex: 1,
         marginTop: 50,
         textAlign: 'center',
         color: '#FFFFFF',
@@ -191,6 +210,6 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
         alignItems: 'center'
-    }
+    },
   });
   
