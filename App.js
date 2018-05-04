@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View, SafeAreaView, StatusBar } from 'react-native';
 import Login from './components/Login'
 import Restaurant from './components/Restaurant'
 // import Comments from './components/Comments'
@@ -22,9 +22,9 @@ firebase.initializeApp(firebaseConfig);
 export default class App extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Login />
-      </View>
+        <View style={styles.container}>
+          <Login />
+        </View>
     );
   }
 }
@@ -33,6 +33,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#0000',
+    top: 0
+  }
 });
 
 // const AppNavigator = StackNavigator(
