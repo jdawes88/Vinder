@@ -1,8 +1,9 @@
+
 import React from 'react';
 import { Platform, StyleSheet, Text, View, SafeAreaView, StatusBar } from 'react-native';
 import Login from './components/Login'
 import Restaurant from './components/Restaurant'
-// import Comments from './components/Comments'
+import Comments from './components/Comments'
 import * as firebase from 'firebase'
 import {StackNavigator} from 'react-navigation'
 
@@ -18,6 +19,7 @@ const firebaseConfig = {
 }
 
 firebase.initializeApp(firebaseConfig);
+
 
 export default class App extends React.Component {
   render() {

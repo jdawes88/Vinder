@@ -1,0 +1,26 @@
+[
+  {
+    "avatar":
+      "http://vignette1.wikia.nocookie.net/mrmen/images/7/7f/Mr_Happy.jpg/revision/latest?cb=20140102171729",
+    "name": "User One",
+    "comment":
+      "This is a favourite restaurant of mine. The staff are always so friendly and the food is fantastic. Try the Special Thali, is is amazing and great value, and you get soup and pudding included! This hungry hippo was very happy.",
+    "meal": "Kenan & Kale"
+  },
+  {
+    "avatar":
+      "http://vignette1.wikia.nocookie.net/mrmen/images/7/7f/Mr_Happy.jpg/revision/latest?cb=20140102171729",
+    "name": "User Two",
+    "comment":
+      "This is a favourite restaurant of mine. The staff are always so friendly and the food is fantastic. Try the Special Thali, is is amazing and great value, and you get soup and pudding included! This hungry hippo was very happy.",
+    "meal": "Kenan & Kale"
+  },
+  {
+    "avatar":
+      "http://vignette1.wikia.nocookie.net/mrmen/images/7/7f/Mr_Happy.jpg/revision/latest?cb=20140102171729",
+    "name": "User Three",
+    "comment":
+      "This is a favourite restaurant of mine. The staff are always so friendly and the food is fantastic. Try the Special Thali, is is amazing and great value, and you get soup and pudding included! This hungry hippo was very happy.",
+    "meal": "Kenan & Kale"
+  }
+]
