@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Text, View, FlatList, TouchableHighlight, Image, TextInput } from 'react-native';
 import { Card, List, Button } from 'react-native-elements';
-import { styles } from './styles/map';
+import { styles, googleStyle } from './styles/map';
 import MapView from 'react-native-maps';
 import Loading from './loading.js';
 import { MaterialIcons, MaterialCommunityIcons, FontAwesome, Foundation } from "@expo/vector-icons";
@@ -17,8 +17,15 @@ export default class MapPage extends Component {
             latD: 0.02,
             lngD: 0.056,
         },
+        userPos: {
+            latitude: 53.4808,
+            longitude: -2.2426,
+            latD: 0.02,
+            lngD: 0.056,
+        },
         loading: true,
-        dishes: []
+        dishes: [],
+        pins: 'restaurants'
     }
 
     componentDidMount() {
@@ -32,7 +39,6 @@ export default class MapPage extends Component {
     render () {
         const currentPos = {}
         if (this.state.loading) {
-
             return (
                 <View style={styles.container}>
                     <Loading />
@@ -45,11 +51,12 @@ export default class MapPage extends Component {
                     updateLocation={this.updateLocation}
                     getUserLocation={this.getUserLocation}
                 />
-                <Zoom zoom={this.zoom} />
                 <FunctionIcons />
                 <Map 
+                    userPos={this.state.userPos}
                     style={styles.map}
-                    position={this.state.currentPos}
+                    updateLocation={this.updateLocation}
+                    currentPos={this.state.currentPos}
                     dishes={this.state.dishes}
                 />
                 <Meals 
@@ -58,7 +65,6 @@ export default class MapPage extends Component {
             </View>
            ) 
         }
-    
     }
 
     getUserLocation = () => {
@@ -66,11 +72,18 @@ export default class MapPage extends Component {
             (position) => {
                 this.setState({
                     currentPos: {
-                        latitude: position.coords.latitude - 0.012,
+                        latitude: position.coords.latitude,
                         longitude: position.coords.longitude,
                         latD: this.state.currentPos.latD,
                         lngD: this.state.currentPos.lngD
-                    }
+                    },
+                    userPos: {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                        latD: this.state.currentPos.latD,
+                        lngD: this.state.currentPos.lngD
+                    },
+                    
                 }, () => this.getDishes(this.state.currentPos))
             },
             (error) => this.setState({error: error.message}),
@@ -78,13 +91,13 @@ export default class MapPage extends Component {
         )
     }
 
-    updateLocation = (lat, lng) => {
+    updateLocation = (lat, lng, latD=this.state.currentPos.latD, lngD=this.state.currentPos.lngD) => {
         this.setState({
             currentPos: {
-                latitude: lat - 0.012,
+                latitude: lat,
                 longitude: lng,
-                latD: this.state.currentPos.latD,
-                lngD: this.state.currentPos.lngD
+                latD: latD,
+                lngD: lngD
             }
         }, () => this.getDishes(this.state.currentPos))
     }
@@ -99,8 +112,8 @@ export default class MapPage extends Component {
     getLocalDishes = (dishes, locationA) => {
         const dishesInRadius = dishes.filter(dish => {
             const locationB = {
-                latitude: dish.restaurant_latitude,
-                longitude: dish.restaurant_longitude
+                latitude: dish.latitude,
+                longitude: dish.longitude
             }
             if (this.checkDistance(locationA, locationB)) {
                 return dish
@@ -121,7 +134,7 @@ export default class MapPage extends Component {
             return false
         } else {
             newA = {
-                latitude: a.latitude + 0.012,
+                latitude: a.latitude,
                 longitude: a.longitude
             };
             return geolib.isPointInCircle(
@@ -129,51 +142,15 @@ export default class MapPage extends Component {
             )
         }
     }
-
-    zoom = (param) => {
-        let newRegion;
-        if (param === 'out') {
-            newRegion = {
-                latitude: this.state.currentPos.latitude - 0.004,
-                longitude: this.state.currentPos.longitude,
-                latD: this.state.currentPos.latD * 2,
-                lngD: this.state.currentPos.lngD * 2,
-            }
-            
-        } else {
-            newRegion = {
-                latitude: this.state.currentPos.latitude + 0.004,
-                longitude: this.state.currentPos.longitude,
-                latD: this.state.currentPos.latD / 2,
-                lngD: this.state.currentPos.lngD / 2,
-            }
-        }
-        this.setState({
-            currentPos: newRegion
-        })
-    }
-}
-
-class Zoom extends Component {
-    render () {
-        return (
-            <View style={styles.zoomBox}>
-                <View style={styles.upperIconBox}>
-                    <MaterialIcons onPress={() => this.props.zoom('in')} name="zoom-in" size={35} color="#fff" />
-                </View>
-                    <MaterialIcons onPress={() => this.props.zoom('out')} name="zoom-out" size={35} color="#fff" />
-            </View>
-        )
-    }
 }
 
 class FunctionIcons extends Component {
     render () {
         return (
             <View style={styles.functionIcons}>
-                <TouchableHighlight style={styles.upperIconBox}>
+                <View style={styles.upperIconBox}>
                     <MaterialCommunityIcons name="food" size={35} color="#fff" />
-                </TouchableHighlight>
+                </View>
                     <MaterialIcons name="location-city" size={35} color="#fff" />
             </View>
         )
@@ -195,32 +172,13 @@ class Search extends Component {
             getDefaultValue={() =>  ''}
             query={{
                 key: 'AIzaSyA3to9-gUo2wfr4yBypCwbOsIr2866UFYE',
-                language: 'en', // language of the results
-                types: '(cities)', // default: 'geocode'
+                language: 'en',
+                types: '(cities)'
             }}
-            styles={{
-                container: styles.search,
-                textInputContainer: styles.searchBar,
-                textInput: {
-                    backgroundColor: '#fffc',
-                    fontSize: 20,
-                    marginLeft: 10,
-                    borderRadius: 30
-                },
-                description: {
-                    fontWeight: 'bold',
-                },
-                predefinedPlacesDescription: {
-                    color: '#1faadb',
-                },
-                poweredContainer: {
-                    backgroundColor: '#fff0'
-                }
-            }}
+            styles={googleStyle}
             nearbyPlacesAPI='GooglePlacesSearch'
             filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']}
             predefinedPlacesAlwaysVisible={true}
-            // renderRightButton={() => }
             />
         );
     }
@@ -228,7 +186,7 @@ class Search extends Component {
     handleSubmit = (location) => {
         const lat = location.lat;
         const lng = location.lng;
-        this.props.updateLocation(lat, lng)
+        this.props.updateLocation(lat, lng, )
     }
 }
 
@@ -236,29 +194,29 @@ class Search extends Component {
 /* ***Map Component *** */
 class Map extends Component {
     render () {
-        const { latitude, longitude, latD, lngD }  = this.props.position;
+        const { latitude, longitude, latD, lngD }  = this.props.currentPos;
         return (
             <MapView 
-            style={styles.map}
-            ref={map => {this.map = map}}
-            initialRegion={{
-                latitude,
-                longitude,
-                latitudeDelta: 0.02,
-                longitudeDelta: 0.056
-            }}
-            region={{
-                latitude,
-                longitude,
-                latitudeDelta: latD,
-                longitudeDelta: lngD
-            }}
-            showsUserLocation
-            >
-            <View style={styles.locateIcon}>
-                <FontAwesome onPress={this.centerToUser} name="map-marker"  
-                    size={30} color="#6d9" />
-            </View>
+                style={styles.map}
+                ref={map => {this.map = map}}
+                initialRegion={{
+                    latitude,
+                    longitude,
+                    latitudeDelta: 0.02,
+                    longitudeDelta: 0.056
+                }}
+                region={{
+                    latitude,
+                    longitude,
+                    latitudeDelta: latD,
+                    longitudeDelta: lngD
+                }}
+                showsUserLocation >
+                <View style={styles.locateIcon}>
+                    <FontAwesome onPress={this.centerToUser} name="map-marker"  
+                        size={30} color="#6d9" />
+                </View>
+                <Zoom zoom={this.zoom} />
                 <Marker 
                     dishes={this.props.dishes}
                 />
@@ -266,16 +224,51 @@ class Map extends Component {
         )
     }
 
+    zoom = (param) => {
+        const { latitude, longitude, latD, lngD } = this.props.currentPos;
+
+        if (param === 'out') {
+            this.props.updateLocation(latitude, longitude, latD * 2, lngD * 2)
+            this.map.animateToRegion({
+                latitude,
+                longitude,
+                latD: latD * 2,
+                lngD: lngD * 2,
+            })
+        } else {
+            this.props.updateLocation(latitude, longitude, latD / 2, lngD / 2)
+            this.map.animateToRegion({
+                latitude,
+                longitude,
+                latD: latD / 2,
+                lngD: lngD / 2,
+            })
+        }
+    }
+
     centerToUser = () => {
-        const { latitude, longitude, latD, lngD }  = this.props.position;
+        const { latitude, longitude, latD, lngD }  = this.props.userPos;
+        this.props.updateLocation(latitude, longitude, latD, lngD)
         this.map.animateToRegion({
             latitude,
             longitude,
             latitudeDelta: latD,
             longitudeDelta: lngD
-          })
+        })
     }
-    
+}
+
+class Zoom extends Component {
+    render () {
+        return (
+            <View style={styles.zoomBox}>
+                <View style={styles.upperIconBox}>
+                    <MaterialIcons onPress={() => this.props.zoom('in')} name="zoom-in" size={35} color="#fff" />
+                </View>
+                    <MaterialIcons onPress={() => this.props.zoom('out')} name="zoom-out" size={35} color="#fff" />
+            </View>
+        )
+    }
 }
 
 class Marker extends Component {
@@ -284,12 +277,12 @@ class Marker extends Component {
             this.props.dishes.map((dish, i) => {
                 return (
                     <MapView.Marker
-                        key={dish.restaurant_id}
+                        key={dish.id}
                         coordinate={{
-                            latitude: +dish.restaurant_latitude,
-                            longitude: +dish.restaurant_longitude
+                            latitude: +dish.latitude,
+                            longitude: +dish.longitude
                         }}
-                        title={dish.title}
+                        title={dish.name}
                     />
                 )
             })
@@ -308,8 +301,8 @@ class Meals extends Component {
                 renderItem={({ item }, i) => (
                     this.renderCard(item)
                 )}
-                keyExtractor={(item, i) => item.restaurant_id.toString()}
-             />
+                keyExtractor={(item, i) =>  item.id.toString()}
+            />
         )
     }
 
@@ -317,20 +310,20 @@ class Meals extends Component {
         return (
             <Card 
             containerStyle={styles.mealCard}
-            title={item.restaurant_name}
+            title={item.name}
             image={{uri:'https://www.bbcgoodfood.com/sites/default/files/styles/recipe/public/recipe/recipe-image/2017/11/noodles.jpg?itok=Oalsb6ro'}}>
                 <View style={styles.mealText}>
-                    <Text style={styles.mealText}>{item.restaurant_name}</Text>
+                    <Text style={styles.mealText}>{item.name}</Text>
                     <View style={styles.mealText}>{this.showRating(item)}</View>
                 </View>
             </Card>              
         )
     }
 
-    showRating = ({ restaurant_price }) => {
+    showRating = ({ price }) => {
         let images = [];
-        if (restaurant_price === 'undefined') restaurant_price = '££';
-        let price = restaurant_price.split('').length;
+        if (price === 'undefined') price = '££';
+        price = price.split('').length;
         for(let i = 0; i < price; i++ ) {
             images.push(
                 <Foundation size={30} color='#6d9' key={i} name='pound'/>

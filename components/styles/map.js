@@ -6,50 +6,32 @@ export const styles = StyleSheet.create({
     backgroundColor: '#6d9',
     minWidth: '100%',
   },
-  search: {
-    position: 'relative',
-    top: 80,
-    backgroundColor: '#fffa',
-    zIndex: 4,
-    width: '100%',
-    justifyContent: 'center'
-  },
-  searchBar: {
-    position: 'absolute',
-    backgroundColor: '#ff00',
-    top: -40,
-    left: 0,
-    zIndex: 2,
-    width: '90%',
-    height: 40,
-    borderTopWidth: 0,
-    borderBottomWidth: 0,
-  },
   map: {
     position: 'absolute',
-    top: 0,
+    top: '-30%',
     width: '100%',
-    height: '100%'
+    height: '130%'
   },
   meals: {
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    height: 330,
-    shadowOffset: {width: 0, height: 0},
-    shadowRadius: 20,
-    shadowColor: '#6d9a',
-    backgroundColor: '#6d9a',
+    height: 340,
+    backgroundColor: '#6d9',
   },
   meal: {
     backgroundColor: '#fff',
     height: 100,
     width: '90%',
+    
   },
   mealCard: {
     marginBottom: 10,
     borderRadius: 5,
+    shadowOffset: {width: 0, height: 7},
+    shadowRadius: 15,
+    shadowColor: '#0007',
   },
   mealText: {
     flexDirection: 'row',
@@ -71,11 +53,12 @@ export const styles = StyleSheet.create({
     backgroundColor: '#6d9',
     borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
-    paddingRight: 3
+    paddingRight: 3,
+    paddingBottom: 2
   },
   zoomBox: {
     position: 'absolute',
-    top: 100,
+    top: 350,
     right: 0,
     zIndex: 2,
     backgroundColor: '#6d9',
@@ -85,13 +68,50 @@ export const styles = StyleSheet.create({
     paddingTop: 3,
   },
   upperIconBox: {
-    borderBottomColor: '#dddd',
+    borderBottomColor: '#fff',
     borderBottomWidth: 2
   },
   locateIcon: {
     position: 'absolute',
-    top: 47,
-    right: 10,
+    top: 286,
+    right: 14,
     zIndex: 3,
   }
 });
+
+export const googleStyle = StyleSheet.create({
+  container: {
+    position: 'relative',
+    top: 70,
+    backgroundColor: '#fffa',
+    zIndex: 4,
+    width: '100%',
+    justifyContent: 'center'
+  },
+  textInputContainer: {
+    position: 'absolute',
+    backgroundColor: '#ff00',
+    top: -35,
+    left: 0,
+    zIndex: 2,
+    width: '90%',
+    height: 40,
+    borderTopWidth: 0,
+    borderBottomWidth: 0,
+  },
+  textInput: {
+    backgroundColor: '#fffd',
+    fontSize: 20,
+    marginLeft: 10,
+    borderRadius: 30
+  },
+  description: {
+    fontWeight: 'bold',
+  },
+  predefinedPlacesDescription: {
+      color: '#1faadb',
+  },
+  poweredContainer: {
+      backgroundColor: '#fff0'
+  }
+})
