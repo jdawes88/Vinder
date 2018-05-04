@@ -1,5 +1,5 @@
 {
-  "name": "food-for-thought",
+  "name": "vinder",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
@@ -16,16 +16,19 @@
     "test": "jest"
   },
   "jest": {
-    "preset": "jest-expo"
+    "preset": "react-native"
   },
   "dependencies": {
+    "@expo/vector-icons": "^6.3.1",
     "expo": "^27.0.1",
+    "gem": "^2.4.3",
+    "geolib": "^2.0.24",
+    "lottie-react-native": "^2.3.2",
+    "npm": "^6.0.0",
     "react": "16.3.1",
-    "react-native": "~0.55.2",
     "react-native-button": "^2.3.0",
     "react-native-elements": "^0.19.1",
     "react-native-float-rating-view": "^1.0.3",
-    "react-native-fontawesome": "^5.7.0",
     "react-native-ios-status-bar-padding": "^1.2.0",
     "react-native-keyboard-aware-scroll-view": "^0.5.0",
     "react-native-keyboard-spacer": "^0.4.1",
@@ -36,6 +39,20 @@
     "react-native-popup-dialog": "^0.11.46",
     "react-native-star-rating": "^1.0.9",
     "typeface-roboto": "0.0.54",
+
+    "react-native": "^0.55.3",
+    "react-native-animatable": "^1.2.4",
+    "react-native-drawer": "^2.5.0",
+    "react-native-elements": "^0.19.1",
+    "react-native-google-places": "^2.5.0",
+    "react-native-google-places-autocomplete": "^1.3.6",
+    "react-native-maps": "^0.21.0",
+    "react-native-side-menu": "^1.1.3",
+    "firebase": "^4.13.1",
+    "native-base": "^2.4.3",
+    "react-native-fbsdk": "^0.7.0",
+    "react-native-fontawesome": "^5.7.0",
+    "react-navigation": "^1.5.11",
     "watchman": "^1.0.0"
   }
 }
