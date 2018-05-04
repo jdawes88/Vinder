@@ -1,11 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, Image, KeyboardAvoidingView, ImageBackground } from 'react-native';
 import LoginForm from './LoginForm'
 
 export default class Login extends React.Component {
     render () {
         return (
             <KeyboardAvoidingView behavior='padding' style={styles.container}>
+                <ImageBackground source={require('./images/loginImg/vegan-background.jpg')} style ={{height: '100%', width: '100%'}}>
+                <View style={styles.overlay}>
                 <View style={styles.logoContainer}>
                     <Image 
                         style={styles.logo}
@@ -15,6 +17,8 @@ export default class Login extends React.Component {
                 <View style={styles.formContainer}>
                     <LoginForm />
                 </View>
+                </View>
+                </ImageBackground>
             </KeyboardAvoidingView>
         )
     }
@@ -24,16 +28,18 @@ export default class Login extends React.Component {
 const styles = StyleSheet.create({
     container: {    
         flex: 1,
-        backgroundColor: '#7FCC00',
     },
     logoContainer: {
         alignItems: 'center',
         flexGrow: 1,
-        // justifyContent: 'center'
     },
     logo: {
         flex: 1,
         height: '50%',
-        width: '50%'
+        width: '50%',
+    },
+    overlay: {
+        flex: 1, 
+        backgroundColor: 'rgba(0, 0, 0, 0.5)'
     }
   });

@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Login from './components/Login'
+import Restaurant from './components/Restaurant'
+// import Comments from './components/Comments'
 import * as firebase from 'firebase'
 import {StackNavigator} from 'react-navigation'
 
@@ -30,6 +32,25 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#7FCC00',
   },
 });
+
+// const AppNavigator = StackNavigator(
+//   {
+//     LoginScreen: {
+//       screen: Login
+//     },
+//     RestaurantScreen: {
+//       screen: Restaurant
+//     },
+//     AddDishScreen: {
+//       screen: AddDish
+//     },
+//     CommentsScreen: {
+//       screen: Comments
+//     }
+//   },
+//   {
+//     initialRouteName: 'LoginScreen'
+//   }
+// )
