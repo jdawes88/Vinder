@@ -72,7 +72,7 @@ export default class Restaurant extends React.Component {
             width={350}
             height={600}
             borderRadius={25}
-            dialogStyle={{ backgroundColor: "#7FCC00" }}
+            dialogStyle={{ backgroundColor: "#B1C595" }}
             ref={popupDialog => {
               this.popupDialog = popupDialog;
             }}

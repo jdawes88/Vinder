@@ -29,7 +29,7 @@ import StarRating from "react-native-star-rating";
 import users from "../data/users.json";
 
 export default class Comments extends React.Component {
-  state = { comment: "", starCount: 3 };
+  state = { comment: "", starCount: 4.5 };
 
   onStarRatingPress(rating) {
     this.setState({ starCount: rating });
@@ -48,13 +48,14 @@ export default class Comments extends React.Component {
         </View>
 
         <View style={styles.infoBox}>
-          <View>
+          <View style={styles.rating}>
             <StarRating
               fullStarColor={"white"}
               emptyStarColor={"white"}
-              size={15}
-              //starStyle={{ height: 0.5, width: 0.5 }}
-              disabled={false}
+              starSize={20}
+              disabled={
+                false //starStyle={{ height: 0.5, width: 0.5 }}
+              }
               maxStars={5}
               rating={this.state.starCount}
               selectedStar={rating => this.onStarRatingPress(rating)}
@@ -89,7 +90,7 @@ export default class Comments extends React.Component {
           width={350}
           height={350}
           borderRadius={25}
-          dialogStyle={{ backgroundColor: "#7FCC00" }}
+          dialogStyle={{ backgroundColor: "#B1C595" }}
           ref={popupDialog => {
             this.popupDialog = popupDialog;
           }}
@@ -165,19 +166,22 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 35,
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
     alignItems: "center"
   },
   rating: {
-    paddingLeft: 40
+    paddingLeft: 20
   },
-  price: {},
+  price: {
+    alignItems: "center"
+  },
   add: {
-    paddingRight: 40
+    paddingRight: 20
   },
   commentList: {},
   buttonContainer: {
-    backgroundColor: "#5F9900",
+    // backgroundColor: "#5F9900",
+    backgroundColor: "rgba(95, 153, 0, 0.7)",
     paddingVertical: 15,
     width: 300,
     borderRadius: 25,
@@ -201,10 +205,5 @@ const styles = StyleSheet.create({
     width: 300,
     height: 100,
     backgroundColor: "#D7DDC4"
-  },
-  ratingview: {
-    width: 200,
-    height: 80,
-    color: "white"
   }
 });
