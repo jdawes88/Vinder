@@ -57,7 +57,7 @@ export default class LoginForm extends React.Component {
         }
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then(() => {
-                this.clearState()
+                // this.clearState()
             })
             .catch(error => {
                 this.clearState()
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(95, 153, 0, 0.7)',
         padding: 10,
         flexDirection: 'column',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
     },
     buttonText: {
         fontSize: 15,

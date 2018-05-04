@@ -1,9 +1,9 @@
-
 import React from 'react';
 import { Platform, StyleSheet, Text, View, SafeAreaView, StatusBar } from 'react-native';
 import Login from './components/Login'
 import Restaurant from './components/Restaurant'
 import Comments from './components/Comments'
+import MapPage from './components/Map'
 import * as firebase from 'firebase'
 import {StackNavigator} from 'react-navigation'
 
@@ -22,11 +22,12 @@ firebase.initializeApp(firebaseConfig);
 
 
 export default class App extends React.Component {
+
   render() {
     return (
-        <View style={styles.container}>
-          <Login />
-        </View>
+        // <View style={styles.container}>
+          <AppNavigator header='none' cardStyle={styles.container} />
+        //  </View>
     );
   }
 }
@@ -34,30 +35,27 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  safeArea: {
-    flex: 1,
-    backgroundColor: '#0000',
-    top: 0
   }
 });
 
-// const AppNavigator = StackNavigator(
-//   {
-//     LoginScreen: {
-//       screen: Login
-//     },
-//     RestaurantScreen: {
-//       screen: Restaurant
-//     },
-//     AddDishScreen: {
-//       screen: AddDish
-//     },
-//     CommentsScreen: {
-//       screen: Comments
-//     }
-//   },
-//   {
-//     initialRouteName: 'LoginScreen'
-//   }
-// )
+const AppNavigator = StackNavigator(
+  {
+    LoginScreen: {
+      screen: Login
+    },
+    RestaurantScreen: {
+      screen: Restaurant
+    },
+    CommentsScreen: {
+      screen: Comments
+    },
+    MapScreen: {
+      screen: MapPage
+    }
+  },
+  {
+    initialRouteName: 'MapScreen',
+    headerMode: 'none',
+
+  }
+)

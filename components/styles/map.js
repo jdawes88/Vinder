@@ -83,9 +83,10 @@ export const googleStyle = StyleSheet.create({
   container: {
     position: 'relative',
     top: 70,
-    backgroundColor: '#fffa',
+    backgroundColor: '#ff0',
     zIndex: 4,
     width: '100%',
+    maxHeight: '10%',
     justifyContent: 'center'
   },
   textInputContainer: {

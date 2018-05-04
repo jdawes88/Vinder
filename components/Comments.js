@@ -26,7 +26,7 @@ import { ImagePicker, Permissions } from "expo";
 import KeyboardSpacer from "react-native-keyboard-spacer";
 import StarRating from "react-native-star-rating";
 
-import users from "../data/users.json";
+import users from "../data-jo/users.json";
 
 export default class Comments extends React.Component {
   state = { comment: "", starCount: 4.5 };

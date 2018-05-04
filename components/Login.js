@@ -28,6 +28,11 @@ export default class Login extends React.Component {
 const styles = StyleSheet.create({
     container: {    
         flex: 1,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        height: '100%',
+        width:'100%'
     },
     logoContainer: {
         alignItems: 'center',
@@ -39,7 +44,7 @@ const styles = StyleSheet.create({
         width: '50%',
     },
     overlay: {
-        flex: 1, 
-        backgroundColor: 'rgba(0, 0, 0, 0.5)'
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
     }
   });

@@ -22,7 +22,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import LinearGradient from "react-native-linear-gradient";
 import { ImagePicker, Permissions } from "expo";
 import KeyboardSpacer from "react-native-keyboard-spacer";
-import dishes from "../data/dishes.json";
+import dishes from "../data-jo/dishes.json";
 import AddDish from "./AddDish";
 
 export default class Restaurant extends React.Component {

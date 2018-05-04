@@ -166,10 +166,11 @@ class Search extends Component {
             minLength={2} // minimum length of text to search
             autoFocus={false}
             fetchDetails={true}
+            // listViewDisplayed='auto'
             onPress={(data, details = null) => {
                 this.handleSubmit(details.geometry.location)
             }}
-            getDefaultValue={() =>  ''}
+            getDefaultValue={() =>  {return ''}}
             query={{
                 key: 'AIzaSyA3to9-gUo2wfr4yBypCwbOsIr2866UFYE',
                 language: 'en',
