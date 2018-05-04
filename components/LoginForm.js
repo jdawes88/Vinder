@@ -18,9 +18,11 @@ export default class LoginForm extends React.Component {
 
 
     componentDidMount() {
+        //check login status
         firebase.auth().onAuthStateChanged((user) => {
             if (user !== null) {
                 console.log(user)
+                //if signed in on opening app- sign out
                 firebase.auth().signOut()
                     .then(() => {
                         console.log('sign out successful')
@@ -42,7 +44,7 @@ export default class LoginForm extends React.Component {
         })
     }
 
-    // create new user and add to firebase auth
+    // create new user and add to firebase auth- will sign the user in automatically after creating an account
 
     signUpUser = (email, password) => {
         if (!/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(email)){
