@@ -6,31 +6,20 @@ import MapView from 'react-native-maps';
 import Loading from './loading.js';
 import { MaterialIcons, MaterialCommunityIcons, FontAwesome, Foundation } from "@expo/vector-icons";
 import { DrawerNavigator } from 'react-navigation';
-import goelib from 'geolib';
+import geolib from 'geolib';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
 export default class MapPage extends Component {
-    constructor(props) {
-        super(props)
-    }
     state = {
         currentPos: {
             latitude: 53.4808,
             longitude: -2.2426,
+            latD: 0.02,
+            lngD: 0.056,
         },
         loading: true,
         dishes: []
     }
-
-    static navigationOptions = {
-        drawerLabel: 'Home',
-        drawerIcon: ({ tintColor }) => (
-          <Image
-            source={require('../data/coin.png')}
-            style={[styles.icon]}
-          />
-        ),
-      };
-    
 
     componentDidMount() {
         this.getUserLocation()
@@ -42,24 +31,34 @@ export default class MapPage extends Component {
 
     render () {
         const currentPos = {}
-        return (
+        if (this.state.loading) {
+
+            return (
+                <View style={styles.container}>
+                    <Loading />
+                </View>
+            )
+        } else {
+           return (
             <View style={styles.container}>
                 <Search 
                     updateLocation={this.updateLocation}
                     getUserLocation={this.getUserLocation}
                 />
-                {!this.state.loading && <FunctionIcons />}
-                {!this.state.loading && <Map 
+                <Zoom zoom={this.zoom} />
+                <FunctionIcons />
+                <Map 
                     style={styles.map}
                     position={this.state.currentPos}
                     dishes={this.state.dishes}
-                />}
-                {!this.state.loading && <Meals 
+                />
+                <Meals 
                     dishes={this.state.dishes}
-                />}
-                {this.state.loading && <Loading />}
+                />
             </View>
-        )
+           ) 
+        }
+    
     }
 
     getUserLocation = () => {
@@ -69,6 +68,8 @@ export default class MapPage extends Component {
                     currentPos: {
                         latitude: position.coords.latitude - 0.012,
                         longitude: position.coords.longitude,
+                        latD: this.state.currentPos.latD,
+                        lngD: this.state.currentPos.lngD
                     }
                 }, () => this.getDishes(this.state.currentPos))
             },
@@ -81,7 +82,9 @@ export default class MapPage extends Component {
         this.setState({
             currentPos: {
                 latitude: lat - 0.012,
-                longitude: lng
+                longitude: lng,
+                latD: this.state.currentPos.latD,
+                lngD: this.state.currentPos.lngD
             }
         }, () => this.getDishes(this.state.currentPos))
     }
@@ -89,7 +92,6 @@ export default class MapPage extends Component {
     getDishes = (place) => {
         return fetch('https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/restaurants')
             .then(res => res.json())
-            // .then(res => console.log(res))
             .then(res => this.getLocalDishes(res, place))
             .catch(err => console.log('error:' + err))
     }
@@ -127,18 +129,52 @@ export default class MapPage extends Component {
             )
         }
     }
+
+    zoom = (param) => {
+        let newRegion;
+        if (param === 'out') {
+            newRegion = {
+                latitude: this.state.currentPos.latitude - 0.004,
+                longitude: this.state.currentPos.longitude,
+                latD: this.state.currentPos.latD * 2,
+                lngD: this.state.currentPos.lngD * 2,
+            }
+            
+        } else {
+            newRegion = {
+                latitude: this.state.currentPos.latitude + 0.004,
+                longitude: this.state.currentPos.longitude,
+                latD: this.state.currentPos.latD / 2,
+                lngD: this.state.currentPos.lngD / 2,
+            }
+        }
+        this.setState({
+            currentPos: newRegion
+        })
+    }
+}
+
+class Zoom extends Component {
+    render () {
+        return (
+            <View style={styles.zoomBox}>
+                <View style={styles.upperIconBox}>
+                    <MaterialIcons onPress={() => this.props.zoom('in')} name="zoom-in" size={35} color="#fff" />
+                </View>
+                    <MaterialIcons onPress={() => this.props.zoom('out')} name="zoom-out" size={35} color="#fff" />
+            </View>
+        )
+    }
 }
 
 class FunctionIcons extends Component {
     render () {
         return (
             <View style={styles.functionIcons}>
-                <TouchableHighlight style={styles.menuButton}>
-                    <MaterialCommunityIcons name="food" size={40} color="#fff" />
+                <TouchableHighlight style={styles.upperIconBox}>
+                    <MaterialCommunityIcons name="food" size={35} color="#fff" />
                 </TouchableHighlight>
-                <TouchableHighlight style={styles.menuButton}>
-                    <MaterialIcons name="location-city" size={40} color="#fff" />
-                </TouchableHighlight>
+                    <MaterialIcons name="location-city" size={35} color="#fff" />
             </View>
         )
     }
@@ -146,41 +182,53 @@ class FunctionIcons extends Component {
 
 /* ***SearchBar Component*** */
 class Search extends Component {
-    render () {
+    render() {
         return (
-            <View style={styles.search}>
-                <TextInput 
-                    style={styles.searchBar}
-                    placeholder="Search"
-                    returnKeyType='search'
-                    onSubmitEditing={this.handleSubmit}
-                    underlineColorAndroid='transparent'
-                    autoCorrect={false}
-                />
-                <TouchableHighlight underlayColor='#0000' onPress={this.handlePress}>
-                    <FontAwesome name="map-marker" style={{zIndex: 2}} size={30} color="#6d9" />
-                </TouchableHighlight>
-            </View>
-        )
+            <GooglePlacesAutocomplete
+            placeholder='Search'
+            minLength={2} // minimum length of text to search
+            autoFocus={false}
+            fetchDetails={true}
+            onPress={(data, details = null) => {
+                this.handleSubmit(details.geometry.location)
+            }}
+            getDefaultValue={() =>  ''}
+            query={{
+                key: 'AIzaSyA3to9-gUo2wfr4yBypCwbOsIr2866UFYE',
+                language: 'en', // language of the results
+                types: '(cities)', // default: 'geocode'
+            }}
+            styles={{
+                container: styles.search,
+                textInputContainer: styles.searchBar,
+                textInput: {
+                    backgroundColor: '#fffc',
+                    fontSize: 20,
+                    marginLeft: 10,
+                    borderRadius: 30
+                },
+                description: {
+                    fontWeight: 'bold',
+                },
+                predefinedPlacesDescription: {
+                    color: '#1faadb',
+                },
+                poweredContainer: {
+                    backgroundColor: '#fff0'
+                }
+            }}
+            nearbyPlacesAPI='GooglePlacesSearch'
+            filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']}
+            predefinedPlacesAlwaysVisible={true}
+            // renderRightButton={() => }
+            />
+        );
     }
 
-    handlePress = () => {
-        this.props.getUserLocation()
-    }
-
-    handleSubmit = (e) => {
-        this.getLocationData(e.nativeEvent.text)
-    }
-
-    getLocationData = (location) => {
-        fetch(`https://maps.googleapis.com/maps/api/geocode/json?&address=${location},uk&key=AIzaSyA3to9-gUo2wfr4yBypCwbOsIr2866UFYE`)
-            .then(res => res.json())
-            .then(res => {
-                const lat = res.results[0].geometry.location.lat;
-                const lng = res.results[0].geometry.location.lng;
-                this.props.updateLocation(lat, lng)
-            })
-            .catch(console.log)
+    handleSubmit = (location) => {
+        const lat = location.lat;
+        const lng = location.lng;
+        this.props.updateLocation(lat, lng)
     }
 }
 
@@ -188,23 +236,29 @@ class Search extends Component {
 /* ***Map Component *** */
 class Map extends Component {
     render () {
+        const { latitude, longitude, latD, lngD }  = this.props.position;
         return (
             <MapView 
             style={styles.map}
+            ref={map => {this.map = map}}
             initialRegion={{
-                latitude: this.props.position.latitude,
-                longitude: this.props.position.longitude,
+                latitude,
+                longitude,
                 latitudeDelta: 0.02,
                 longitudeDelta: 0.056
             }}
             region={{
-                latitude: this.props.position.latitude,
-                longitude: this.props.position.longitude,
-                latitudeDelta: 0.02,
-                longitudeDelta: 0.056
+                latitude,
+                longitude,
+                latitudeDelta: latD,
+                longitudeDelta: lngD
             }}
             showsUserLocation
             >
+            <View style={styles.locateIcon}>
+                <FontAwesome onPress={this.centerToUser} name="map-marker"  
+                    size={30} color="#6d9" />
+            </View>
                 <Marker 
                     dishes={this.props.dishes}
                 />
@@ -212,6 +266,15 @@ class Map extends Component {
         )
     }
 
+    centerToUser = () => {
+        const { latitude, longitude, latD, lngD }  = this.props.position;
+        this.map.animateToRegion({
+            latitude,
+            longitude,
+            latitudeDelta: latD,
+            longitudeDelta: lngD
+          })
+    }
     
 }
 

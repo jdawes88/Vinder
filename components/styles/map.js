@@ -4,27 +4,26 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#6d9',
-    alignItems: 'center',
     minWidth: '100%',
   },
   search: {
-    flexDirection: 'row',
-    backgroundColor: '#fffc',
-    zIndex: 1,
-    width: '95%',
-    height: 40,
-    borderRadius: 30,
-    marginTop: 40,
-    padding: 5,
+    position: 'relative',
+    top: 80,
+    backgroundColor: '#fffa',
+    zIndex: 4,
+    width: '100%',
+    justifyContent: 'center'
   },
   searchBar: {
-    backgroundColor: '#fff0',
-    zIndex: 1,
+    position: 'absolute',
+    backgroundColor: '#ff00',
+    top: -40,
+    left: 0,
+    zIndex: 2,
     width: '90%',
-    height: '100%',
-    fontSize: 22,
-    marginLeft: 5,
-    color: '#444'
+    height: 40,
+    borderTopWidth: 0,
+    borderBottomWidth: 0,
   },
   map: {
     position: 'absolute',
@@ -73,5 +72,26 @@ export const styles = StyleSheet.create({
     borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
     paddingRight: 3
+  },
+  zoomBox: {
+    position: 'absolute',
+    top: 100,
+    right: 0,
+    zIndex: 2,
+    backgroundColor: '#6d9',
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
+    paddingLeft: 3,
+    paddingTop: 3,
+  },
+  upperIconBox: {
+    borderBottomColor: '#dddd',
+    borderBottomWidth: 2
+  },
+  locateIcon: {
+    position: 'absolute',
+    top: 47,
+    right: 10,
+    zIndex: 3,
   }
 });

@@ -8,7 +8,7 @@ export default class Loading extends Component {
       <View style={{
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
       }}>
       <ActivityIndicator style={styles.loader} size={1} color='white'/>
       </View>
