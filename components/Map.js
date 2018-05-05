@@ -1,10 +1,29 @@
 import React, {Component} from 'react';
-import { Text, View, FlatList, TouchableHighlight, Image, TextInput } from 'react-native';
-import { Card, List, Button } from 'react-native-elements';
-import { styles, googleStyle } from './styles/map';
+import { 
+    Text, 
+    View,
+    FlatList,
+    TouchableHighlight,
+    Image,
+    TextInput
+} from 'react-native';
+import {
+    Card,
+    List,
+    Button
+} from 'react-native-elements';
+import {
+    styles,
+    googleStyle
+} from './styles/map';
+import {
+    MaterialIcons,
+    MaterialCommunityIcons,
+    FontAwesome,
+    Foundation
+} from "@expo/vector-icons";
 import MapView from 'react-native-maps';
 import Loading from './loading.js';
-import { MaterialIcons, MaterialCommunityIcons, FontAwesome, Foundation } from "@expo/vector-icons";
 import { DrawerNavigator } from 'react-navigation';
 import geolib from 'geolib';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';

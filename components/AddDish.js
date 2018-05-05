@@ -22,6 +22,7 @@ import LinearGradient from "react-native-linear-gradient";
 import { ImagePicker, Permissions } from "expo";
 import KeyboardSpacer from "react-native-keyboard-spacer";
 import dishes from "../data-jo/dishes.json";
+import styles from './styles/addDish';
 
 export default class AddDish extends React.Component {
   state = { meal: "", comment: "", image: "" };
@@ -96,42 +97,3 @@ export default class AddDish extends React.Component {
     }
   };
 }
-
-const styles = StyleSheet.create({
-  popup: {
-    borderRadius: 25,
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 1,
-    padding: 10
-  },
-  veganMeal: {
-    borderRadius: 25,
-    margin: 10,
-    padding: 10,
-    width: 300,
-    backgroundColor: "#D7DDC4",
-    marginTop: 10
-  },
-  inputComment: {
-    borderRadius: 25,
-    margin: 10,
-    padding: 10,
-    width: 300,
-    height: 100,
-    backgroundColor: "#D7DDC4"
-  },
-  buttonContainer: {
-    backgroundColor: "#5F9900",
-    paddingVertical: 15,
-    width: 300,
-    borderRadius: 25,
-    margin: 10
-  },
-  button: {
-    textAlign: "center",
-    color: "#FFFFFF",
-    fontWeight: "700",
-    borderRadius: 25
-  }
-});
