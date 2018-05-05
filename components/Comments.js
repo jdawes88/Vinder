@@ -15,21 +15,34 @@ import {
   ScrollView,
   KeyboardAvoidingView
 } from "react-native";
-
-import { Ionicons, FontAwesome } from "@expo/vector-icons";
+import {
+  Ionicons,
+  FontAwesome
+} from "@expo/vector-icons";
 import Modal from "react-native-modal";
-import { ListItem, List, Card, Button } from "react-native-elements";
+import {
+  ListItem,
+  List,
+  Card,
+  Button
+} from "react-native-elements";
+import {
+  ImagePicker,
+  Permissions
+} from "expo";
 import PopupDialog from "react-native-popup-dialog";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import LinearGradient from "react-native-linear-gradient";
-import { ImagePicker, Permissions } from "expo";
 import KeyboardSpacer from "react-native-keyboard-spacer";
 import StarRating from "react-native-star-rating";
-
+import styles from './styles/comments';
 import users from "../data-jo/users.json";
 
 export default class Comments extends React.Component {
-  state = { comment: "", starCount: 4.5 };
+  state = {
+    comment: "",
+    starCount: 4.5
+  };
 
   onStarRatingPress(rating) {
     this.setState({ starCount: rating });
@@ -42,7 +55,7 @@ export default class Comments extends React.Component {
         <View style={styles.bar} />
         <View>
           <Image
-            source={require("../images/veganDish.png")}
+            source={require("./images/veganDish.png")}
             style={styles.image}
           />
         </View>
@@ -148,62 +161,3 @@ export default class Comments extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: "100%"
-  },
-  bar: {
-    height: 22
-  },
-  image: {
-    width: 420,
-    height: 250
-  },
-  infoBox: {
-    backgroundColor: "grey",
-    width: "100%",
-    height: 35,
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignItems: "center"
-  },
-  rating: {
-    paddingLeft: 20
-  },
-  price: {
-    alignItems: "center"
-  },
-  add: {
-    paddingRight: 20
-  },
-  commentList: {},
-  buttonContainer: {
-    // backgroundColor: "#5F9900",
-    backgroundColor: "rgba(95, 153, 0, 0.7)",
-    paddingVertical: 15,
-    width: 300,
-    borderRadius: 25,
-    margin: 10
-  },
-  button: {
-    textAlign: "center",
-    color: "#FFFFFF",
-    fontWeight: "700",
-    borderRadius: 25
-  },
-  popup: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingTop: 20
-  },
-  inputComment: {
-    borderRadius: 25,
-    margin: 10,
-    padding: 10,
-    width: 300,
-    height: 100,
-    backgroundColor: "#D7DDC4"
-  }
-});

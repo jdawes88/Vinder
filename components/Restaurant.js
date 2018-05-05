@@ -34,7 +34,7 @@ export default class Restaurant extends React.Component {
     const { image } = this.state;
     return (
       <ImageBackground
-        source={require("../images/tattu.png")}
+        source={require("./images/tattu.png")}
         style={styles.image}
       >
         <StatusBar backgroundColor="blue" barStyle="light-content" />

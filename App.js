@@ -7,7 +7,7 @@ import MapPage from './components/Map'
 import * as firebase from 'firebase'
 import {StackNavigator} from 'react-navigation'
 
-// initialise firebase
+// initialise firebase`
 const firebaseConfig = {
     apiKey: "AIzaSyC1KleXVQ8TZGfs5BGrs1jeBV-4qS6BHQQ",
     authDomain: "vinder-ed114.firebaseapp.com",

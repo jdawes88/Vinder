@@ -7,13 +7,13 @@ export default class Login extends React.Component {
     render () {
         return (
             <KeyboardAvoidingView behavior='padding' style={styles.container}>
-                <ImageBackground source={require('./images/loginImg/vegan-background.jpg')} style={styles.logoImg}>
+                <ImageBackground source={require('./images/vegan-background.jpg')} style={styles.logoImg}>
                     <View style={styles.overlay}>
                         <View style={styles.logoContainer}>
                             <Image
                                 style={styles.logo}
                                 resizeMode= 'contain'
-                                source={require('./images/loginImg/vinder.png')}/>
+                                source={require('./images/vinder.png')}/>
                         </View>
                         <LoginForm />
                     </View>

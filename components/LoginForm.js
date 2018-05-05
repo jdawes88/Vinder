@@ -154,7 +154,7 @@ export default class LoginForm extends React.Component {
                 >
                     <KeyboardAvoidingView behavior='padding' style= {styles.registerContainer}>
                         <ImageBackground 
-                            source={require('./images/loginImg/vegan-background.jpg')} 
+                            source={require('./images/vegan-background.jpg')} 
                             style ={styles.backImg}>
                         <View style={styles.overlay}>
                             <Text style={styles.registerHeader}>
