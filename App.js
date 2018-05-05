@@ -6,6 +6,7 @@ import Comments from './components/Comments'
 import MapPage from './components/Map'
 import * as firebase from 'firebase'
 import {StackNavigator} from 'react-navigation'
+import NavigationService from './NavigationService';
 
 // initialise firebase`
 const firebaseConfig = {
@@ -23,7 +24,13 @@ firebase.initializeApp(firebaseConfig);
 export default class App extends React.Component {
   render() {
     return (
-      <AppNavigator header='none' cardStyle={styles.container} />
+      <AppNavigator 
+        header='none' 
+        cardStyle={styles.container} 
+        ref={navigatorRef => {
+          NavigationService.setTopLevelNavigator(navigatorRef);
+        }}
+      />
     );
   }
 }
@@ -34,7 +41,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const AppNavigator = StackNavigator(
+export const AppNavigator = StackNavigator(
   {
     LoginScreen: {
       screen: Login

@@ -19,8 +19,14 @@ import PopupDialog from 'react-native-popup-dialog';
 import * as firebase from 'firebase';
 import Expo from 'expo';
 import styles from './styles/loginForm';
+import MapPage from './Map';
+import NavigationService from '../NavigationService';
 
 export default class LoginForm extends React.Component {
+    static navigationOptions = ({ navigation }) => {
+        const params = navigation.state.params || {};
+    }
+
     state = {
         firstName: '',
         lastName: '',
@@ -29,11 +35,11 @@ export default class LoginForm extends React.Component {
         registerModalVisible: false
     }
 
-    componentDidMount() {
+    xcomponentDidMount() {
         //check login status
         firebase.auth().onAuthStateChanged((user) => {
             if (user !== null) {
-                console.log(user)
+                // console.log(user)
                 //if signed in on opening app- sign out
                 firebase.auth().signOut()
                     .then(() => {
@@ -89,9 +95,11 @@ export default class LoginForm extends React.Component {
     loginUser = (email, password) => {
         firebase.auth().signInWithEmailAndPassword(email,password)
             .then((user) =>{
-                
+                console.log('logged in!!!!!!!!')
+                NavigationService.navigate('MapScreen', null)
             })
             .catch(error => {
+                console.log(error)
                 alert(`There is no user registered with the email: ${this.state.email}. Please register below.`)
                 this.clearState()
             })

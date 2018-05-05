@@ -28,6 +28,7 @@ import { DrawerNavigator } from 'react-navigation';
 import geolib from 'geolib';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import dishes from '../dataMark/dishes.json';
+import NavigationService from '../NavigationService';
 
 export default class MapPage extends Component {
     state = {
