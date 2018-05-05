@@ -8,6 +8,7 @@ import { MaterialIcons, MaterialCommunityIcons, FontAwesome, Foundation } from "
 import { DrawerNavigator } from 'react-navigation';
 import geolib from 'geolib';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import dishes from '../dataMark/dishes.json';
 
 export default class MapPage extends Component {
     state = {
@@ -103,10 +104,11 @@ export default class MapPage extends Component {
     }
 
     getDishes = (place) => {
-        return fetch('https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/restaurants')
-            .then(res => res.json())
-            .then(res => this.getLocalDishes(res, place))
-            .catch(err => console.log('error:' + err))
+        this.getLocalDishes(dishes, place)
+        // return fetch('https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/restaurants')
+        //     .then(res => res.json())
+        //     .then(res => this.getLocalDishes(res, place))
+        //     .catch(err => console.log('error:' + err))
     }
 
     getLocalDishes = (dishes, locationA) => {
@@ -148,10 +150,8 @@ class FunctionIcons extends Component {
     render () {
         return (
             <View style={styles.functionIcons}>
-                <View style={styles.upperIconBox}>
-                    <MaterialCommunityIcons name="food" size={35} color="#fff" />
-                </View>
-                    <MaterialIcons name="location-city" size={35} color="#fff" />
+                <MaterialCommunityIcons name="food" size={35} color="#fff" />
+                <MaterialIcons name="location-city" size={35} color="#fff" />
             </View>
         )
     }
@@ -165,8 +165,10 @@ class Search extends Component {
             placeholder='Search'
             minLength={2} // minimum length of text to search
             autoFocus={false}
+            returnKeyType={'search'}
             fetchDetails={true}
-            // listViewDisplayed='auto'
+            listViewDisplayed='true'
+            // renderDescription={row => row.description}
             onPress={(data, details = null) => {
                 this.handleSubmit(details.geometry.location)
             }}
@@ -263,10 +265,8 @@ class Zoom extends Component {
     render () {
         return (
             <View style={styles.zoomBox}>
-                <View style={styles.upperIconBox}>
-                    <MaterialIcons onPress={() => this.props.zoom('in')} name="zoom-in" size={35} color="#fff" />
-                </View>
-                    <MaterialIcons onPress={() => this.props.zoom('out')} name="zoom-out" size={35} color="#fff" />
+                <MaterialIcons onPress={() => this.props.zoom('in')} name="zoom-in" size={35} color="#fff" />
+                <MaterialIcons onPress={() => this.props.zoom('out')} name="zoom-out" size={35} color="#fff" />
             </View>
         )
     }
@@ -302,7 +302,7 @@ class Meals extends Component {
                 renderItem={({ item }, i) => (
                     this.renderCard(item)
                 )}
-                keyExtractor={(item, i) =>  item.id.toString()}
+                keyExtractor={(item, i) =>  i}
             />
         )
     }
@@ -333,5 +333,3 @@ class Meals extends Component {
         return images;
     }
 }
-
-

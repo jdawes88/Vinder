@@ -26,7 +26,8 @@ export default class App extends React.Component {
   render() {
     return (
         // <View style={styles.container}>
-          <AppNavigator header='none' cardStyle={styles.container} />
+        <MapPage />
+          // <AppNavigator header='none' cardStyle={styles.container} />
         //  </View>
     );
   }

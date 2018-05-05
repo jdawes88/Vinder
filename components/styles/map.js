@@ -10,7 +10,8 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     top: '-30%',
     width: '100%',
-    height: '130%'
+    height: '130%',
+    zIndex: 0
   },
   meals: {
     position: 'absolute',
@@ -49,7 +50,7 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     top: 100,
     left: 0,
-    zIndex: 2,
+    zIndex: 1,
     backgroundColor: '#6d9',
     borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
@@ -60,16 +61,12 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     top: 350,
     right: 0,
-    zIndex: 2,
+    zIndex: 3,
     backgroundColor: '#6d9',
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
     paddingLeft: 3,
     paddingTop: 3,
-  },
-  upperIconBox: {
-    borderBottomColor: '#fff',
-    borderBottomWidth: 2
   },
   locateIcon: {
     position: 'absolute',
@@ -81,27 +78,31 @@ export const styles = StyleSheet.create({
 
 export const googleStyle = StyleSheet.create({
   container: {
-    position: 'relative',
+    position: 'absolute',
     top: 70,
     backgroundColor: '#ff0',
-    zIndex: 4,
+    zIndex: 2,
     width: '100%',
-    maxHeight: '10%',
+    maxHeight: '100%',
     justifyContent: 'center'
   },
   textInputContainer: {
     position: 'absolute',
-    backgroundColor: '#ff00',
+    backgroundColor: '#fff0',
     top: -35,
     left: 0,
-    zIndex: 2,
     width: '90%',
+    zIndex: 1,
     height: 40,
     borderTopWidth: 0,
     borderBottomWidth: 0,
   },
+  listView: {
+    zIndex: 1,
+    backgroundColor: '#fff'
+  },
   textInput: {
-    backgroundColor: '#fffd',
+    backgroundColor: '#fffe',
     fontSize: 20,
     marginLeft: 10,
     borderRadius: 30
@@ -113,6 +114,6 @@ export const googleStyle = StyleSheet.create({
       color: '#1faadb',
   },
   poweredContainer: {
-      backgroundColor: '#fff0'
+      backgroundColor: '#f0f0'
   }
 })
