@@ -57,7 +57,7 @@ export const AppNavigator = StackNavigator(
     }
   },
   {
-    initialRouteName: 'LoginScreen',
+    initialRouteName: 'MapScreen',
     headerMode: 'none',
   }
 )

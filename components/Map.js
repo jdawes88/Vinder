@@ -105,7 +105,7 @@ export default class MapPage extends Component {
                         lngD: this.state.currentPos.lngD
                     },
                     
-                }, () => this.getDishes(this.state.currentPos))
+                }, () => this.getPins(this.state.currentPos))
             },
             (error) => this.setState({error: error.message}),
             { enableHighAccuracy: true, timeout: 3000, maximumAge: 2000 }
@@ -120,18 +120,18 @@ export default class MapPage extends Component {
                 latD: latD,
                 lngD: lngD
             }
-        }, () => this.getDishes(this.state.currentPos))
+        }, () => this.getPins(this.state.currentPos))
     }
 
-    getDishes = (place) => {
-        this.getLocalDishes(dishes, place)
-        // return fetch('https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/restaurants')
-        //     .then(res => res.json())
-        //     .then(res => this.getLocalDishes(res, place))
-        //     .catch(err => console.log('error:' + err))
+    getPins = (place) => {
+        // this.getLocalDishes(dishes, place)
+        return fetch('https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/restaurants')
+            .then(res => res.json())
+            .then(res => this.getLocalPins(res, place))
+            .catch(err => console.log('error:' + err))
     }
 
-    getLocalDishes = (dishes, locationA) => {
+    getLocalPins = (dishes, locationA) => {
         const dishesInRadius = dishes.filter(dish => {
             const locationB = {
                 latitude: dish.latitude,
@@ -188,7 +188,6 @@ class Search extends Component {
             returnKeyType={'search'}
             fetchDetails={true}
             listViewDisplayed='true'
-            // renderDescription={row => row.description}
             onPress={(data, details = null) => {
                 this.handleSubmit(details.geometry.location)
             }}
@@ -219,7 +218,7 @@ class Map extends Component {
     render () {
         const { latitude, longitude, latD, lngD }  = this.props.currentPos;
         return (
-            <MapView 
+            <MapView
                 style={styles.map}
                 ref={map => {this.map = map}}
                 initialRegion={{
@@ -240,7 +239,7 @@ class Map extends Component {
                         size={30} color="#6d9" />
                 </View>
                 <Zoom zoom={this.zoom} />
-                <Marker 
+                <Marker
                     dishes={this.props.dishes}
                 />
             </MapView>
