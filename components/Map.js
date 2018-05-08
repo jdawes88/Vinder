@@ -46,7 +46,7 @@ export default class MapPage extends Component {
         },
         loading: true,
         dishes: [],
-        pins: 'restaurants'
+        pinType: 'restaurants'
     }
 
     componentDidMount() {
@@ -125,7 +125,8 @@ export default class MapPage extends Component {
 
     getPins = (place) => {
         // this.getLocalDishes(dishes, place)
-        return fetch('https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/restaurants')
+        const pinType = this.state.pinType;
+        return fetch(`https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/${pinType}`)
             .then(res => res.json())
             .then(res => this.getLocalPins(res, place))
             .catch(err => console.log('error:' + err))
@@ -321,7 +322,7 @@ class Meals extends Component {
                 renderItem={({ item }, i) => (
                     this.renderCard(item)
                 )}
-                keyExtractor={(item, i) =>  i}
+                keyExtractor={(item, i) =>  item.id.toString()}
             />
         )
     }
