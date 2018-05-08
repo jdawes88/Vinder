@@ -72,7 +72,7 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     top: 286,
     right: 14,
-    zIndex: 3,
+    zIndex: 4,
   }
 });
 
