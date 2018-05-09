@@ -25,14 +25,14 @@ import KeyboardSpacer from "react-native-keyboard-spacer";
 import dishes from "../data-jo/dishes.json";
 import AddDish from "./AddDish";
 import styles from './styles/restaurant'; 
-
+import axios from 'axios';
 
 
 export default class Restaurant extends React.Component {
   static navigationOptions = {
     gesturesEnabled: true
 }
-  state = { meal: "", comment: "" };
+  state = { meal: "", description: "" };
 
   render() {
     const { image } = this.state;
@@ -84,11 +84,14 @@ export default class Restaurant extends React.Component {
           >
             <KeyboardAwareScrollView behavior="padding" enabled>
               <View style={styles.popup}>
-                <AddDish />
+                <AddDish
+                saveNewMeal={this.saveNewMeal}
+                alertFail={this.alertFail}
+                />
 
                 <TouchableOpacity
                   style={styles.buttonContainer}
-                  onPress={() => this.popupDialog.dismiss()}
+                  onPress={this.handleSave}
                 >
                   <Text style={styles.button}>Save</Text>
                 </TouchableOpacity>
@@ -111,5 +114,36 @@ export default class Restaurant extends React.Component {
         </View>
       </ImageBackground>
     );
+  }
+
+  handleSave = () => {
+    // handle request here using state to create new dish
+    axios
+      .post('https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/dish', {
+        description: this.state.description,
+        name: this.state.meal,
+        imageURL: this.state.imageUrl,
+        price: this.state.price,
+        resId: this.state.resId
+      })
+      .then(res => {
+        console.log(Res)
+      })
+
+      
+    this.popupDialog.dismiss()
+  }
+
+  saveNewMeal = (addDishState) => {
+    const { imageUrl, comment, meal } = addDishState;
+    this.setState({
+      meal,
+      imageUrl,
+      description: comment
+    })
+  }
+
+  alertFail = () => {
+
   }
 }
