@@ -4,6 +4,9 @@ import styles from './styles/login';
 import LoginForm from './LoginForm';
 
 export default class Login extends React.Component {
+    static navigationOptions = {
+        tabBarVisible: false
+    }
     render () {
         return (
             <KeyboardAvoidingView behavior='padding' style={styles.container}>

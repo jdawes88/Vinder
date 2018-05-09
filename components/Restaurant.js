@@ -28,19 +28,17 @@ import styles from "./styles/restaurant";
 import axios from "react-native-axios";
 
 export default class Restaurant extends React.Component {
-  state = { meal: "", comment: "", restaurantInfo: "", dishes: "" };
+  static navigationOptions = {
+    gesturesEnabled: true
+}
+state = { meal: "", comment: "", restaurantInfo: "", dishes: "" };
 
-  componentDidMount() {
-    this.getRestauarantId(25);
-    this.getDishByRestaurantId(25);
-  }
-
-  // componentWillUpdate(nextProps, nextState) {
-  //   this.getDishByRestaurantId(25);
-  // }
+componentDidMount() {
+  this.getRestauarantId(25);
+  this.getDishByRestaurantId(25);
+}
 
   render() {
-    console.log(this.state.restaurantInfo.url);
     const { image } = this.state;
     return (
       <ImageBackground

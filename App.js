@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
   }
 });
 
+
 export const AppNavigator = StackNavigator(
   {
     LoginScreen: { screen: Login },
