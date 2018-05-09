@@ -39,15 +39,15 @@ export default class LoginForm extends React.Component {
         //check login status
         firebase.auth().onAuthStateChanged((user) => {
             if (user !== null) {
-                NavigationService.navigate('MapScreen', null)
-                //if signed in on opening app- sign out
-            //     firebase.auth().signOut()
-            //         .then(() => {
-            //             console.log('sign out successful')
-            //         })
-            //         .catch((error) => {
-            //             console.log(error)
-            //         })
+                NavigationService.navigate('drawerStack', null)
+                // if signed in on opening app- sign out
+                // firebase.auth().signOut()
+                //     .then(() => {
+                //         console.log('sign out successful')
+                //     })
+                //     .catch((error) => {
+                //         console.log(error)
+                //     })
             // } else {
             //     console.log('no user signed in')
             }
@@ -96,7 +96,7 @@ export default class LoginForm extends React.Component {
         firebase.auth().signInWithEmailAndPassword(email,password)
             .then((user) =>{
                 console.log('logged in!!!!!!!!')
-                NavigationService.navigate('MapScreen', null)
+                NavigationService.navigate('drawerStack', null)
             })
             .catch(error => {
                 console.log(error)
@@ -114,7 +114,7 @@ export default class LoginForm extends React.Component {
             firebase.auth().signInWithCredential(credential)
                 .then((user) => {
                     console.log(user)
-                    NavigationService.navigate('MapScreen', null)
+                    NavigationService.navigate('drawerStack')
                 })
                 .catch(error => {
                     console.log(error)

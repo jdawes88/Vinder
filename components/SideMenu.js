@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {NavigationActions} from 'react-navigation';
-import {Text, View, ScrollView} from 'react-native';
+import {Text, View, ScrollView, TouchableOpacity} from 'react-native';
 import styles from './styles/sideMenu'
 import firebase from 'firebase'
 import PropTypes from 'prop-types'
+import NavigationService from '../NavigationService'
 
 
 class SideMenu extends Component {
@@ -23,25 +24,29 @@ class SideMenu extends Component {
                             Vinder
                         </Text>
                         <View style={styles.navSectionStyle}>
-                            <Text style={styles.navItemStyle} onPress={this.navigateToScreen('Map')}>
+                            <Text style={styles.navItemStyle} onPress={this.navigateToScreen('mapScreen')}>
                                 Find dishes and restautants!
                             </Text>
                         </View>
                         <View style={styles.navSectionStyle}>
-                            <Text style={styles.navItemStyle} onPress={() => {
-                                firebase.auth().signOut()
-                                    .then(() => {
-                                        console.log('signed out')
-                                        this.navigateToScreen('Login')
-                                    })
-                                }}>
+                            <TouchableOpacity style={styles.navItemStyle} onPress={() =>this.logout()}>
+                                <Text>
                                 Sign out
-                            </Text>
+                                </Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </ScrollView>
             </View>
         )
+    }
+    logout = () => {
+        return firebase.auth().signOut()
+            .then(() => {
+                return this.navigateToScreen('loginStack')
+                console.log('signed out')
+            })
+                
     }
 }
 

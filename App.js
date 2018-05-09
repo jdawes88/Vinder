@@ -6,7 +6,8 @@ import Comments from './components/Comments'
 import MapPage from './components/Map'
 import * as firebase from 'firebase'
 import {StackNavigator, DrawerNavigator} from 'react-navigation'
-import NavigationService from './NavigationService';
+import PrimaryNav from './components/routes';
+import NavigationService from './NavigationService'
 
 // initialise firebase`
 const firebaseConfig = {
@@ -24,7 +25,7 @@ firebase.initializeApp(firebaseConfig);
 export default class App extends React.Component {
   render() {
     return (
-      <AppNavigator 
+      <PrimaryNav 
         header='none' 
         cardStyle={styles.container} 
         ref={navigatorRef => {
@@ -42,23 +43,23 @@ const styles = StyleSheet.create({
 });
 
 
-export const AppNavigator = StackNavigator(
-  {
-    LoginScreen: {
-      screen: Login
-    },
-    RestaurantScreen: {
-      screen: Restaurant
-    },
-    CommentsScreen: {
-      screen: Comments
-    },
-    MapScreen: {
-      screen: MapPage
-    }
-  },
-  {
-    initialRouteName: 'LoginScreen',
-    headerMode: 'none',
-  }
-)
+// export const AppNavigator = StackNavigator(
+//   {
+//     LoginScreen: {
+//       screen: Login
+//     },
+//     RestaurantScreen: {
+//       screen: Restaurant
+//     },
+//     CommentsScreen: {
+//       screen: Comments
+//     },
+//     MapScreen: {
+//       screen: MapPage
+//     }
+//   },
+//   {
+//     initialRouteName: 'LoginScreen',
+//     headerMode: 'none',
+//   }
+// )
