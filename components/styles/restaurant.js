@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 export default styles = StyleSheet.create({
   container: {
@@ -91,6 +91,7 @@ export default styles = StyleSheet.create({
     color: "#ffffff",
     padding: 20
   },
+
   buttonContainer: {
     backgroundColor: "#5F9900",
     paddingVertical: 15,
@@ -107,5 +108,9 @@ export default styles = StyleSheet.create({
   popup: {
     alignItems: "center",
     justifyContent: "center"
+  },
+  test: {
+    height: 30,
+    backgroundColor: "#5F9900"
   }
 });

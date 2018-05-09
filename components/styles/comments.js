@@ -1,6 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
-export default styles = StyleSheet.create({
+export default (styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%"
@@ -47,7 +47,7 @@ export default styles = StyleSheet.create({
   popup: {
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: 20
+    paddingTop: 10
   },
   inputComment: {
     borderRadius: 25,
@@ -56,5 +56,17 @@ export default styles = StyleSheet.create({
     width: 300,
     height: 100,
     backgroundColor: "#D7DDC4"
+  },
+  inputTitle: {
+    borderRadius: 25,
+    margin: 10,
+    padding: 10,
+    width: 300,
+    height: 40,
+    backgroundColor: "#D7DDC4"
+  },
+  title: {
+    paddingTop: 20,
+    alignItems: "center"
   }
-});
+}));
