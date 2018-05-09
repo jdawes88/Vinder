@@ -26,31 +26,43 @@ import dishes from "../data-jo/dishes.json";
 import AddDish from "./AddDish";
 import styles from "./styles/restaurant";
 import axios from "react-native-axios";
-
+import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 
 export default class Restaurant extends React.Component {
   static navigationOptions = {
     gesturesEnabled: true
-  }
-state = { meal: "", comment: "", restaurantInfo: "", dishes: "", description: "" };
+  };
+  state = {
+    meal: "",
+    comment: "",
+    restaurantInfo: "",
+    dishes: "",
+    description: "",
+    loading: true
+  };
 
-componentDidMount() {
-  this.getRestauarantId(25);
-  this.getDishByRestaurantId(25);
-}
+  componentDidMount() {
+    //console.log(this.props.navigation.state.params);
+    // this.getRestauarantId(this.props.navigation.state.params.restaurant.id);
+    this.getDishByRestaurantId(
+      this.props.navigation.state.params.restaurant.id
+    );
+  }
 
   render() {
     const { image } = this.state;
+    const { restaurant } = this.props.navigation.state.params;
+    //console.log(restaurant);
     return (
       <ImageBackground
-        source={[{ uri: this.state.restaurantInfo.image_url }]}
+        source={[{ uri: restaurant.image_url }]}
         style={{ flex: 1, width: null, height: null }}
       >
         <StatusBar backgroundColor="blue" barStyle="light-content" />
         <View style={styles.boxContainer}>
           <View style={styles.venueInfoContainer}>
             <View style={styles.venue}>
-              <Text style={styles.text}>{this.state.restaurantInfo.name}</Text>
+              <Text style={styles.text}>{restaurant.name}</Text>
 
               <View style={styles.logos}>
                 <FontAwesome
@@ -89,8 +101,8 @@ componentDidMount() {
             <KeyboardAwareScrollView behavior="padding" enabled>
               <View style={styles.popup}>
                 <AddDish
-                saveNewMeal={this.saveNewMeal}
-                alertFail={this.alertFail}
+                  saveNewMeal={this.saveNewMeal}
+                  alertFail={this.alertFail}
                 />
 
                 <TouchableOpacity
@@ -103,33 +115,22 @@ componentDidMount() {
             </KeyboardAwareScrollView>
           </PopupDialog>
 
-          <FlatList
-            style={styles.list}
-            data={this.state.dishes}
-            renderItem={({ item }, i) => (
-              <Card
-                title={item.name}
-                key={`${i}${item.name}`}
-                containerStyle={styles.contentContainer}
-              />
-            )}
-            keyExtractor={item => item.name}
-          />
+          {this.loadingIcon()}
         </View>
       </ImageBackground>
     );
   }
 
-  getRestauarantId = id => {
-    return axios
-      .get(
-        `https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/restaurant/${id}`
-      )
-      .then(res => res.data)
+  // getRestauarantId = id => {
+  //   return axios
+  //     .get(
+  //       `https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/restaurant/${id}`
+  //     )
+  //     .then(res => res.data)
 
-      .then(res => this.setState({ restaurantInfo: res }))
-      .catch(err => console.log("error:" + err));
-  };
+  //     .then(res => this.setState({ restaurantInfo: res }))
+  //     .catch(err => console.log("error:" + err));
+  // };
 
   getDishByRestaurantId = id => {
     return axios
@@ -137,30 +138,15 @@ componentDidMount() {
         `https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/restaurants/dish/${id}`
       )
       .then(res => res.data)
-      .then(res => this.setState({ dishes: res }))
+      .then(res => this.setState({ dishes: res, loading: false }))
+
       .catch(err => console.log("error:" + err));
   };
 
-  // postDish = (name, description, price, image) => {
-  //   axios
-  //     .post(
-  //       `https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/dish`,
-  //       {
-  //         name: input.name,
-  //         price: input.prices,
-  //         resId = restaurantId,
-  //         description: input.description,
-  //         image_url: this.state.img
-
-  //       }
-  //     )
-
-  //     .catch(error => console.log(error));
-  // };
   handleSave = () => {
     // handle request here using state to create new dish
     axios
-      .post('https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/dish', {
+      .post("https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/dish", {
         description: this.state.description,
         name: this.state.meal,
         imageURL: this.state.imageUrl,
@@ -168,23 +154,62 @@ componentDidMount() {
         resId: this.state.resId
       })
       .then(res => {
-        console.log(Res)
-      })
+        console.log(Res);
+      });
 
-      
-    this.popupDialog.dismiss()
-  }
+    this.popupDialog.dismiss();
+  };
 
-  saveNewMeal = (addDishState) => {
+  saveNewMeal = addDishState => {
     const { imageUrl, comment, meal } = addDishState;
     this.setState({
       meal,
       imageUrl,
       description: comment
-    })
-  }
+    });
+  };
 
-  alertFail = () => {
+  alertFail = () => {};
 
-  }
+  loadingIcon = () => {
+    if (this.state.loading === true) {
+      return (
+        <View>
+          <Bubbles size={10} color="#FFF" />
+        </View>
+      );
+    } else {
+      return (
+        <FlatList
+          style={styles.list}
+          data={this.state.dishes}
+          renderItem={({ item }, i) => (
+            <Card
+              title={item.name}
+              key={`${i}${item.name}`}
+              containerStyle={styles.contentContainer}
+            />
+          )}
+          keyExtractor={item => item.name}
+        />
+      );
+    }
+  };
 }
+
+// postDish = (name, description, price, image) => {
+//   axios
+//     .post(
+//       `https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/dish`,
+//       {
+//         name: input.name,
+//         price: input.prices,
+//         resId = restaurantId,
+//         description: input.description,
+//         image_url: this.state.img
+
+//       }
+//     )
+
+//     .catch(error => console.log(error));
+// };

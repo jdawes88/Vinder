@@ -23,7 +23,7 @@ import LinearGradient from "react-native-linear-gradient";
 import KeyboardSpacer from "react-native-keyboard-spacer";
 import StarRating from "react-native-star-rating";
 import axios from "react-native-axios";
-
+import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 import styles from "./styles/comments";
 import users from "../data-jo/users.json";
 
@@ -35,7 +35,9 @@ export default class Comments extends React.Component {
     avatar:
       "http://vignette1.wikia.nocookie.net/mrmen/images/7/7f/Mr_Happy.jpg/revision/latest?cb=20140102171729",
     dishInfo: "",
-    avgRating: 0
+    avgRating: 0,
+    comments: "",
+    loading: true
   };
 
   componentDidMount() {
@@ -181,8 +183,8 @@ export default class Comments extends React.Component {
             </View>
           </KeyboardAwareScrollView>
         </PopupDialog>
-
-        <FlatList
+        {this.getComments()}
+        {/* <FlatList
           style={styles.commentList}
           data={this.state.comments}
           renderItem={({ item }, i) => (
@@ -198,7 +200,7 @@ export default class Comments extends React.Component {
             let idString = item.id;
             return idString.toString();
           }}
-        />
+        /> */}
       </View>
     );
   }
@@ -209,7 +211,7 @@ export default class Comments extends React.Component {
         `https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/restaurants/dish/comments/${id}`
       )
       .then(res => res.data)
-      .then(res => this.setState({ comments: res }))
+      .then(res => this.setState({ comments: res, loading: false }))
 
       .catch(err => console.log("error:" + err));
   };
@@ -259,6 +261,46 @@ export default class Comments extends React.Component {
       sum = sum / comments.length;
 
       return sum;
+    }
+  };
+
+  getComments = () => {
+    if (this.state.loading === true) {
+      return (
+        <View>
+          <View>
+            <Bubbles size={10} color="#FFF" />
+          </View>
+        </View>
+      );
+    } else {
+      if (this.state.comments.length > 0) {
+        return (
+          <FlatList
+            style={styles.commentList}
+            data={this.state.comments}
+            renderItem={({ item }, i) => (
+              <ListItem
+                title={`${item.users_first_name} ${item.users_last_name}`}
+                subtitle={item.body}
+                subtitleNumberOfLines={50}
+                key={`${i}${item.user_id}`}
+                avatar={this.state.avatar}
+              />
+            )}
+            keyExtractor={item => {
+              let idString = item.id;
+              return idString.toString();
+            }}
+          />
+        );
+      } else {
+        return (
+          <View>
+            <Text>Be the first to leave a Comment!</Text>
+          </View>
+        );
+      }
     }
   };
 }

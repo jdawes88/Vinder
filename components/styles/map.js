@@ -53,7 +53,7 @@ export const styles = StyleSheet.create({
     backgroundColor: "#6d9",
     borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
-    justifyContent: 'center',
+    justifyContent: "center",
     paddingRight: 3,
     paddingTop: 2
   },
@@ -72,22 +72,22 @@ export const styles = StyleSheet.create({
     position: "absolute",
     top: 286,
     right: 14,
-    zIndex: 4,
+    zIndex: 4
   },
   modal: {
-    backgroundColor: '#f0f0'
+    backgroundColor: "#f0f0"
   },
   dialogStyle: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     maxWidth: 40,
-    alignItems: 'center',
+    alignItems: "center",
     height: 115,
-    backgroundColor: '#6d9',
+    backgroundColor: "#6d9",
     borderRadius: 10,
     borderBottomLeftRadius: 0,
-    borderTopLeftRadius: 0,
+    borderTopLeftRadius: 0
   }
 });
 
