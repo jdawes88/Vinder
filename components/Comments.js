@@ -35,7 +35,8 @@ export default class Comments extends React.Component {
     avatar:
       "http://vignette1.wikia.nocookie.net/mrmen/images/7/7f/Mr_Happy.jpg/revision/latest?cb=20140102171729",
     dishInfo: "",
-    avgRating: 0
+    avgRating: 0,
+    comments: ""
   };
 
   componentDidMount() {
@@ -182,7 +183,7 @@ export default class Comments extends React.Component {
           </KeyboardAwareScrollView>
         </PopupDialog>
 
-        <FlatList
+        {/* <FlatList
           style={styles.commentList}
           data={this.state.comments}
           renderItem={({ item }, i) => (
@@ -198,7 +199,7 @@ export default class Comments extends React.Component {
             let idString = item.id;
             return idString.toString();
           }}
-        />
+        /> */}
       </View>
     );
   }
@@ -259,6 +260,36 @@ export default class Comments extends React.Component {
       sum = sum / comments.length;
 
       return sum;
+    }
+  };
+
+  getComments = () => {
+    if (this.state.comments === "") {
+      return (
+        <View>
+          <Text>Be the first to add a Comment!</Text>
+        </View>
+      );
+    } else {
+      return (
+        <FlatList
+          style={styles.commentList}
+          data={this.state.comments}
+          renderItem={({ item }, i) => (
+            <ListItem
+              title={`${item.users_first_name} ${item.users_last_name}`}
+              subtitle={item.body}
+              subtitleNumberOfLines={50}
+              key={`${i}${item.user_id}`}
+              avatar={this.state.avatar}
+            />
+          )}
+          keyExtractor={item => {
+            let idString = item.id;
+            return idString.toString();
+          }}
+        />
+      );
     }
   };
 }
