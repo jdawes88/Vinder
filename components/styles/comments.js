@@ -47,7 +47,7 @@ export default (styles = StyleSheet.create({
   popup: {
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: 20
+    paddingTop: 10
   },
   inputComment: {
     borderRadius: 25,

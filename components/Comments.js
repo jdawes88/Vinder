@@ -31,10 +31,11 @@ export default class Comments extends React.Component {
   state = {
     comment: "",
     commentTitle: "",
-    starCount: 4.5,
+    starCount: 0,
     avatar:
       "http://vignette1.wikia.nocookie.net/mrmen/images/7/7f/Mr_Happy.jpg/revision/latest?cb=20140102171729",
-    dishInfo: ""
+    dishInfo: "",
+    avgRating: 0
   };
 
   componentDidMount() {
@@ -71,8 +72,7 @@ export default class Comments extends React.Component {
               starSize={20}
               disabled={false}
               maxStars={5}
-              rating={this.state.starCount}
-              selectedStar={rating => this.onStarRatingPress(rating)}
+              rating={this.getAvgRating(this.state.comments)}
             />
           </View>
           <View>
@@ -149,6 +149,18 @@ export default class Comments extends React.Component {
                 />
               </View>
 
+              <View style={styles.rating}>
+                <StarRating
+                  fullStarColor={"white"}
+                  emptyStarColor={"white"}
+                  starSize={20}
+                  disabled={false}
+                  maxStars={5}
+                  rating={this.state.starCount}
+                  selectedStar={rating => this.onStarRatingPress(rating)}
+                />
+              </View>
+
               <TouchableOpacity
                 style={styles.buttonContainer}
                 onPress={() => {
@@ -219,12 +231,25 @@ export default class Comments extends React.Component {
         `https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/comment`,
         {
           commentBody: body,
-          commentRating: 5,
+          commentRating: starRating,
           userId: userid,
           dishId: 5
         }
       )
 
       .catch(error => console.log(error));
+  };
+
+  getAvgRating = comments => {
+    if (comments === undefined) {
+      return 0;
+    } else {
+      let sum = 0;
+      comments.forEach(comment => {
+        sum += comment.rating;
+      });
+      sum = sum / comments.length;
+      return sum;
+    }
   };
 }
