@@ -29,7 +29,13 @@ class SideMenu extends Component {
                             </Text>
                         </View>
                         <View style={styles.navSectionStyle}>
-                            <TouchableOpacity style={styles.navItemStyle} onPress={() =>this.logout()}>
+                            <TouchableOpacity style={styles.navItemStyle} onPress={() =>{
+                                return firebase.auth().signOut()
+                                    .then(() => this.navigateToScreen('mapScreen'))
+                                    .catch(err => {
+                                        console.log(err)
+                                    })
+                            }}>
                                 <Text>
                                 Sign out
                                 </Text>
@@ -43,8 +49,8 @@ class SideMenu extends Component {
     logout = () => {
         return firebase.auth().signOut()
             .then(() => {
-                return this.navigateToScreen('loginStack')
                 console.log('signed out')
+                this.navigateToScreen('loginStack')
             })
                 
     }
