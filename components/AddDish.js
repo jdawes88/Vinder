@@ -22,13 +22,15 @@ import LinearGradient from "react-native-linear-gradient";
 import { ImagePicker, Permissions } from "expo";
 import KeyboardSpacer from "react-native-keyboard-spacer";
 import dishes from "../data-jo/dishes.json";
-import styles from "./styles/addDish";
+import styles from './styles/addDish';
+import AWS from 'aws-sdk';
+const { accessKeyId, secretAccessKey } = require('./secrets.js');
+const s3 = new AWS.S3({accessKeyId: accessKeyId, secretAccessKey: secretAccessKey, region:'eu-west-2'});
 
 export default class AddDish extends React.Component {
   state = { meal: "", comment: "", image: "" };
   render() {
     const { image } = this.state;
-    console.log(this.state);
     return (
       <View style={styles.popup}>
         <Text
@@ -103,13 +105,49 @@ export default class AddDish extends React.Component {
         aspect: [1, 1]
       })
         .then(newPostImage => {
+          const path = newPostImage.uri.match(/[A-z|0-9|-]*.(jpg|jpeg|png)/g).toString();
+          const imageUrl = `uploads/${path}`;
+
           if (!newPostImage.cancelled) {
             this.setState({
-              image: newPostImage.uri
+              image: newPostImage.uri,
+              imageUrl: `https://s3.eu-west-2.amazonaws.com/vinder-photos/${imageUrl}`
             });
           }
-        })
 
+          const s3Params = {
+            Bucket: 'vinder-photos',
+            Key: imageUrl,
+            ContentType: 'image/jpeg',
+            ACL: 'public-read'
+          };
+
+          const signedurl = s3.getSignedUrl('putObject', s3Params);
+
+          const xhr = new XMLHttpRequest()
+          xhr.open('PUT', signedurl)
+          xhr.onreadystatechange = function() {
+              if (xhr.readyState === 4) {
+                  if (xhr.status === 200) {
+                  console.log('Image successfully uploaded to S3');
+                  return 'successful';
+              } else {
+                  console.log('Error while sending the image to S3');
+                  return 'fail';
+              }
+            }
+          }
+          xhr.setRequestHeader('Content-Type', 'image/jpeg')
+          xhr.setRequestHeader('X-Amz-ACL', 'public-read')
+          xhr.send({ uri: newPostImage.uri, type: 'image/jpeg', name: 'image.jpg'})
+        })
+        .then(message => {
+          if (message === 'successful') {
+            this.props.saveNewMeal(this.state)
+          } else {
+            this.props.alertFail()
+          }
+        })
         .catch(err => console.log(err));
     }
   };

@@ -6,7 +6,8 @@ import {
     TouchableHighlight,
     Image,
     TextInput,
-    TouchableOpacity
+    TouchableOpacity,
+    Modal
 } from 'react-native';
 import {
     Card,
@@ -21,15 +22,18 @@ import {
     MaterialIcons,
     MaterialCommunityIcons,
     FontAwesome,
-    Foundation
+    Foundation,
+    Feather
 } from "@expo/vector-icons";
 import MapView from 'react-native-maps';
 import Loading from './loading.js';
 import { DrawerNavigator } from 'react-navigation';
 import geolib from 'geolib';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import PopupDialog from "react-native-popup-dialog";
 import dishes from '../dataMark/dishes.json';
 import NavigationService from '../NavigationService';
+import * as firebase from 'firebase';
 
 
 export default class MapPage extends Component {
@@ -51,7 +55,7 @@ export default class MapPage extends Component {
         },
         loading: true,
         dishes: [],
-        pinType: 'restaurants'
+        pinType: 'restaurants',
     }
 
     componentDidMount() {
@@ -89,6 +93,8 @@ export default class MapPage extends Component {
                 />
                 <FunctionIcons 
                     updatePinType={this.updatePinType}
+                    modalVisibility={this.state.modalVisibility}
+                    setModalVisible={this.setModalVisible}
                 />
                 <Map 
                     pinType={this.state.pinType}
@@ -197,10 +203,32 @@ class FunctionIcons extends Component {
         const {updatePinType} = this.props 
         return (
             <View style={styles.functionIcons}>
-                <MaterialCommunityIcons onPress={() => updatePinType('dishes')} name="food" size={35} color="#fff" />
-                <MaterialIcons onPress={() => updatePinType('restaurants')} name="location-city" size={35} color="#fff" />
+                <MaterialCommunityIcons 
+                    onPress={() => this.popupDialog.show()}
+                    name="plus-circle-outline" size={33} color="#fff" />
+                <PopupDialog
+                    containerStyle={styles.modal}
+                    ref={popupDialog => {
+                      this.popupDialog = popupDialog;
+                    }}
+                    haveOverlay={false} dialogStyle={styles.dialogStyle}
+                >
+                    <View>
+                        <MaterialCommunityIcons onPress={() => updatePinType('dishes')} name="food" size={35} color="#fff" />
+                        <MaterialIcons onPress={() => updatePinType('restaurants')} name="location-city" size={35} color="#fff" />
+                        <Feather onPress={this.handleLogout} name="log-out" size={35} color="#fff" />
+                    </View>
+                </PopupDialog>
             </View>
         )
+    }
+
+    handleLogout = () => {
+        firebase.auth().signOut()
+            .then(() => {
+                console.log('signed out')
+                NavigationService.navigate('LoginScreen', null)
+            })
     }
 }
 
