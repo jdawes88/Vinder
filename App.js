@@ -54,5 +54,5 @@ export const AppNavigator = StackNavigator(
     CommentsScreen: { screen: Comments },
     MapScreen: { screen: MapPage }
   },
-  { initialRouteName: "CommentsScreen", headerMode: "none" }
+  { initialRouteName: "LoginScreen", headerMode: "none" }
 );
