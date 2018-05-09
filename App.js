@@ -5,7 +5,7 @@ import Restaurant from './components/Restaurant'
 import Comments from './components/Comments'
 import MapPage from './components/Map'
 import * as firebase from 'firebase'
-import {StackNavigator, DrawerNavigator} from 'react-navigation'
+import { StackNavigator, TabNavigator, TabBarBottom } from 'react-navigation'
 import NavigationService from './NavigationService';
 
 // initialise firebase`
