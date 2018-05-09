@@ -5,7 +5,7 @@ import LoginForm from './LoginForm';
 
 export default class Login extends React.Component {
     static navigationOptions = {
-        drawerLockMode: 'locked-closed'
+        tabBarVisible: false
     }
     render () {
         return (

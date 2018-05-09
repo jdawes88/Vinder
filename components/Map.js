@@ -105,6 +105,7 @@ export default class MapPage extends Component {
                     dishes={this.state.dishes}
                 />
                 <Meals 
+                    pinType={this.state.pinType}
                     dishes={this.state.dishes}
                 />
             </View>
@@ -349,13 +350,14 @@ class Zoom extends Component {
 
 class Marker extends Component {
 
-    componentWillReceiveProps (newProps) {
-        if(newProps.pinType !== this.props.pinType){
-            console.log(newProps.dishes)
-        }
-    }
+    // componentWillReceiveProps (newProps) {
+    //     if(newProps.pinType !== this.props.pinType){
+    //         console.log(newProps.dishes)
+    //     }
+    // }
 
     render () {
+        
         return (
             this.props.dishes.map((dish, i) => {
                 return (
@@ -431,3 +433,4 @@ class Meals extends Component {
         NavigationService.navigate('RestaurantScreen', null)
     }
 }
+
