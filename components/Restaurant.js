@@ -31,7 +31,7 @@ import axios from "react-native-axios";
 export default class Restaurant extends React.Component {
   static navigationOptions = {
     gesturesEnabled: true
-}
+  }
 state = { meal: "", comment: "", restaurantInfo: "", dishes: "", description: "" };
 
 componentDidMount() {

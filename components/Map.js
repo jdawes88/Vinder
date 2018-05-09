@@ -38,7 +38,7 @@ import * as firebase from 'firebase';
 
 export default class MapPage extends Component {
     static navigationOptions = {
-        gesturesEnabled: true
+        gesturesEnabled: false
     }
     state = {
         currentPos: {
@@ -65,16 +65,6 @@ export default class MapPage extends Component {
     componentWillUnmount() {
         navigator.geolocation.clearWatch(this.watchId);
     }
-
-    // componentWillUpdate(nextProps, nextState) {
-    //     // console.log(nextProps)
-    //     if(this.state.pinType !== nextState.pinType){
-    //         this.getPins(this.state.currentPos, nextState.pinType)
-    //     }
-        
-    //     console.log(this.state.pinType)
-    //     console.log(nextState.pinType)
-    // }
 
     render () {
         const currentPos = {}
@@ -114,9 +104,10 @@ export default class MapPage extends Component {
     }
 
     updatePinType = (pinType) => {
+        console.log('updating pin type')
         this.setState({
-            pinType
-        })
+            pinType: pinType
+        }, () => this.getPins(this.state.currentPos))
     }
 
     getUserLocation = () => {
@@ -156,6 +147,7 @@ export default class MapPage extends Component {
 
     getPins = (place) => {
         // this.getLocalDishes(dishes, place)
+        console.log('updating pins', this.state.pinType)
         const pinType = this.state.pinType;
         return fetch(`https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/${pinType}`)
             .then(res => res.json())
@@ -166,8 +158,8 @@ export default class MapPage extends Component {
     getLocalPins = (dishes, locationA) => {
         const dishesInRadius = dishes.filter(dish => {
             const locationB = {
-                latitude: dish.latitude,
-                longitude: dish.longitude
+                latitude: dish.latitude || dish.restaurant_latitude,
+                longitude: dish.longitude || dish.restaurant_longitude
             }
             if (this.checkDistance(locationA, locationB)) {
                 return dish
@@ -270,6 +262,11 @@ class Search extends Component {
 
 /* ***Map Component *** */
 class Map extends Component {
+
+    // componentWillReceiveProps(nextProps) {
+
+    // }
+
     render () {
         console.log(this.props.pinType)
         const { latitude, longitude, latD, lngD }  = this.props.currentPos;
@@ -364,15 +361,15 @@ class Marker extends Component {
                     <MapView.Marker
                         key={dish.id}
                         coordinate={{
-                            latitude: +dish.latitude,
-                            longitude: +dish.longitude
+                            latitude: +dish.latitude || +dish.restaurant_latitude,
+                            longitude: +dish.longitude || +dish.restaurant_longitude
                         }}
                         title={dish.name}
                         // onPress={()=> this.linkToRestaurant()}
                     >
                     <MapView.Callout>
                         <View > 
-                            <Button backgroundColor={'rgba(0,0,0,0.5)'} color={'white'} title={dish.name} onPress={() => this.linkToRestaurant()}/>
+                            <Button backgroundColor={'rgba(0,0,0,0.5)'} color={'white'} title={dish.name} onPress={this.handlePress}/>
                         </View>
                     </MapView.Callout>
                     </MapView.Marker>
@@ -380,8 +377,14 @@ class Marker extends Component {
             })
         )
     }
-    linkToRestaurant = () => {
-        NavigationService.navigate('RestaurantScreen', null)
+
+    handlePress = () => {
+        console.log(this.props.pinType)
+        if (this.props.pinType === 'restaurants') {
+            NavigationService.navigate('RestaurantScreen', null)
+        } else {
+            NavigationService.navigate('CommentScreen', null)
+        }
     }
 }
 
@@ -403,7 +406,7 @@ class Meals extends Component {
 
     renderCard = (item) => {
         return (
-            <TouchableOpacity onPress={()=> this.linkToRestaurant()}>
+            <TouchableOpacity onPress={this.handlePress}>
             <Card 
             containerStyle={styles.mealCard}
             title={item.name}
@@ -417,10 +420,24 @@ class Meals extends Component {
         )
     }
 
-    showRating = ({ price }) => {
+    showRating = (item) => {
+
+        let price;
+        if (item.price) {
+            price = item.price ? item.price : '££';
+            price = price.split('').length;
+        } else {
+            console.log(item)
+            if (item.prices < 5) {
+                price = 1
+            } else if (item.prices < 10) {
+                price = 2
+            } else {
+                price = 3
+            }
+        }
+
         let images = [];
-        if (price === 'undefined') price = '££';
-        price = price.split('').length;
         for(let i = 0; i < price; i++ ) {
             images.push(
                 <Foundation size={30} color='#6d9' key={i} name='pound'/>
@@ -429,8 +446,13 @@ class Meals extends Component {
         return images;
     }
 
-    linkToRestaurant = () => {
-        NavigationService.navigate('RestaurantScreen', null)
+    handlePress = () => {
+        console.log(this.props.pinType)
+        if (this.props.pinType === 'restaurants') {
+            NavigationService.navigate('RestaurantScreen', null)
+        } else {
+            NavigationService.navigate('CommentScreen', null)
+        }
     }
 }
 
