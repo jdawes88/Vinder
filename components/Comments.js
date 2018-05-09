@@ -47,13 +47,9 @@ export default class Comments extends React.Component {
     this.getCommentsByDishId(5);
   }
 
-  onStarRatingPress(rating) {
-    this.setState({ starCount: rating });
-  }
-
   render() {
-    console.log(this.state);
-    const { dishInfo, comment } = this.state;
+    //console.log(this.state);
+    const { dishInfo, comment, comments } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.bar} />
@@ -72,7 +68,7 @@ export default class Comments extends React.Component {
               starSize={20}
               disabled={false}
               maxStars={5}
-              rating={this.getAvgRating(this.state.comments)}
+              rating={this.getAvgRating(comments)}
             />
           </View>
           <View>
@@ -129,7 +125,7 @@ export default class Comments extends React.Component {
                   multiline={true}
                   placeholder="add a comment..."
                   style={styles.inputTitle}
-                  onChangeText={input => this.setState({ comment: input })}
+                  onChangeText={input => this.setState({ commentTitle: input })}
                 />
                 <Text
                   style={{
@@ -157,7 +153,9 @@ export default class Comments extends React.Component {
                   disabled={false}
                   maxStars={5}
                   rating={this.state.starCount}
-                  selectedStar={rating => this.onStarRatingPress(rating)}
+                  selectedStar={rating => {
+                    this.onStarRatingPress(rating);
+                  }}
                 />
               </View>
 
@@ -166,7 +164,12 @@ export default class Comments extends React.Component {
                 onPress={() => {
                   console.log(this.state);
 
-                  this.postComment(comment, 3);
+                  this.postComment(
+                    comment,
+                    3,
+                    this.state.starCount,
+                    this.state.commentTitle
+                  );
 
                   this.setState({ comment: "" });
 
@@ -225,7 +228,7 @@ export default class Comments extends React.Component {
       .catch(err => console.log("error:" + err));
   };
 
-  postComment = (body, userid) => {
+  postComment = (body, userid, starRating, title) => {
     axios
       .post(
         `https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/comment`,
@@ -233,12 +236,17 @@ export default class Comments extends React.Component {
           commentBody: body,
           commentRating: starRating,
           userId: userid,
+          title: title,
           dishId: 5
         }
       )
 
       .catch(error => console.log(error));
   };
+
+  onStarRatingPress(rating) {
+    this.setState({ starCount: rating });
+  }
 
   getAvgRating = comments => {
     if (comments === undefined) {
@@ -249,6 +257,7 @@ export default class Comments extends React.Component {
         sum += comment.rating;
       });
       sum = sum / comments.length;
+
       return sum;
     }
   };
