@@ -25,7 +25,7 @@ firebase.initializeApp(firebaseConfig);
 export default class App extends React.Component {
   render() {
     return (
-      <PrimaryNav 
+      <AppNavigator 
         header='none' 
         cardStyle={styles.container} 
         ref={navigatorRef => {
@@ -43,23 +43,23 @@ const styles = StyleSheet.create({
 });
 
 
-// export const AppNavigator = StackNavigator(
-//   {
-//     LoginScreen: {
-//       screen: Login
-//     },
-//     RestaurantScreen: {
-//       screen: Restaurant
-//     },
-//     CommentsScreen: {
-//       screen: Comments
-//     },
-//     MapScreen: {
-//       screen: MapPage
-//     }
-//   },
-//   {
-//     initialRouteName: 'LoginScreen',
-//     headerMode: 'none',
-//   }
-// )
+export const AppNavigator = StackNavigator(
+  {
+    LoginScreen: {
+      screen: Login
+    },
+    RestaurantScreen: {
+      screen: Restaurant
+    },
+    CommentsScreen: {
+      screen: Comments
+    },
+    MapScreen: {
+      screen: MapPage
+    }
+  },
+  {
+    initialRouteName: 'LoginScreen',
+    headerMode: 'none',
+  }
+)

@@ -353,7 +353,7 @@ class Marker extends Component {
         )
     }
     linkToRestaurant = () => {
-        NavigationService.navigate('restaurantScreen', null)
+        NavigationService.navigate('RestaurantScreen', null)
     }
 }
 
@@ -402,6 +402,7 @@ class Meals extends Component {
     }
 
     linkToRestaurant = () => {
-        NavigationService.navigate('restaurantScreen', null)
+        NavigationService.navigate('RestaurantScreen', null)
     }
 }
+
