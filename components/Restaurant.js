@@ -26,8 +26,6 @@ import dishes from "../data-jo/dishes.json";
 import AddDish from "./AddDish";
 import styles from "./styles/restaurant";
 import axios from "react-native-axios";
-import styles from './styles/restaurant'; 
-import axios from 'axios';
 
 
 export default class Restaurant extends React.Component {

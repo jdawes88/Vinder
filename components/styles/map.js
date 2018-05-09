@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-export default (styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#6d9",
@@ -89,7 +89,7 @@ export default (styles = StyleSheet.create({
     borderBottomLeftRadius: 0,
     borderTopLeftRadius: 0,
   }
-}));
+});
 
 export const googleStyle = StyleSheet.create({
   container: {
