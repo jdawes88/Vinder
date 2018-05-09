@@ -22,7 +22,7 @@ import LinearGradient from "react-native-linear-gradient";
 import { ImagePicker, Permissions } from "expo";
 import KeyboardSpacer from "react-native-keyboard-spacer";
 import dishes from "../data-jo/dishes.json";
-import styles from './styles/addDish';
+import styles from "./styles/addDish";
 
 export default class AddDish extends React.Component {
   state = { meal: "", comment: "", image: "" };
@@ -38,7 +38,7 @@ export default class AddDish extends React.Component {
             color: "#304413"
           }}
         >
-          Add a Vegan Meal
+          Dish Name
         </Text>
         <TextInput
           value={this.state.meal}
@@ -54,7 +54,24 @@ export default class AddDish extends React.Component {
             color: "#304413"
           }}
         >
-          Add a Comment
+          Price
+        </Text>
+        <TextInput
+          value={this.state.meal}
+          placeholder="10.00"
+          style={styles.veganMeal}
+          keyboardType="numeric"
+          onChangeText={input => this.setState({ price: input })}
+        />
+
+        <Text
+          style={{
+            fontFamily: "KohinoorDevanagari-Semibold",
+            fontSize: 18,
+            color: "#304413"
+          }}
+        >
+          Description
         </Text>
         <TextInput
           value={this.state.comment}
