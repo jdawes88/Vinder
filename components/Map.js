@@ -5,7 +5,8 @@ import {
     FlatList,
     TouchableHighlight,
     Image,
-    TextInput
+    TextInput,
+    TouchableOpacity
 } from 'react-native';
 import {
     Card,
@@ -30,7 +31,11 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import dishes from '../dataMark/dishes.json';
 import NavigationService from '../NavigationService';
 
+
 export default class MapPage extends Component {
+    static navigationOptions = {
+        gesturesEnabled: true
+    }
     state = {
         currentPos: {
             latitude: 53.4808,
@@ -57,6 +62,16 @@ export default class MapPage extends Component {
         navigator.geolocation.clearWatch(this.watchId);
     }
 
+    // componentWillUpdate(nextProps, nextState) {
+    //     // console.log(nextProps)
+    //     if(this.state.pinType !== nextState.pinType){
+    //         this.getPins(this.state.currentPos, nextState.pinType)
+    //     }
+        
+    //     console.log(this.state.pinType)
+    //     console.log(nextState.pinType)
+    // }
+
     render () {
         const currentPos = {}
         if (this.state.loading) {
@@ -72,8 +87,11 @@ export default class MapPage extends Component {
                     updateLocation={this.updateLocation}
                     getUserLocation={this.getUserLocation}
                 />
-                <FunctionIcons />
+                <FunctionIcons 
+                    updatePinType={this.updatePinType}
+                />
                 <Map 
+                    pinType={this.state.pinType}
                     userPos={this.state.userPos}
                     style={styles.map}
                     updateLocation={this.updateLocation}
@@ -86,6 +104,12 @@ export default class MapPage extends Component {
             </View>
            ) 
         }
+    }
+
+    updatePinType = (pinType) => {
+        this.setState({
+            pinType
+        })
     }
 
     getUserLocation = () => {
@@ -169,10 +193,11 @@ export default class MapPage extends Component {
 
 class FunctionIcons extends Component {
     render () {
+        const {updatePinType} = this.props 
         return (
             <View style={styles.functionIcons}>
-                <MaterialCommunityIcons name="food" size={35} color="#fff" />
-                <MaterialIcons name="location-city" size={35} color="#fff" />
+                <MaterialCommunityIcons onPress={() => updatePinType('dishes')} name="food" size={35} color="#fff" />
+                <MaterialIcons onPress={() => updatePinType('restaurants')} name="location-city" size={35} color="#fff" />
             </View>
         )
     }
@@ -217,6 +242,7 @@ class Search extends Component {
 /* ***Map Component *** */
 class Map extends Component {
     render () {
+        console.log(this.props.pinType)
         const { latitude, longitude, latD, lngD }  = this.props.currentPos;
         return (
             <MapView
@@ -241,6 +267,7 @@ class Map extends Component {
                 </View>
                 <Zoom zoom={this.zoom} />
                 <Marker
+                    pinType={this.props.pinType}
                     dishes={this.props.dishes}
                 />
             </MapView>
@@ -293,6 +320,13 @@ class Zoom extends Component {
 }
 
 class Marker extends Component {
+
+    componentWillReceiveProps (newProps) {
+        if(newProps.pinType !== this.props.pinType){
+            console.log(newProps.dishes)
+        }
+    }
+
     render () {
         return (
             this.props.dishes.map((dish, i) => {
@@ -304,10 +338,20 @@ class Marker extends Component {
                             longitude: +dish.longitude
                         }}
                         title={dish.name}
-                    />
+                        // onPress={()=> this.linkToRestaurant()}
+                    >
+                    <MapView.Callout>
+                        <View > 
+                            <Button backgroundColor={'rgba(0,0,0,0.5)'} color={'white'} title={dish.name} onPress={() => this.linkToRestaurant()}/>
+                        </View>
+                    </MapView.Callout>
+                    </MapView.Marker>
                 )
             })
         )
+    }
+    linkToRestaurant = () => {
+        NavigationService.navigate('RestaurantScreen', null)
     }
 }
 
@@ -329,6 +373,7 @@ class Meals extends Component {
 
     renderCard = (item) => {
         return (
+            <TouchableOpacity onPress={()=> this.linkToRestaurant()}>
             <Card 
             containerStyle={styles.mealCard}
             title={item.name}
@@ -337,7 +382,8 @@ class Meals extends Component {
                     <Text style={styles.mealText}>{item.name}</Text>
                     <View style={styles.mealText}>{this.showRating(item)}</View>
                 </View>
-            </Card>              
+            </Card> 
+            </TouchableOpacity>             
         )
     }
 
@@ -351,5 +397,9 @@ class Meals extends Component {
             )
         }
         return images;
+    }
+
+    linkToRestaurant = () => {
+        NavigationService.navigate('RestaurantScreen', null)
     }
 }

@@ -24,13 +24,17 @@ import { ImagePicker, Permissions } from "expo";
 import KeyboardSpacer from "react-native-keyboard-spacer";
 import dishes from "../data-jo/dishes.json";
 import AddDish from "./AddDish";
-import styles from './styles/restaurant';
+import styles from './styles/restaurant'; 
+
+
 
 export default class Restaurant extends React.Component {
+  static navigationOptions = {
+    gesturesEnabled: true
+}
   state = { meal: "", comment: "" };
 
   render() {
-    console.log(this.state);
     const { image } = this.state;
     return (
       <ImageBackground

@@ -35,21 +35,21 @@ export default class LoginForm extends React.Component {
         registerModalVisible: false
     }
 
-    xcomponentDidMount() {
+    componentDidMount() {
         //check login status
         firebase.auth().onAuthStateChanged((user) => {
             if (user !== null) {
-                // console.log(user)
+                NavigationService.navigate('MapScreen', null)
                 //if signed in on opening app- sign out
-                firebase.auth().signOut()
-                    .then(() => {
-                        console.log('sign out successful')
-                    })
-                    .catch((error) => {
-                        console.log(error)
-                    })
-            } else {
-                console.log('no user signed in')
+            //     firebase.auth().signOut()
+            //         .then(() => {
+            //             console.log('sign out successful')
+            //         })
+            //         .catch((error) => {
+            //             console.log(error)
+            //         })
+            // } else {
+            //     console.log('no user signed in')
             }
         })
     }
@@ -112,6 +112,10 @@ export default class LoginForm extends React.Component {
         if (type === 'success') {
             const credential = firebase.auth.FacebookAuthProvider.credential(token)
             firebase.auth().signInWithCredential(credential)
+                .then((user) => {
+                    console.log(user)
+                    NavigationService.navigate('MapScreen', null)
+                })
                 .catch(error => {
                     console.log(error)
                 })

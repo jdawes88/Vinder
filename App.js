@@ -5,7 +5,7 @@ import Restaurant from './components/Restaurant'
 import Comments from './components/Comments'
 import MapPage from './components/Map'
 import * as firebase from 'firebase'
-import {StackNavigator} from 'react-navigation'
+import {StackNavigator, DrawerNavigator} from 'react-navigation'
 import NavigationService from './NavigationService';
 
 // initialise firebase`
@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     flex: 1,
   }
 });
+
 
 export const AppNavigator = StackNavigator(
   {
