@@ -63,7 +63,7 @@ export default class LoginForm extends React.Component {
         }
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then(() => {
-                // this.clearState()
+                // Do post request here from register page
             })
             .catch(error => {
                 this.clearState()
@@ -104,6 +104,7 @@ export default class LoginForm extends React.Component {
             firebase.auth().signInWithCredential(credential)
                 .then((user) => {
                     console.log(user)
+                    // User details for user post request from facebook
                     NavigationService.navigate('MapScreen', null)
                 })
                 .catch(error => {
