@@ -135,8 +135,6 @@ export default class Restaurant extends React.Component {
 
   handleSave = () => {
     // handle request here using state to create new dish
-    console.log('handle save')
-    console.log(this.state.newDish)
     axios
       .post("https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/dish", this.state.newDish)
       .then(() => {
@@ -148,7 +146,6 @@ export default class Restaurant extends React.Component {
   };
 
   saveNewMeal = addDishState => {
-    console.log(addDishState)
     const { imageURL, description, dishName, price } = addDishState;
     this.setState({
       newDish: {
@@ -177,12 +174,13 @@ export default class Restaurant extends React.Component {
           data={this.state.dishes}
           renderItem={({ item }, i) => (
             <Card
+              image={item.dish_image_url ? {uri: item.dish_image_url} : null}
               title={item.name}
               key={`${i}${item.name}`}
               containerStyle={styles.contentContainer}
             />
           )}
-          keyExtractor={item => item.name}
+          keyExtractor={(item, i) => `${item.name}${i}`}
         />
       );
     }

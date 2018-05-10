@@ -38,18 +38,20 @@ export default styles = StyleSheet.create({
 
   list: {
     flex: 1,
-    backgroundColor: "#D1D0D0",
+    backgroundColor: "#D1D0Dd",
     width: "100%",
-    opacity: 0.8
+    opacity: 1
   },
   dishContainer: {
     fontSize: 20,
     fontFamily: "Cochin"
   },
   contentContainer: {
-    top: 30,
-    opacity: 1,
-    alignItems: "center"
+    marginBottom: 10,
+    borderRadius: 5,
+    shadowOffset: { width: 0, height: 7 },
+    shadowRadius: 15,
+    shadowColor: "#fff"
   },
   inner: {
     position: "absolute",

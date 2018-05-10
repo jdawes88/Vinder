@@ -121,8 +121,7 @@ export default class AddDish extends React.Component {
 
           const xhr = new XMLHttpRequest()
           xhr.open('PUT', signedurl)
-          xhr.onreadystatechange = (a, b, c) => {
-            // console.log(a)
+          xhr.onreadystatechange = () => {
               if (xhr.readyState === 4) {
                   if (xhr.status === 200) {
                   console.log('Image successfully uploaded to S3');
@@ -139,15 +138,6 @@ export default class AddDish extends React.Component {
           xhr.setRequestHeader('X-Amz-ACL', 'public-read')
           xhr.send({ uri: newPostImage.uri, type: 'image/jpeg', name: 'image.jpg'})
         })
-        // .then(message => {
-        //   if (message === 'successful') {
-        //     console.log('success')
-        //     this.props.saveNewMeal(this.state)
-        //   } else {
-        //     console.log('error')
-        //     this.props.alertFail()
-        //   }
-        // })
         .catch(err => console.log(err));
     }
   };
