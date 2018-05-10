@@ -19,6 +19,7 @@ export const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: 340,
+    shadowOffset: { width: 0, height: -7 },
     backgroundColor: "#6d9"
   },
   meal: {

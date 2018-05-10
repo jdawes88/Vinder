@@ -262,10 +262,6 @@ class Search extends Component {
 /* ***Map Component *** */
 class Map extends Component {
 
-    // componentWillReceiveProps(nextProps) {
-
-    // }
-
     render () {
         const { latitude, longitude, latD, lngD }  = this.props.currentPos;
         return (
@@ -344,15 +340,7 @@ class Zoom extends Component {
 }
 
 class Marker extends Component {
-
-    // componentWillReceiveProps (newProps) {
-    //     if(newProps.pinType !== this.props.pinType){
-    //         console.log(newProps.dishes)
-    //     }
-    // }
-
     render () {
-        
         return (
             this.props.dishes.map((dish, i) => {
                 return (
@@ -363,7 +351,6 @@ class Marker extends Component {
                             longitude: +dish.longitude || +dish.restaurant_longitude
                         }}
                         title={dish.name}
-                        // onPress={()=> this.linkToRestaurant()}
                     >
                     <MapView.Callout>
                         <View > 
@@ -407,7 +394,7 @@ class Meals extends Component {
             <Card 
             containerStyle={styles.mealCard}
             title={item.name}
-            image={{uri:'https://www.bbcgoodfood.com/sites/default/files/styles/recipe/public/recipe/recipe-image/2017/11/noodles.jpg?itok=Oalsb6ro'}}>
+            image={this.checkForImage(item)}>
                 <View style={styles.mealText}>
                     <Text style={styles.mealText}>{item.name}</Text>
                     <View style={styles.mealText}>{this.showRating(item)}</View>
@@ -417,8 +404,17 @@ class Meals extends Component {
         )
     }
 
-    showRating = (item) => {
+    checkForImage = (item) => {
+        if (item.dish_image_url) {
+            return {uri: item.dish_image_url} 
+        } else if (item.image_url) {
+            return {uri: item.image_url}
+        } else {
+            return {uri: 'http://www.matt-thornton.net/wordpress/wp-content/uploads/page-not-found.png'}
+        }
+    }
 
+    showRating = (item) => {
         let price;
         if (item.price) {
             price = item.price ? item.price : '££';
