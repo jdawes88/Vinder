@@ -50,10 +50,6 @@ export default class Comments extends React.Component {
     this.getUserId()
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    this.getCommentsByDishId(this.props.navigation.state.params.dish.id);
-  }
-
   render() {
     const { dish } = this.props.navigation.state.params;
     const { dishInfo, comment, comments } = this.state;
@@ -68,7 +64,7 @@ export default class Comments extends React.Component {
         </View>
 
         <View style={styles.infoBox}>
-          <View style={styles.rating}>
+          <View>
             <StarRating
               fullStarColor={"white"}
               emptyStarColor={"white"}
@@ -120,11 +116,7 @@ export default class Comments extends React.Component {
             <View style={styles.popup}>
               <View style={styles.popup}>
                 <Text
-                  style={{
-                    fontFamily: "KohinoorDevanagari-Semibold",
-                    fontSize: 18,
-                    color: "#304413"
-                  }}
+                  style={styles.popupText}
                 >
                   Comment Title
                 </Text>
@@ -136,11 +128,7 @@ export default class Comments extends React.Component {
                   onChangeText={input => this.setState({ commentTitle: input })}
                 />
                 <Text
-                  style={{
-                    fontFamily: "KohinoorDevanagari-Semibold",
-                    fontSize: 18,
-                    color: "#304413"
-                  }}
+                  style={styles.popupText}
                 >
                   Add a Comment
                 </Text>
@@ -169,15 +157,7 @@ export default class Comments extends React.Component {
 
               <TouchableOpacity
                 style={styles.buttonContainer}
-                onPress={() => {
-                  this.postComment(
-                    comment,
-                    this.state.starCount,
-                    this.state.commentTitle
-                  );
-                  this.popupDialog.dismiss()
-                  this.setState({ commentTitle: "", comment: "" })
-                }}
+                onPress={this.handleSave}
               >
                 <Text style={styles.button}>Save</Text>
               </TouchableOpacity>
@@ -189,6 +169,16 @@ export default class Comments extends React.Component {
     );
   }
 
+  handleSave = () => {
+    this.postComment(
+      this.state.comment,
+      this.state.starCount,
+      this.state.commentTitle
+    );
+    this.popupDialog.dismiss()
+    this.setState({ commentTitle: "", comment: "" })
+  }
+
   getCommentsByDishId = id => {
     return axios
       .get(
@@ -196,7 +186,7 @@ export default class Comments extends React.Component {
       )
       .then(res => res.data)
       .then(res => this.setState({ comments: res, loading: false }))
-      .catch(err => console.log("error:" + err));
+      .catch(err => console.log("error getting comments by dish id:" + err));
   };
 
   getDishByDishId = dishid => {
@@ -210,7 +200,7 @@ export default class Comments extends React.Component {
       )
       .then(res => this.setState({ dishInfo: res[0] }))
 
-      .catch(err => console.log("error:" + err));
+      .catch(err => console.log("error getting dish by id:" + err));
   };
 
   getUserId = () => {
@@ -218,12 +208,15 @@ export default class Comments extends React.Component {
     const userEmail = user.providerData[0].email
     axios
       .get(`https://jfv21zsdwd.execute-api.eu-west-2.amazonaws.com/dev/user/email/${userEmail}`)
-        .then(res => res.data)
-          .then(res => {
-            this.setState({
-              userId: res.id
-            })
-          })
+      .then(res => {
+        console.log(res.data)
+        return res.data
+      })
+      .then(res => {
+        this.setState({
+          userId: res.id
+        })
+      })
   }
 
   postComment = (body, starRating, title) => {
@@ -238,7 +231,10 @@ export default class Comments extends React.Component {
             commentTitle: title,
             dishId: this.props.navigation.state.params.dish.id
           }
-          )
+        )
+        .then(() => {
+           this.getCommentsByDishId(this.props.navigation.state.params.dish.id);
+        })
       .catch(error => console.log(error));
   };
 
