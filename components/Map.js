@@ -440,6 +440,7 @@ class Meals extends Component {
   }
 
   renderCard = item => {
+    console.log(item)
     return (
       <TouchableOpacity onPress={() => this.handlePress(item)}>
         <Card
@@ -448,13 +449,21 @@ class Meals extends Component {
           image={this.checkForImage(item)}
         >
           <View style={styles.mealText}>
-            <Text style={styles.mealText}>{item.name}</Text>
+            <Text style={styles.mealText}>{this.checkForType(item)}</Text>
             <View style={styles.mealText}>{this.showRating(item)}</View>
           </View>
         </Card>
       </TouchableOpacity>
     );
   };
+
+  checkForType = (item) => {
+    if (this.props.pinType === 'restaurants') {
+      return item.address.slice(0, 21) + '...'
+    } else {
+      return item.restaurant_address.slice(0, 21) + '...'
+    }
+  }
 
   checkForImage = (item) => {
       if (item.image_url) {
@@ -477,7 +486,6 @@ class Meals extends Component {
       price = item.price ? item.price : "££";
       price = price.split("").length;
     } else {
-      console.log(item);
       if (item.prices < 5) {
         price = 1;
       } else if (item.prices < 10) {
@@ -489,7 +497,7 @@ class Meals extends Component {
 
     let images = [];
     for (let i = 0; i < price; i++) {
-      images.push(<Foundation size={30} color="#6d9" key={i} name="pound" />);
+      images.push(<Foundation size={30} color="#82B935" key={i} name="pound" />);
     }
     return images;
   };

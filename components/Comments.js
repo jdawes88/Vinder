@@ -174,9 +174,7 @@ export default class Comments extends React.Component {
                     this.state.starCount,
                     this.state.commentTitle
                   );
-
                   this.setState({ comment: "" });
-
                   this.popupDialog.dismiss();
                 }}
               >
