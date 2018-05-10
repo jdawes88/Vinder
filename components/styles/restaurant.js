@@ -34,7 +34,7 @@ export default (styles = StyleSheet.create({
   },
   list: {
     flex: 1,
-    backgroundColor: "rgba(95, 153, 0, 0.7)",
+    backgroundColor: "rgba(115, 153, 0, 0.8)",
     width: "100%",
     opacity: 1
   },
@@ -47,7 +47,7 @@ export default (styles = StyleSheet.create({
     borderRadius: 5,
     shadowOffset: { width: 0, height: 7 },
     shadowRadius: 15,
-    shadowColor: "#0007"
+    shadowColor: "#fff4"
   },
   inner: {
     position: "absolute",
@@ -113,13 +113,12 @@ export default (styles = StyleSheet.create({
   },
   overlay: {
     position: "absolute",
-    bottom: '100%',
+    bottom: 325,
     left: 0,
     right: 0,
     height: 10,
     shadowOffset: { width: 0, height: 20 },
-    borderColor: 'rgba(95, 153, 0, 1)',
-    shadowColor: 'rgba(95, 153, 0, 1)',
+    borderColor: 'rgba(105, 163, 30, 1)',
     borderTopWidth: 10,
     backgroundColor: "rgba(95, 153, 0, 0)"
   }

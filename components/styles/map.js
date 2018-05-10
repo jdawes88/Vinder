@@ -20,10 +20,10 @@ export const styles = StyleSheet.create({
     right: 0,
     height: 340,
     shadowOffset: { width: 0, height: 20 },
-    borderColor: 'rgba(95, 153, 0, 0.7)',
-    shadowColor: 'rgba(95, 153, 0, 0.7)',
+    borderColor: 'rgba(105, 153, 0, 0.7)',
+    shadowColor: 'rgba(105, 153, 0, 0.7)',
     borderTopWidth: 10,
-    backgroundColor: "rgba(95, 153, 0, 0.7)"
+    backgroundColor: "rgba(105, 153, 0, 0.7)"
   },
   meal: {
     backgroundColor: "#fff",
@@ -35,7 +35,7 @@ export const styles = StyleSheet.create({
     borderRadius: 5,
     shadowOffset: { width: 0, height: 7 },
     shadowRadius: 15,
-    shadowColor: "#0007"
+    shadowColor: "#fff3"
   },
   mealText: {
     flexDirection: "row",
@@ -54,7 +54,7 @@ export const styles = StyleSheet.create({
     top: 100,
     left: 0,
     zIndex: 1,
-    backgroundColor: "rgba(95, 153, 0, 0.7)",
+    backgroundColor: "rgba(105, 163, 30, 0.8)",
     borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
     justifyContent: "center",
@@ -63,10 +63,10 @@ export const styles = StyleSheet.create({
   },
   zoomBox: {
     position: "absolute",
-    top: 350,
+    top: 300,
     right: 0,
     zIndex: 3,
-    backgroundColor: "rgba(95, 153, 0, 0.7)",
+    backgroundColor: "rgba(105, 163, 30, 0.8)",
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
     paddingLeft: 3,
@@ -88,7 +88,7 @@ export const styles = StyleSheet.create({
     maxWidth: 40,
     alignItems: "center",
     height: 115,
-    backgroundColor: "rgba(95, 153, 0, 1)",
+    backgroundColor: "rgba(105, 153, 0, 1)",
     borderRadius: 10,
     borderBottomLeftRadius: 0,
     borderTopLeftRadius: 0
@@ -100,8 +100,7 @@ export const styles = StyleSheet.create({
     right: 0,
     height: 10,
     shadowOffset: { width: 0, height: 20 },
-    borderColor: 'rgba(95, 153, 0, 1)',
-    shadowColor: 'rgba(95, 153, 0, 1)',
+    borderColor: 'rgba(105, 163, 30, 1)',
     borderTopWidth: 10,
     backgroundColor: "rgba(95, 153, 0, 0)"
   }

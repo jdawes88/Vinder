@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Text, View, ActivityIndicator, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
+import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 
 export default class Loading extends Component {
 
@@ -10,7 +11,7 @@ export default class Loading extends Component {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <ActivityIndicator style={styles.loader} size={1} color='white'/>
+        <Bubbles size={10} color="#FFF" />
       </View>
     )
   }
