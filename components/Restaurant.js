@@ -27,23 +27,30 @@ import AddDish from "./AddDish";
 import styles from "./styles/restaurant";
 import axios from "react-native-axios";
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
+<<<<<<< HEAD
 import * as firebase from 'firebase'
+=======
+import NavigationService from "../NavigationService";
+import * as firebase from "firebase";
+
+>>>>>>> 2e4bcb696074bade896d4078b1c603e01a45302d
 export default class Restaurant extends React.Component {
-  static navigationOptions = {
-    gesturesEnabled: true
-  };
+  static navigationOptions = { gesturesEnabled: true };
   state = {
-    meal: "",
-    comment: "",
+    newDish: {
+      resId:  this.props.navigation.state.params.restaurant.id,
+      dishName: '',
+      description: '',
+      price: '',
+      imageURL: ''
+    },
     restaurantInfo: "",
     dishes: "",
-    description: "",
     loading: true
   };
 
   componentDidMount() {
-    //console.log(this.props.navigation.state.params);
-    // this.getRestauarantId(this.props.navigation.state.params.restaurant.id);
+    console.log(this.props.navigation.state.params.restaurant.id)
     this.getDishByRestaurantId(
       this.props.navigation.state.params.restaurant.id
     );
@@ -120,51 +127,38 @@ export default class Restaurant extends React.Component {
     );
   }
 
-  // getRestauarantId = id => {
-  //   return axios
-  //     .get(
-  //       `https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/restaurant/${id}`
-  //     )
-  //     .then(res => res.data)
-
-  //     .then(res => this.setState({ restaurantInfo: res }))
-  //     .catch(err => console.log("error:" + err));
-  // };
-
   getDishByRestaurantId = id => {
     return axios
       .get(
-        `https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/restaurants/dish/${id}`
+        `https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/restaurants/dishes/${id}`
       )
       .then(res => res.data)
       .then(res => this.setState({ dishes: res, loading: false }))
-
-      .catch(err => console.log("error:" + err));
+      .catch(err => console.log("error on get dish by restaurant: ", err));
   };
 
   handleSave = () => {
     // handle request here using state to create new dish
     axios
-      .post("https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/dish", {
-        description: this.state.description,
-        name: this.state.meal,
-        imageURL: this.state.imageUrl,
-        price: this.state.price,
-        resId: this.state.resId
+      .post("https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/dish", this.state.newDish)
+      .then(() => {
+        this.popupDialog.dismiss();
       })
-      .then(res => {
-        console.log(Res);
-      });
-
-    this.popupDialog.dismiss();
+      .catch(err => {
+        console.log('error on handle save: ', err)
+      })
   };
 
   saveNewMeal = addDishState => {
-    const { imageUrl, comment, meal } = addDishState;
+    const { imageURL, description, dishName, price } = addDishState;
     this.setState({
-      meal,
-      imageUrl,
-      description: comment
+      newDish: {
+        resId: this.props.navigation.state.params.restaurant.id,
+        dishName: dishName,
+        description: description,
+        price: price,
+        imageURL: imageURL
+      }
     });
   };
 
@@ -173,7 +167,7 @@ export default class Restaurant extends React.Component {
   loadingIcon = () => {
     if (this.state.loading === true) {
       return (
-        <View>
+        <View style={{ paddingBottom: 80 }}>
           <Bubbles size={10} color="#FFF" />
         </View>
       );
@@ -183,32 +177,26 @@ export default class Restaurant extends React.Component {
           style={styles.list}
           data={this.state.dishes}
           renderItem={({ item }, i) => (
-            <Card
-              title={item.name}
-              key={`${i}${item.name}`}
-              containerStyle={styles.contentContainer}
-            />
+            <TouchableOpacity
+              onPress={() =>
+                NavigationService.navigate("CommentsScreen", { dish: item })
+              }
+            >
+              <Card
+                image={item.dish_image_url ? {uri: item.dish_image_url} : null}
+                title={item.name}
+                key={`${i}${item.name}`}
+                containerStyle={styles.contentContainer}
+              />
+            </TouchableOpacity>
           )}
-          keyExtractor={item => item.name}
+          keyExtractor={(item, i) => `${item.name}${i}`}
         />
       );
     }
   };
+
+  renderComments = item => {
+    NavigationService.navigate("CommentsScreen", { dish: item });
+  };
 }
-
-// postDish = (name, description, price, image) => {
-//   axios
-//     .post(
-//       `https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/dish`,
-//       {
-//         name: input.name,
-//         price: input.prices,
-//         resId = restaurantId,
-//         description: input.description,
-//         image_url: this.state.img
-
-//       }
-//     )
-
-//     .catch(error => console.log(error));
-// };
