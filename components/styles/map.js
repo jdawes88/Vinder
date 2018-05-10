@@ -74,7 +74,7 @@ export const styles = StyleSheet.create({
   },
   locateIcon: {
     position: "absolute",
-    top: 286,
+    top: 246,
     right: 14,
     zIndex: 4
   },

@@ -52,6 +52,12 @@ export default class Restaurant extends React.Component {
     );
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    this.getDishByRestaurantId(
+      this.props.navigation.state.params.restaurant.id
+    );
+  }
+
   render() {
     const { image } = this.state;
     const { restaurant } = this.props.navigation.state.params;

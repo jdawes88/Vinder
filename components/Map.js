@@ -310,7 +310,7 @@ class Map extends Component {
                 showsUserLocation >
                 <View style={styles.locateIcon}>
                     <FontAwesome onPress={this.centerToUser} name="map-marker"  
-                        size={30} color="#6d9" />
+                        size={34} color="#92d935" />
                 </View>
                 <Zoom zoom={this.zoom} />
                 <Marker
