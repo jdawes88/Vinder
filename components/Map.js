@@ -440,7 +440,6 @@ class Meals extends Component {
   }
 
   renderCard = item => {
-    console.log(item)
     return (
       <TouchableOpacity onPress={() => this.handlePress(item)}>
         <Card
@@ -503,7 +502,6 @@ class Meals extends Component {
   };
 
   handlePress = item => {
-    console.log(this.props.pinType);
     if (this.props.pinType === "restaurants") {
       NavigationService.navigate("RestaurantScreen", { restaurant: item });
     } else {
