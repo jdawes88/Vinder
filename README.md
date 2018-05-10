@@ -25,4 +25,4 @@ Tech stack
 
 <img src="./components/images/login.png" alt="Login page" style="width: 200px;"/>
 <img src="./components/images/mappage.png" alt="Map Page" style="width: 200px;"/>
-<img src="./components/images/dish.png" alt="Dish Page" style="width: 200px;"/>
+<img src="./components/images/dish.png" alt="Dish Page" style="max-width: 100px;"/>
