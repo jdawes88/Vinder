@@ -1,6 +1,6 @@
 # Vinder
 
-<img src="./components/images/vinder.png" alt="logo"  style="width: 300px;">
+![Vinder Logo](./components/images/vinder.png){:height="100px"}
 
 
 ### App for finding vegan meals in your area!
@@ -23,6 +23,6 @@ Tech stack
 
 #
 
-<img src="./components/images/login.png" alt="Login page" style="width: 200px;"/>
-<img src="./components/images/mappage.png" alt="Map Page" style="width: 200px;"/>
-<img src="./components/images/dish.png" alt="Dish Page" style="max-width: 100px;"/>
+<img src="./components/images/login.png" alt="drawing" style="width: 200px;"/>
+<img src="./components/images/mappage.png" alt="drawing" style="width: 200px;"/>
+<img src="./components/images/dish.png" alt="drawing" style="width: 200px;"/>
