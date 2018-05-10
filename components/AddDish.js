@@ -34,11 +34,7 @@ export default class AddDish extends React.Component {
     return (
       <View style={styles.popup}>
         <Text
-          style={{
-            fontFamily: "KohinoorDevanagari-Semibold",
-            fontSize: 18,
-            color: "#304413"
-          }}
+          style={styles.popupText}
         >
           Dish Name
         </Text>
@@ -50,11 +46,7 @@ export default class AddDish extends React.Component {
         />
 
         <Text
-          style={{
-            fontFamily: "KohinoorDevanagari-Semibold",
-            fontSize: 18,
-            color: "#304413"
-          }}
+          style={styles.popupText}
         >
           Price
         </Text>
@@ -67,11 +59,7 @@ export default class AddDish extends React.Component {
         />
 
         <Text
-          style={{
-            fontFamily: "KohinoorDevanagari-Semibold",
-            fontSize: 18,
-            color: "#304413"
-          }}
+          style={styles.popupText}
         >
           Description
         </Text>
@@ -90,7 +78,7 @@ export default class AddDish extends React.Component {
           <Text style={styles.button}>Post an Image</Text>
         </TouchableOpacity>
         {image ? (
-          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+          <Image source={{ uri: image }} style={styles.popupImg} />
         ) : null}
       </View>
     );

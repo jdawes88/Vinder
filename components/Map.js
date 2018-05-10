@@ -267,7 +267,6 @@ class Map extends Component {
     // }
 
     render () {
-        console.log(this.props.pinType)
         const { latitude, longitude, latD, lngD }  = this.props.currentPos;
         return (
             <MapView
@@ -378,7 +377,6 @@ class Marker extends Component {
     }
 
     handlePress = (item) => {
-        console.log(this.props.pinType)
         if (this.props.pinType === 'restaurants') {
             NavigationService.navigate('RestaurantScreen', { restaurant: item })
         } else {
@@ -426,7 +424,6 @@ class Meals extends Component {
             price = item.price ? item.price : '££';
             price = price.split('').length;
         } else {
-            console.log(item)
             if (item.prices < 5) {
                 price = 1
             } else if (item.prices < 10) {
@@ -446,7 +443,6 @@ class Meals extends Component {
     }
 
     handlePress = (item) => {
-        console.log(this.props.pinType)
         if (this.props.pinType === 'restaurants') {
             NavigationService.navigate('RestaurantScreen', { restaurant: item })
         } else {

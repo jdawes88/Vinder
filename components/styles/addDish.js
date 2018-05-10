@@ -36,5 +36,14 @@ export default styles = StyleSheet.create({
     color: "#FFFFFF",
     fontWeight: "700",
     borderRadius: 25
+  },
+  popupText: {
+    fontFamily: "KohinoorDevanagari-Semibold",
+    fontSize: 18,
+    color: "#304413"
+  },
+  popupImg: {
+    width: 200,
+    height: 200
   }
 })
