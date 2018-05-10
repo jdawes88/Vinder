@@ -27,11 +27,11 @@ import AddDish from "./AddDish";
 import styles from "./styles/restaurant";
 import axios from "react-native-axios";
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
+import NavigationService from "../NavigationService";
+import * as firebase from "firebase";
 
 export default class Restaurant extends React.Component {
-  static navigationOptions = {
-    gesturesEnabled: true
-  };
+  static navigationOptions = { gesturesEnabled: true };
   state = {
     newDish: {
       resId:  this.props.navigation.state.params.restaurant.id,
@@ -163,7 +163,7 @@ export default class Restaurant extends React.Component {
   loadingIcon = () => {
     if (this.state.loading === true) {
       return (
-        <View>
+        <View style={{ paddingBottom: 80 }}>
           <Bubbles size={10} color="#FFF" />
         </View>
       );
@@ -173,16 +173,26 @@ export default class Restaurant extends React.Component {
           style={styles.list}
           data={this.state.dishes}
           renderItem={({ item }, i) => (
-            <Card
-              image={item.dish_image_url ? {uri: item.dish_image_url} : null}
-              title={item.name}
-              key={`${i}${item.name}`}
-              containerStyle={styles.contentContainer}
-            />
+            <TouchableOpacity
+              onPress={() =>
+                NavigationService.navigate("CommentsScreen", { dish: item })
+              }
+            >
+              <Card
+                image={item.dish_image_url ? {uri: item.dish_image_url} : null}
+                title={item.name}
+                key={`${i}${item.name}`}
+                containerStyle={styles.contentContainer}
+              />
+            </TouchableOpacity>
           )}
           keyExtractor={(item, i) => `${item.name}${i}`}
         />
       );
     }
+  };
+
+  renderComments = item => {
+    NavigationService.navigate("CommentsScreen", { dish: item });
   };
 }

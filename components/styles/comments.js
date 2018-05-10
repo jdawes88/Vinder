@@ -6,14 +6,15 @@ export default (styles = StyleSheet.create({
     width: "100%"
   },
   bar: {
-    height: 22
+    height: 22,
+    backgroundColor: "#82B935"
   },
   image: {
     width: 420,
     height: 250
   },
   infoBox: {
-    backgroundColor: "grey",
+    backgroundColor: "#82B935",
     width: "100%",
     height: 35,
     flexDirection: "row",

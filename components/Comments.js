@@ -36,21 +36,23 @@ export default class Comments extends React.Component {
       "http://vignette1.wikia.nocookie.net/mrmen/images/7/7f/Mr_Happy.jpg/revision/latest?cb=20140102171729",
     dishInfo: "",
     avgRating: 0,
-    comments: "",
+    comments: [],
     loading: true
   };
 
   componentDidMount() {
-    this.getCommentsByDishId(5);
-    this.getDishByDishId(5);
+    this.getCommentsByDishId(this.props.navigation.state.params.dish.id);
+    this.getDishByDishId(this.props.navigation.state.params.dish.id);
   }
 
   componentWillUpdate(nextProps, nextState) {
-    this.getCommentsByDishId(5);
+    this.getCommentsByDishId(this.props.navigation.state.params.dish.id);
   }
 
   render() {
-    //console.log(this.state);
+    //console.log(this.props.navigation.state.params.dish);
+    const { dish } = this.props.navigation.state.params;
+    console.log(dish);
     const { dishInfo, comment, comments } = this.state;
     return (
       <View style={styles.container}>
@@ -168,7 +170,7 @@ export default class Comments extends React.Component {
 
                   this.postComment(
                     comment,
-                    3,
+                    2,
                     this.state.starCount,
                     this.state.commentTitle
                   );
@@ -184,23 +186,6 @@ export default class Comments extends React.Component {
           </KeyboardAwareScrollView>
         </PopupDialog>
         {this.getComments()}
-        {/* <FlatList
-          style={styles.commentList}
-          data={this.state.comments}
-          renderItem={({ item }, i) => (
-            <ListItem
-              title={`${item.users_first_name} ${item.users_last_name}`}
-              subtitle={item.body}
-              subtitleNumberOfLines={50}
-              key={`${i}${item.user_id}`}
-              avatar={this.state.avatar}
-            />
-          )}
-          keyExtractor={item => {
-            let idString = item.id;
-            return idString.toString();
-          }}
-        /> */}
       </View>
     );
   }
@@ -238,8 +223,8 @@ export default class Comments extends React.Component {
           commentBody: body,
           commentRating: starRating,
           userId: userid,
-          title: title,
-          dishId: 5
+          commentTitle: title,
+          dishId: this.props.navigation.state.params.dish.id
         }
       )
 
@@ -251,7 +236,7 @@ export default class Comments extends React.Component {
   }
 
   getAvgRating = comments => {
-    if (comments === undefined) {
+    if (!comments.length) {
       return 0;
     } else {
       let sum = 0;
@@ -268,8 +253,8 @@ export default class Comments extends React.Component {
     if (this.state.loading === true) {
       return (
         <View>
-          <View>
-            <Bubbles size={10} color="#FFF" />
+          <View style={{ alignItems: "center", paddingTop: 30 }}>
+            <Bubbles size={15} color="#82B935" textAlign="center" />
           </View>
         </View>
       );
