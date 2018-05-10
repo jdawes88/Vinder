@@ -29,7 +29,7 @@ import styles from "./styles/restaurant";
 import axios from "react-native-axios";
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 import NavigationService from "../NavigationService";
-import call from 'react-native-phone-call'
+// import call from 'react-native-phone-call'
 import * as firebase from "firebase";
 
 export default class Restaurant extends React.Component {
