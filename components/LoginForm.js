@@ -111,30 +111,28 @@ export default class LoginForm extends React.Component {
                     const firstName = splitName[0]
                     const lastName = splitName[1]
                     return axios
-                        .get('https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/users')
+                        .get('https://jfv21zsdwd.execute-api.eu-west-2.amazonaws.com/dev/users')
                             .then(res => res.data)
                             .then(users => {
                                 const emailPresent = users.every(user => {
                                     return user.email !== email
                                 })
                                 if (emailPresent) {
-                                    this.postUser(this.state.firstName, this.state.lastName, this.state.email) 
+                                    this.postUser(this.state.firstName, this.state.lastName, this.state.email)
+                                    // NavigationService.navigate('MapScreen', null) 
                                 } else {
                                     return
                                 }
                             })
+                            .catch((err) => console.log(err))
                     // User details for user post request from facebook
-                    NavigationService.navigate('MapScreen', null)
-                })
-                .catch(error => {
-                    console.log(error)
                 })
         }
     }
 
     postUser = (firstName, lastName, email) => {
         axios
-            .post("https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/user",
+            .post("https://jfv21zsdwd.execute-api.eu-west-2.amazonaws.com/dev/user",
             {
                 firstName: firstName,
                 lastName: lastName,
