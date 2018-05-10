@@ -119,7 +119,6 @@ export default class LoginForm extends React.Component {
                                 })
                                 if (emailPresent) {
                                     this.postUser(this.state.firstName, this.state.lastName, this.state.email)
-                                    // NavigationService.navigate('MapScreen', null) 
                                 } else {
                                     return
                                 }

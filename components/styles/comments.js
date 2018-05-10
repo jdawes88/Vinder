@@ -65,5 +65,10 @@ export default (styles = StyleSheet.create({
   title: {
     paddingTop: 20,
     alignItems: "center"
+  },
+  popupText: {
+    fontFamily: 'KohinoorDevanagari-Semibold',
+    fontSize: 18,
+    color: '#304413'
   }
 }));
