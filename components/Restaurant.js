@@ -126,7 +126,7 @@ export default class Restaurant extends React.Component {
   getDishByRestaurantId = id => {
     return axios
       .get(
-        `https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/restaurants/dishes/${id}`
+        `https://jfv21zsdwd.execute-api.eu-west-2.amazonaws.com/dev/restaurants/dishes/${id}`
       )
       .then(res => res.data)
       .then(res => this.setState({ dishes: res, loading: false }))
@@ -136,7 +136,7 @@ export default class Restaurant extends React.Component {
   handleSave = () => {
     // handle request here using state to create new dish
     axios
-      .post("https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/dish", this.state.newDish)
+      .post("https://jfv21zsdwd.execute-api.eu-west-2.amazonaws.com/dev/dish", this.state.newDish)
       .then(() => {
         this.popupDialog.dismiss();
       })
@@ -169,25 +169,28 @@ export default class Restaurant extends React.Component {
       );
     } else {
       return (
-        <FlatList
-          style={styles.list}
-          data={this.state.dishes}
-          renderItem={({ item }, i) => (
-            <TouchableOpacity
-              onPress={() =>
-                NavigationService.navigate("CommentsScreen", { dish: item })
-              }
-            >
-              <Card
-                image={item.dish_image_url ? {uri: item.dish_image_url} : null}
-                title={item.name}
-                key={`${i}${item.name}`}
-                containerStyle={styles.contentContainer}
-              />
-            </TouchableOpacity>
-          )}
-          keyExtractor={(item, i) => `${item.name}${i}`}
-        />
+        <View style={styles.list}>
+          <FlatList
+            style={styles.list}
+            data={this.state.dishes}
+            renderItem={({ item }, i) => (
+              <TouchableOpacity
+                onPress={() =>
+                  NavigationService.navigate("CommentsScreen", { dish: item })
+                }
+              >
+                <Card
+                  image={item.dish_image_url ? {uri: item.dish_image_url} : null}
+                  title={item.name}
+                  key={`${i}${item.name}`}
+                  containerStyle={styles.contentContainer}
+                />
+              </TouchableOpacity>
+            )}
+            keyExtractor={(item, i) => `${item.name}${i}`}
+          />
+          <View style={styles.overlay}/>
+        </View>
       );
     }
   };

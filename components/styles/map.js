@@ -19,7 +19,10 @@ export const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: 340,
-    shadowOffset: { width: 0, height: -7 },
+    shadowOffset: { width: 0, height: 20 },
+    borderColor: 'rgba(95, 153, 0, 0.7)',
+    shadowColor: 'rgba(95, 153, 0, 0.7)',
+    borderTopWidth: 10,
     backgroundColor: "rgba(95, 153, 0, 0.7)"
   },
   meal: {
@@ -89,6 +92,18 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     borderBottomLeftRadius: 0,
     borderTopLeftRadius: 0
+  },
+  overlay: {
+    position: "absolute",
+    bottom: 330,
+    left: 0,
+    right: 0,
+    height: 10,
+    shadowOffset: { width: 0, height: 20 },
+    borderColor: 'rgba(95, 153, 0, 1)',
+    shadowColor: 'rgba(95, 153, 0, 1)',
+    borderTopWidth: 10,
+    backgroundColor: "rgba(95, 153, 0, 0)"
   }
 });
 

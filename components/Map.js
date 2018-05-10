@@ -151,7 +151,7 @@ export default class MapPage extends Component {
     console.log("getting pins:", this.state.pinType);
     const pinType = this.state.pinType;
     return fetch(
-      `https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/${pinType}`
+      `https://jfv21zsdwd.execute-api.eu-west-2.amazonaws.com/dev/${pinType}`
     )
       .then(res => res.json())
       .then(res => this.getLocalPins(res, place))
@@ -427,12 +427,15 @@ class Marker extends Component {
 class Meals extends Component {
   render() {
     return (
-      <FlatList
-        style={styles.meals}
-        data={this.props.dishes}
-        renderItem={({ item }, i) => this.renderCard(item)}
-        keyExtractor={(item, i) => item.id.toString()}
-      />
+        <View style={styles.meals}>
+            <FlatList
+              style={styles.meals}
+              data={this.props.dishes}
+              renderItem={({ item }, i) => this.renderCard(item)}
+              keyExtractor={(item, i) => item.id.toString()}
+            />
+            <View style={styles.overlay}/>
+        </View>
     );
   }
 
@@ -442,10 +445,7 @@ class Meals extends Component {
         <Card
           containerStyle={styles.mealCard}
           title={item.name}
-          image={{
-            uri:
-              "https://www.bbcgoodfood.com/sites/default/files/styles/recipe/public/recipe/recipe-image/2017/11/noodles.jpg?itok=Oalsb6ro"
-          }}
+          image={this.checkForImage(item)}
         >
           <View style={styles.mealText}>
             <Text style={styles.mealText}>{item.name}</Text>
@@ -455,6 +455,21 @@ class Meals extends Component {
       </TouchableOpacity>
     );
   };
+
+  checkForImage = (item) => {
+      if (item.image_url) {
+          return {
+            uri: item.image_url
+          }
+      } else if (item.dish_image_url) {
+          return {uri: item.dish_image_url}
+      } else {
+        return {
+            uri:
+              "https://www.bbcgoodfood.com/sites/default/files/styles/recipe/public/recipe/recipe-image/2017/11/noodles.jpg?itok=Oalsb6ro"
+          }
+      }
+  }
 
   showRating = item => {
     let price;

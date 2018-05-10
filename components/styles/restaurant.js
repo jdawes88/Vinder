@@ -12,12 +12,10 @@ export default (styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
-
   venueInfo: {
     flex: 1,
     flexDirection: "row",
     backgroundColor: "#FFFFFF",
-    height: "30%",
     zIndex: 1,
     minWidth: "90%",
     borderRadius: 25,
@@ -29,16 +27,14 @@ export default (styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FF5733"
   },
-
   image: {
     flex: 1,
     width: "100%",
     height: "100%"
   },
-
   list: {
     flex: 1,
-    backgroundColor: "#D1D0Dd",
+    backgroundColor: "rgba(95, 153, 0, 0.7)",
     width: "100%",
     opacity: 1
   },
@@ -51,11 +47,7 @@ export default (styles = StyleSheet.create({
     borderRadius: 5,
     shadowOffset: { width: 0, height: 7 },
     shadowRadius: 15,
-    shadowColor: "#fff",
-    top: 30,
-    opacity: 1,
-    alignItems: "center"
-    // margin: -20
+    shadowColor: "#0007"
   },
   inner: {
     position: "absolute",
@@ -118,5 +110,17 @@ export default (styles = StyleSheet.create({
   test: {
     height: 30,
     backgroundColor: "#5F9900"
+  },
+  overlay: {
+    position: "absolute",
+    bottom: 400,
+    left: 0,
+    right: 0,
+    height: 10,
+    shadowOffset: { width: 0, height: 20 },
+    borderColor: 'rgba(95, 153, 0, 1)',
+    shadowColor: 'rgba(95, 153, 0, 1)',
+    borderTopWidth: 10,
+    backgroundColor: "rgba(95, 153, 0, 0)"
   }
 }));

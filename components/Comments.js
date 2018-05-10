@@ -193,7 +193,7 @@ export default class Comments extends React.Component {
   getCommentsByDishId = id => {
     return axios
       .get(
-        `https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/restaurants/dish/comments/${id}`
+        `https://jfv21zsdwd.execute-api.eu-west-2.amazonaws.com/dev/restaurants/dish/comments/${id}`
       )
       .then(res => res.data)
       .then(res => this.setState({ comments: res, loading: false }))
@@ -203,7 +203,7 @@ export default class Comments extends React.Component {
 
   getDishByDishId = dishid => {
     return axios
-      .get("https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/dishes")
+      .get("https://jfv21zsdwd.execute-api.eu-west-2.amazonaws.com/dev/dishes")
       .then(res => res.data)
       .then(res =>
         res.filter(dish => {
@@ -218,7 +218,7 @@ export default class Comments extends React.Component {
   postComment = (body, userid, starRating, title) => {
     axios
       .post(
-        `https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/comment`,
+        `https://jfv21zsdwd.execute-api.eu-west-2.amazonaws.com/dev/comment`,
         {
           commentBody: body,
           commentRating: starRating,

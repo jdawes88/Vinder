@@ -21,9 +21,6 @@ export default (styles = StyleSheet.create({
     justifyContent: "space-evenly",
     alignItems: "center"
   },
-  rating: {
-    paddingLeft: 20
-  },
   price: {
     alignItems: "center"
   },
@@ -32,7 +29,6 @@ export default (styles = StyleSheet.create({
   },
   commentList: {},
   buttonContainer: {
-    // backgroundColor: "#5F9900",
     backgroundColor: "rgba(95, 153, 0, 0.7)",
     paddingVertical: 15,
     width: 300,
