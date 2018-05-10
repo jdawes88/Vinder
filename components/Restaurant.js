@@ -27,11 +27,11 @@ import AddDish from "./AddDish";
 import styles from "./styles/restaurant";
 import axios from "react-native-axios";
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
+import NavigationService from "../NavigationService";
+import * as firebase from "firebase";
 
 export default class Restaurant extends React.Component {
-  static navigationOptions = {
-    gesturesEnabled: true
-  };
+  static navigationOptions = { gesturesEnabled: true };
   state = {
     meal: "",
     comment: "",
@@ -121,24 +121,18 @@ export default class Restaurant extends React.Component {
     );
   }
 
-  // getRestauarantId = id => {
-  //   return axios
-  //     .get(
-  //       `https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/restaurant/${id}`
-  //     )
-  //     .then(res => res.data)
-
-  //     .then(res => this.setState({ restaurantInfo: res }))
-  //     .catch(err => console.log("error:" + err));
-  // };
-
   getDishByRestaurantId = id => {
     return axios
       .get(
-        `https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/restaurants/dish/${id}`
+        `https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/restaurants/dishes/${id}`
       )
       .then(res => res.data)
-      .then(res => this.setState({ dishes: res, loading: false }))
+      .then(res =>
+        this.setState({
+          dishes: res,
+          loading: false
+        })
+      )
 
       .catch(err => console.log("error:" + err));
   };
@@ -174,7 +168,7 @@ export default class Restaurant extends React.Component {
   loadingIcon = () => {
     if (this.state.loading === true) {
       return (
-        <View>
+        <View style={{ paddingBottom: 80 }}>
           <Bubbles size={10} color="#FFF" />
         </View>
       );
@@ -184,32 +178,27 @@ export default class Restaurant extends React.Component {
           style={styles.list}
           data={this.state.dishes}
           renderItem={({ item }, i) => (
-            <Card
-              title={item.name}
-              key={`${i}${item.name}`}
-              containerStyle={styles.contentContainer}
-            />
+            <TouchableOpacity
+              onPress={() =>
+                NavigationService.navigate("CommentsScreen", { dish: item })
+              }
+            >
+              <Card
+                title={item.name}
+                key={`${i}${item.name}`}
+                containerStyle={styles.contentContainer}
+              />
+            </TouchableOpacity>
           )}
           keyExtractor={item => item.name}
         />
       );
     }
   };
+
+  renderComments = item => {
+    NavigationService.navigate("CommentsScreen", { dish: item });
+  };
 }
 
-// postDish = (name, description, price, image) => {
-//   axios
-//     .post(
-//       `https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/dish`,
-//       {
-//         name: input.name,
-//         price: input.prices,
-//         resId = restaurantId,
-//         description: input.description,
-//         image_url: this.state.img
-
-//       }
-//     )
-
-//     .catch(error => console.log(error));
-// };
+//this.renderComments(item)
