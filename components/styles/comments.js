@@ -28,7 +28,7 @@ export default (styles = StyleSheet.create({
     paddingRight: 20
   },
   commentList: {},
-  buttonContainer: {
+    buttonContainer: {
     backgroundColor: "rgba(95, 153, 0, 0.7)",
     paddingVertical: 15,
     width: 300,

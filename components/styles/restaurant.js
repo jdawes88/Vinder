@@ -113,7 +113,7 @@ export default (styles = StyleSheet.create({
   },
   overlay: {
     position: "absolute",
-    bottom: 400,
+    bottom: '50%',
     left: 0,
     right: 0,
     height: 10,

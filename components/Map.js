@@ -440,7 +440,6 @@ class Meals extends Component {
   }
 
   renderCard = item => {
-    console.log(item)
     return (
       <TouchableOpacity onPress={() => this.handlePress(item)}>
         <Card

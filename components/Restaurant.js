@@ -161,7 +161,7 @@ export default class Restaurant extends React.Component {
   alertFail = () => {};
 
   loadingIcon = () => {
-    if (this.state.loading === true) {
+    if (this.state.loading) {
       return (
         <View style={{ paddingBottom: 80 }}>
           <Bubbles size={10} color="#FFF" />
