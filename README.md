@@ -8,7 +8,7 @@
 
 #### why?
 
-This app was developed between 5 students on the northcoders bootcamp as a final project, with the aim of creating an app that allows users to join a community that can share their experiences in different restaurants. This avoids the need to scan through lists of blogs and websites full of out of date menus to find something you may potentially be able to sit down and enjoy!
+This app was developed between 5 students on the northcoders bootcamp as a final project, with the aim of creating an app that allows users to join a community that can share the vegan meals they've had. This avoids the need to scan through lists of blogs and websites full of out of date menus to find something you may potentially be able to sit down and enjoy!
 
 #
 
