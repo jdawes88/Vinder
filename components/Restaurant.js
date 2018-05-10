@@ -27,13 +27,9 @@ import AddDish from "./AddDish";
 import styles from "./styles/restaurant";
 import axios from "react-native-axios";
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
-<<<<<<< HEAD
-import * as firebase from 'firebase'
-=======
 import NavigationService from "../NavigationService";
 import * as firebase from "firebase";
 
->>>>>>> 2e4bcb696074bade896d4078b1c603e01a45302d
 export default class Restaurant extends React.Component {
   static navigationOptions = { gesturesEnabled: true };
   state = {

@@ -47,18 +47,15 @@ export default (styles = StyleSheet.create({
     fontFamily: "Cochin"
   },
   contentContainer: {
-<<<<<<< HEAD
     marginBottom: 10,
     borderRadius: 5,
     shadowOffset: { width: 0, height: 7 },
     shadowRadius: 15,
-    shadowColor: "#fff"
-=======
+    shadowColor: "#fff",
     top: 30,
     opacity: 1,
     alignItems: "center"
     // margin: -20
->>>>>>> origin/joanne-branch
   },
   inner: {
     position: "absolute",
