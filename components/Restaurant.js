@@ -11,7 +11,8 @@ import {
   TouchableHighlight,
   TextInput,
   ScrollView,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Linking
 } from "react-native";
 
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
@@ -28,6 +29,7 @@ import styles from "./styles/restaurant";
 import axios from "react-native-axios";
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 import NavigationService from "../NavigationService";
+import call from 'react-native-phone-call'
 import * as firebase from "firebase";
 
 export default class Restaurant extends React.Component {
@@ -59,6 +61,10 @@ export default class Restaurant extends React.Component {
   }
 
   render() {
+    const args = {
+      number: '9093900003',
+      prompt: false 
+    }
     const { image } = this.state;
     const { restaurant } = this.props.navigation.state.params;
     return (
@@ -71,7 +77,6 @@ export default class Restaurant extends React.Component {
           <View style={styles.venueInfoContainer}>
             <View style={styles.venue}>
               <Text style={styles.text}>{restaurant.name}</Text>
-
               <View style={styles.logos}>
                 <FontAwesome
                   style={styles.laptop}
@@ -85,6 +90,7 @@ export default class Restaurant extends React.Component {
                   name="mobile-phone"
                   size={40}
                   color="white"
+                  onPress={()=> call(args)}
                 />
                 <TouchableOpacity onPress={() => this.popupDialog.show()}>
                   <FontAwesome
@@ -128,6 +134,18 @@ export default class Restaurant extends React.Component {
       </ImageBackground>
     );
   }
+
+  callNumber = (url) =>{
+    Linking.canOpenURL(url).then(supported => {
+      console.log(supported)
+    if (!supported) {
+     console.log('Can\'t handle url: ' + url);
+    } else {
+     return Linking.openURL(url);
+    }
+  }).catch(err => console.error('An error occurred', err));
+ }
+ 
 
   getDishByRestaurantId = id => {
     return axios
