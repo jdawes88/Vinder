@@ -33,17 +33,20 @@ export default class Restaurant extends React.Component {
     gesturesEnabled: true
   };
   state = {
-    meal: "",
-    comment: "",
+    newDish: {
+      resId:  this.props.navigation.state.params.restaurant.id,
+      dishName: '',
+      description: '',
+      price: '',
+      imageURL: ''
+    },
     restaurantInfo: "",
     dishes: "",
-    description: "",
     loading: true
   };
 
   componentDidMount() {
-    //console.log(this.props.navigation.state.params);
-    // this.getRestauarantId(this.props.navigation.state.params.restaurant.id);
+    console.log(this.props.navigation.state.params.restaurant.id)
     this.getDishByRestaurantId(
       this.props.navigation.state.params.restaurant.id
     );
@@ -52,7 +55,6 @@ export default class Restaurant extends React.Component {
   render() {
     const { image } = this.state;
     const { restaurant } = this.props.navigation.state.params;
-    //console.log(restaurant);
     return (
       <ImageBackground
         source={[{ uri: restaurant.image_url }]}
@@ -121,51 +123,41 @@ export default class Restaurant extends React.Component {
     );
   }
 
-  // getRestauarantId = id => {
-  //   return axios
-  //     .get(
-  //       `https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/restaurant/${id}`
-  //     )
-  //     .then(res => res.data)
-
-  //     .then(res => this.setState({ restaurantInfo: res }))
-  //     .catch(err => console.log("error:" + err));
-  // };
-
   getDishByRestaurantId = id => {
     return axios
       .get(
-        `https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/restaurants/dish/${id}`
+        `https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/restaurants/dishes/${id}`
       )
       .then(res => res.data)
       .then(res => this.setState({ dishes: res, loading: false }))
-
-      .catch(err => console.log("error:" + err));
+      .catch(err => console.log("error on get dish by restaurant: ", err));
   };
 
   handleSave = () => {
     // handle request here using state to create new dish
+    console.log('handle save')
+    console.log(this.state.newDish)
     axios
-      .post("https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/dish", {
-        description: this.state.description,
-        name: this.state.meal,
-        imageURL: this.state.imageUrl,
-        price: this.state.price,
-        resId: this.state.resId
+      .post("https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/dish", this.state.newDish)
+      .then(() => {
+        this.popupDialog.dismiss();
       })
-      .then(res => {
-        console.log(Res);
-      });
-
-    this.popupDialog.dismiss();
+      .catch(err => {
+        console.log('error on handle save: ', err)
+      })
   };
 
   saveNewMeal = addDishState => {
-    const { imageUrl, comment, meal } = addDishState;
+    console.log(addDishState)
+    const { imageURL, description, dishName, price } = addDishState;
     this.setState({
-      meal,
-      imageUrl,
-      description: comment
+      newDish: {
+        resId: this.props.navigation.state.params.restaurant.id,
+        dishName: dishName,
+        description: description,
+        price: price,
+        imageURL: imageURL
+      }
     });
   };
 
@@ -196,20 +188,3 @@ export default class Restaurant extends React.Component {
     }
   };
 }
-
-// postDish = (name, description, price, image) => {
-//   axios
-//     .post(
-//       `https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/dish`,
-//       {
-//         name: input.name,
-//         price: input.prices,
-//         resId = restaurantId,
-//         description: input.description,
-//         image_url: this.state.img
-
-//       }
-//     )
-
-//     .catch(error => console.log(error));
-// };

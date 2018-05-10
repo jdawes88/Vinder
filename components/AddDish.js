@@ -28,7 +28,14 @@ const { accessKeyId, secretAccessKey } = require('./secrets.js');
 const s3 = new AWS.S3({accessKeyId: accessKeyId, secretAccessKey: secretAccessKey, region:'eu-west-2'});
 
 export default class AddDish extends React.Component {
-  state = { meal: "", comment: "", image: "" };
+  state = {
+    dishName: "",
+    description: "",
+    price: '',
+    imageURL: '',
+    image: ""
+  };
+
   render() {
     const { image } = this.state;
     return (
@@ -39,10 +46,10 @@ export default class AddDish extends React.Component {
           Dish Name
         </Text>
         <TextInput
-          value={this.state.meal}
+          value={this.state.dishName}
           placeholder="vegan meal"
           style={styles.veganMeal}
-          onChangeText={input => this.setState({ meal: input })}
+          onChangeText={input => this.setState({ dishName: input })}
         />
 
         <Text
@@ -51,7 +58,7 @@ export default class AddDish extends React.Component {
           Price
         </Text>
         <TextInput
-          value={this.state.meal}
+          value={this.state.price}
           placeholder="10.00"
           style={styles.veganMeal}
           keyboardType="numeric"
@@ -64,11 +71,11 @@ export default class AddDish extends React.Component {
           Description
         </Text>
         <TextInput
-          value={this.state.comment}
+          value={this.state.description}
           multiline={true}
-          placeholder="add a comment..."
+          placeholder="add a description..."
           style={styles.inputComment}
-          onChangeText={input => this.setState({ comment: input })}
+          onChangeText={input => this.setState({ description: input })}
         />
 
         <TouchableOpacity
@@ -99,7 +106,7 @@ export default class AddDish extends React.Component {
           if (!newPostImage.cancelled) {
             this.setState({
               image: newPostImage.uri,
-              imageUrl: `https://s3.eu-west-2.amazonaws.com/vinder-photos/${imageUrl}`
+              imageURL: `https://s3.eu-west-2.amazonaws.com/vinder-photos/${imageUrl}`
             });
           }
 
@@ -114,14 +121,17 @@ export default class AddDish extends React.Component {
 
           const xhr = new XMLHttpRequest()
           xhr.open('PUT', signedurl)
-          xhr.onreadystatechange = function() {
+          xhr.onreadystatechange = (a, b, c) => {
+            // console.log(a)
               if (xhr.readyState === 4) {
                   if (xhr.status === 200) {
                   console.log('Image successfully uploaded to S3');
-                  return 'successful';
+                  this.props.saveNewMeal(this.state)
+                  // on success allow saving of data
               } else {
                   console.log('Error while sending the image to S3');
-                  return 'fail';
+                  this.props.alertFail()
+                  // on fail alert user failed uploading of image
               }
             }
           }
@@ -129,13 +139,15 @@ export default class AddDish extends React.Component {
           xhr.setRequestHeader('X-Amz-ACL', 'public-read')
           xhr.send({ uri: newPostImage.uri, type: 'image/jpeg', name: 'image.jpg'})
         })
-        .then(message => {
-          if (message === 'successful') {
-            this.props.saveNewMeal(this.state)
-          } else {
-            this.props.alertFail()
-          }
-        })
+        // .then(message => {
+        //   if (message === 'successful') {
+        //     console.log('success')
+        //     this.props.saveNewMeal(this.state)
+        //   } else {
+        //     console.log('error')
+        //     this.props.alertFail()
+        //   }
+        // })
         .catch(err => console.log(err));
     }
   };
