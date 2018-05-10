@@ -56,7 +56,6 @@ export default class Comments extends React.Component {
 
   render() {
     const { dish } = this.props.navigation.state.params;
-    console.log(dish);
     const { dishInfo, comment, comments } = this.state;
     return (
       <View style={styles.container}>
@@ -197,7 +196,6 @@ export default class Comments extends React.Component {
       )
       .then(res => res.data)
       .then(res => this.setState({ comments: res, loading: false }))
-
       .catch(err => console.log("error:" + err));
   };
 
