@@ -23,6 +23,6 @@ Tech stack
 
 #
 
-<img src="./components/images/login.png" alt="drawing" style="width: 200px;"/>
-<img src="./components/images/mappage.png" alt="drawing" style="width: 200px;"/>
-<img src="./components/images/dish.png" alt="drawing" style="width: 200px;"/>
+<img src="./components/images/login.png" alt="drawing" width="100px"/>
+<img src="./components/images/mappage.png" alt="drawing" width="100px"/>
+<img src="./components/images/dish.png" alt="drawing" width="100px"/>
