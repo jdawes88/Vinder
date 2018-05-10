@@ -27,7 +27,7 @@ import AddDish from "./AddDish";
 import styles from "./styles/restaurant";
 import axios from "react-native-axios";
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
-
+import * as firebase from 'firebase'
 export default class Restaurant extends React.Component {
   static navigationOptions = {
     gesturesEnabled: true
@@ -52,7 +52,6 @@ export default class Restaurant extends React.Component {
   render() {
     const { image } = this.state;
     const { restaurant } = this.props.navigation.state.params;
-    //console.log(restaurant);
     return (
       <ImageBackground
         source={[{ uri: restaurant.image_url }]}

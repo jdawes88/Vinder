@@ -26,6 +26,7 @@ import axios from "react-native-axios";
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 import styles from "./styles/comments";
 import users from "../data-jo/users.json";
+import * as firebase from 'firebase';
 
 export default class Comments extends React.Component {
   state = {
@@ -164,8 +165,7 @@ export default class Comments extends React.Component {
               <TouchableOpacity
                 style={styles.buttonContainer}
                 onPress={() => {
-                  console.log(this.state);
-
+                  this.getUserId()
                   this.postComment(
                     comment,
                     3,

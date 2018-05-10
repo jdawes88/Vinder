@@ -21,6 +21,7 @@ import Expo from 'expo';
 import styles from './styles/loginForm';
 import MapPage from './Map';
 import NavigationService from '../NavigationService';
+import axios from "react-native-axios";
 
 export default class LoginForm extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -64,6 +65,7 @@ export default class LoginForm extends React.Component {
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then(() => {
                 // Do post request here from register page
+                this.postUser(this.state.firstName, this.state.lastName, this.state.email)
             })
             .catch(error => {
                 this.clearState()
@@ -103,7 +105,24 @@ export default class LoginForm extends React.Component {
             const credential = firebase.auth.FacebookAuthProvider.credential(token)
             firebase.auth().signInWithCredential(credential)
                 .then((user) => {
-                    console.log(user)
+                    // console.log(user)
+                    const email = user.providerData[0].email
+                    const splitName= user.displayName.split(' ')
+                    const firstName = splitName[0]
+                    const lastName = splitName[1]
+                    return axios
+                        .get('https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/users')
+                            .then(res => res.data)
+                            .then(users => {
+                                const emailPresent = users.every(user => {
+                                    return user.email !== email
+                                })
+                                if (emailPresent) {
+                                    this.postUser(this.state.firstName, this.state.lastName, this.state.email) 
+                                } else {
+                                    return
+                                }
+                            })
                     // User details for user post request from facebook
                     NavigationService.navigate('MapScreen', null)
                 })
@@ -111,6 +130,18 @@ export default class LoginForm extends React.Component {
                     console.log(error)
                 })
         }
+    }
+
+    postUser = (firstName, lastName, email) => {
+        axios
+            .post("https://y2ydaxeo7k.execute-api.eu-west-2.amazonaws.com/dev/user",
+            {
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                valid: true
+            })
+            .catch(error => console.log(`Error: ${error}`))
     }
 
     render () {

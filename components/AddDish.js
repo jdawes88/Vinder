@@ -23,9 +23,9 @@ import { ImagePicker, Permissions } from "expo";
 import KeyboardSpacer from "react-native-keyboard-spacer";
 import dishes from "../data-jo/dishes.json";
 import styles from './styles/addDish';
-import AWS from 'aws-sdk';
-const { accessKeyId, secretAccessKey } = require('./secrets.js');
-const s3 = new AWS.S3({accessKeyId: accessKeyId, secretAccessKey: secretAccessKey, region:'eu-west-2'});
+// import AWS from 'aws-sdk';
+// const { accessKeyId, secretAccessKey } = require('./secrets.js');
+// const s3 = new AWS.S3({accessKeyId: accessKeyId, secretAccessKey: secretAccessKey, region:'eu-west-2'});
 
 export default class AddDish extends React.Component {
   state = { meal: "", comment: "", image: "" };

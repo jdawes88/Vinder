@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#6d9",
+    backgroundColor: "rgba(95, 153, 0, 0.7)",
     minWidth: "100%"
   },
   map: {
@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: 340,
-    backgroundColor: "#6d9"
+    backgroundColor: "rgba(95, 153, 0, 0.7)"
   },
   meal: {
     backgroundColor: "#fff",
@@ -50,7 +50,7 @@ export const styles = StyleSheet.create({
     top: 100,
     left: 0,
     zIndex: 1,
-    backgroundColor: "#6d9",
+    backgroundColor: "rgba(95, 153, 0, 0.7)",
     borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
     justifyContent: "center",
@@ -62,7 +62,7 @@ export const styles = StyleSheet.create({
     top: 350,
     right: 0,
     zIndex: 3,
-    backgroundColor: "#6d9",
+    backgroundColor: "rgba(95, 153, 0, 0.7)",
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
     paddingLeft: 3,
@@ -84,7 +84,7 @@ export const styles = StyleSheet.create({
     maxWidth: 40,
     alignItems: "center",
     height: 115,
-    backgroundColor: "#6d9",
+    backgroundColor: "rgba(95, 153, 0, 1)",
     borderRadius: 10,
     borderBottomLeftRadius: 0,
     borderTopLeftRadius: 0
