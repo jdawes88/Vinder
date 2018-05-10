@@ -502,7 +502,6 @@ class Meals extends Component {
   };
 
   handlePress = item => {
-    console.log(this.props.pinType);
     if (this.props.pinType === "restaurants") {
       NavigationService.navigate("RestaurantScreen", { restaurant: item });
     } else {

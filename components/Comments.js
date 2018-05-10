@@ -11,7 +11,8 @@ import {
   TouchableHighlight,
   TextInput,
   ScrollView,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Keyboard
 } from "react-native";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import Modal from "react-native-modal";
@@ -29,6 +30,7 @@ import users from "../data-jo/users.json";
 import * as firebase from 'firebase';
 
 export default class Comments extends React.Component {
+  static navigationOptions = { gesturesEnabled: true }
   state = {
     comment: "",
     commentTitle: "",
@@ -38,12 +40,14 @@ export default class Comments extends React.Component {
     dishInfo: "",
     avgRating: 0,
     comments: [],
-    loading: true
+    loading: true,
+    userId: ''
   };
 
   componentDidMount() {
     this.getCommentsByDishId(this.props.navigation.state.params.dish.id);
     this.getDishByDishId(this.props.navigation.state.params.dish.id);
+    this.getUserId()
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -51,7 +55,6 @@ export default class Comments extends React.Component {
   }
 
   render() {
-    //console.log(this.props.navigation.state.params.dish);
     const { dish } = this.props.navigation.state.params;
     console.log(dish);
     const { dishInfo, comment, comments } = this.state;
@@ -108,6 +111,7 @@ export default class Comments extends React.Component {
           width={350}
           height={350}
           borderRadius={25}
+          dismissOnTouchOutside={true}
           dialogStyle={{ backgroundColor: "#B1C595" }}
           ref={popupDialog => {
             this.popupDialog = popupDialog;
@@ -167,15 +171,13 @@ export default class Comments extends React.Component {
               <TouchableOpacity
                 style={styles.buttonContainer}
                 onPress={() => {
-                  this.getUserId()
                   this.postComment(
                     comment,
-                    2,
                     this.state.starCount,
                     this.state.commentTitle
                   );
-                  this.setState({ comment: "" });
-                  this.popupDialog.dismiss();
+                  this.popupDialog.dismiss()
+                  this.setState({ commentTitle: "", comment: "" })
                 }}
               >
                 <Text style={styles.button}>Save</Text>
@@ -213,19 +215,32 @@ export default class Comments extends React.Component {
       .catch(err => console.log("error:" + err));
   };
 
-  postComment = (body, userid, starRating, title) => {
+  getUserId = () => {
+    const user = firebase.auth().currentUser;
+    const userEmail = user.providerData[0].email
     axios
-      .post(
-        `https://jfv21zsdwd.execute-api.eu-west-2.amazonaws.com/dev/comment`,
-        {
-          commentBody: body,
-          commentRating: starRating,
-          userId: userid,
-          commentTitle: title,
-          dishId: this.props.navigation.state.params.dish.id
-        }
-      )
+      .get(`https://jfv21zsdwd.execute-api.eu-west-2.amazonaws.com/dev/user/email/${userEmail}`)
+        .then(res => res.data)
+          .then(res => {
+            this.setState({
+              userId: res.id
+            })
+          })
+  }
 
+  postComment = (body, starRating, title) => {
+    Keyboard.dismiss()
+      axios
+        .post(
+        `https://jfv21zsdwd.execute-api.eu-west-2.amazonaws.com/dev/comment`,
+          {
+            commentBody: body,
+            commentRating: starRating,
+            userId: this.state.userId,
+            commentTitle: title,
+            dishId: this.props.navigation.state.params.dish.id
+          }
+          )
       .catch(error => console.log(error));
   };
 
