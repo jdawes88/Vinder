@@ -67,8 +67,8 @@ export default (styles = StyleSheet.create({
     alignItems: "center"
   },
   popupText: {
-    fontFamily: "KohinoorDevanagari-Semibold",
+    fontFamily: 'KohinoorDevanagari-Semibold',
     fontSize: 18,
-    color: "#304413"
+    color: '#304413'
   }
 }));

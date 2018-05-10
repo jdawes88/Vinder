@@ -28,6 +28,7 @@ import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 import styles from "./styles/comments";
 import users from "../data-jo/users.json";
 import * as firebase from 'firebase';
+import dismissKeyboard from 'react-native-dismiss-keyboard'
 
 export default class Comments extends React.Component {
   static navigationOptions = { gesturesEnabled: true }
@@ -157,7 +158,9 @@ export default class Comments extends React.Component {
 
               <TouchableOpacity
                 style={styles.buttonContainer}
-                onPress={this.handleSave}
+                onPress={() => {
+                  dismissKeyboard()
+                  this.handleSave()}}
               >
                 <Text style={styles.button}>Save</Text>
               </TouchableOpacity>
@@ -220,7 +223,6 @@ export default class Comments extends React.Component {
   }
 
   postComment = (body, starRating, title) => {
-    Keyboard.dismiss()
       axios
         .post(
         `https://jfv21zsdwd.execute-api.eu-west-2.amazonaws.com/dev/comment`,
