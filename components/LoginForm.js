@@ -124,7 +124,6 @@ export default class LoginForm extends React.Component {
                                 }
                             })
                             .catch((err) => console.log(err))
-                    // User details for user post request from facebook
                 })
         }
     }

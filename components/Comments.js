@@ -212,7 +212,6 @@ export default class Comments extends React.Component {
     axios
       .get(`https://jfv21zsdwd.execute-api.eu-west-2.amazonaws.com/dev/user/email/${userEmail}`)
       .then(res => {
-        console.log(res.data)
         return res.data
       })
       .then(res => {

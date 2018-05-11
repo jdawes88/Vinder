@@ -5,7 +5,8 @@ import {
   Text,
   View,
   SafeAreaView,
-  StatusBar
+  StatusBar,
+  YellowBox
 } from "react-native";
 import Login from "./components/Login";
 import Restaurant from "./components/Restaurant";
@@ -29,6 +30,7 @@ firebase.initializeApp(firebaseConfig);
 
 export default class App extends React.Component {
   render() {
+    console.disableYellowBox = true;
     return (
       <AppNavigator
         header="none"
